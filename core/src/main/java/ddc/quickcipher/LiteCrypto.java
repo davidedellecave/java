@@ -1,8 +1,6 @@
 package ddc.quickcipher;
 
-import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.net.URISyntaxException;
 import java.nio.charset.Charset;
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
@@ -12,7 +10,7 @@ import javax.crypto.KeyGenerator;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
-import com.s2e.util.Base64Utils;
+import ddc.util.Base64Utils;
 
 public class LiteCrypto {
 	LiteCryptoConfig config = null;

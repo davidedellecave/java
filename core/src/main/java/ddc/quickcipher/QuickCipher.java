@@ -15,8 +15,7 @@ import javax.crypto.SecretKey;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
-import com.s2e.util.Base64Utils;
-
+import ddc.util.Base64Utils;
 import ddc.util.FileUtils2;
 
 public class QuickCipher {

@@ -2,7 +2,8 @@ package ddc.quickcipher;
 
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
-import com.s2e.util.Base64Utils;
+
+import ddc.util.Base64Utils;
 
 public class LiteCryptoResult {
 	public String base64Data;
