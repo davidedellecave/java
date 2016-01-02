@@ -141,4 +141,27 @@ public class DateUtils extends org.apache.commons.lang3.time.DateUtils {
 		return (lowerBoundMillis<=timeMillis && timeMillis<=upperBoundMillis);
 	}
 
+	public static String format(Date date, String pattern) {
+		SimpleDateFormat formatter = new SimpleDateFormat(pattern);			
+		return formatter.format(date);
+	}
+
+	public static String format(long timestamp, String pattern) {
+		Date d = new Date(timestamp);
+		return format(d, pattern);
+	}
+	
+	public static String formatISO(long timestamp) {
+		Date d = new Date(timestamp);
+		return format(d, DATE_PATTERN_ISO);
+	}
+
+	public static String formatISO(Date date) {
+		return format(date, DATE_PATTERN_ISO);
+	}
+	
+	public static String formatNowToISO() {
+		SimpleDateFormat formatter = new SimpleDateFormat(DATE_PATTERN_ISO);			
+		return formatter.format(new Date());
+	}
 }

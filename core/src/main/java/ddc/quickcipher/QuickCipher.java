@@ -16,7 +16,7 @@ import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
 import ddc.util.Base64Utils;
-import ddc.util.FileUtils2;
+import ddc.util.FileUtils;
 
 public class QuickCipher {
 
@@ -30,7 +30,7 @@ public class QuickCipher {
 		KeyGenerator keyGen = KeyGenerator.getInstance(alg);
 		keyGen.init(size);
 		SecretKey key = keyGen.generateKey();
-		FileOutputStream str = new FileOutputStream(FileUtils2.getLocalFile(QuickCipher.class, "new_quick_cipher_key.bin"));
+		FileOutputStream str = new FileOutputStream(FileUtils.getLocalFile(QuickCipher.class, "new_quick_cipher_key.bin"));
 		str.write(key.getEncoded());
 		str.flush();
 		str.close();
@@ -59,7 +59,7 @@ public class QuickCipher {
 		try {
 			String result = "";
 			if (base64text != null) {
-				File keyFileObj = keyFile != null ? new File(keyFile) : FileUtils2.getLocalFile(QuickCipher.class, KEY_FILE_NAME);
+				File keyFileObj = keyFile != null ? new File(keyFile) : FileUtils.getLocalFile(QuickCipher.class, KEY_FILE_NAME);
 				byte [] key = loadKey(keyFileObj);
 				Cipher cipher = Cipher.getInstance(CIPHER_ALGORITHM+(CIPHER_TYPE.length() > 0 ? ("/"+CIPHER_TYPE) : ""));
 				IvParameterSpec ivs = new IvParameterSpec(INITIAL_VECTOR.getBytes());

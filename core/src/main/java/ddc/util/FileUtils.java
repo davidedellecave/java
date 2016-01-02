@@ -1,5 +1,7 @@
 package ddc.util;
 
+import java.io.BufferedReader;
+
 /*
  * Created on 01-Mar-2003 By davidedc
  */
@@ -8,11 +10,19 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.io.UnsupportedEncodingException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.security.CodeSource;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Properties;
@@ -22,9 +32,48 @@ import org.apache.commons.io.FilenameUtils;
 
 public class FileUtils extends org.apache.commons.io.FileUtils {
 	
+	public static String loadContent(String path) throws IOException {
+		return new String(Files.readAllBytes(Paths.get(path)), "UTF-8");
+	}
+	
+	public static String loadContent(Path path) throws IOException {
+		return new String(Files.readAllBytes(path), "UTF-8");
+	}
+	
+	public static Path replaceFilename(Path path, String filename) {
+		return path.resolveSibling(Paths.get(filename));
+	}
+	
+	public static Path prefixFileName(Path path, String prefix) {
+		String newFilename = prefix + path.getFileName();		
+		return replaceFilename(path, newFilename);
+	}
+	
+	public static Path postfixFileName(Path path, String postfix) {
+		String newFilename = path.getFileName() + postfix;		
+		return replaceFilename(path, newFilename);
+	}
+    
+	/**
+	 * Rename file on filesystem
+	 * @param path
+	 * @param newName
+	 * @throws IOException
+	 */
+	public static void rename(Path path, String newName) throws IOException {
+		Files.move(path, path.resolveSibling(newName));
+	}
+	
+	public static File getDailyRollerFilename(File file) {		
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+		String date = "_" + formatter.format(new Date());
+		return postfixFileName(file.toPath(), date).toFile();
+	}
+	
 	public static boolean isReadbleFolder(String folder) {
 		return isReadbleFolder(new File(folder));
 	}
+	
 	public static boolean isReadbleFolder(File folder) {
 		if (folder==null) return false;
 		if (!folder.exists() || !folder.canRead()) return false;
@@ -79,6 +128,16 @@ public class FileUtils extends org.apache.commons.io.FileUtils {
 		return FileUtils.renameFile(file, newName, true);
 	}	
 
+	public static FileName buildFileName(String path) {
+		FileName fn = new FileName();
+		String p = FilenameUtils.getFullPathNoEndSeparator(path);
+		fn.path = FilenameUtils.getPath(p);
+		fn.name = FilenameUtils.getName(p);
+		fn.ext = FilenameUtils.getExtension(p);
+		return fn;
+	}
+	
+	
 	/**
 	 * Add a progressive index to make the filename unique
 	 * Example. doc.xml -> doc-1.xml 
@@ -232,4 +291,43 @@ public class FileUtils extends org.apache.commons.io.FileUtils {
 		return properties;
 	}
 
+	public static String readFileAsString(File file) throws IOException{
+        StringBuffer fileData = new StringBuffer(1000);
+        BufferedReader reader = new BufferedReader(new FileReader(file));
+        char[] buf = new char[1024];
+        int numRead=0;
+        while((numRead=reader.read(buf)) != -1){
+            String readData = String.valueOf(buf, 0, numRead);
+            fileData.append(readData);
+            buf = new char[1024];
+        }
+        reader.close();
+        return fileData.toString();
+    }
+	
+    /**
+     * Ritorna l'oggetto File per un file con il nome specificato, che si trovi nella cartella dove
+     * si trova il file .class della classe specificata.
+     * (nel caso di file jar, nella directory del jar).
+     * 
+     * NB sotto un Servlet Container (Tomcat) potrebbe non funzionare come ci si aspetta
+     * @param clazz
+     * @param filename
+     * @return
+     * @throws URISyntaxException
+     * @throws UnsupportedEncodingException
+     */
+	public static File getLocalFile(Class<? extends Object> clazz, String filename) throws URISyntaxException, UnsupportedEncodingException {
+		CodeSource codeSource = clazz.getProtectionDomain().getCodeSource();
+		String location = codeSource.getLocation().toString();
+		String urlEncoded = location.replaceAll(" ", "%20");
+		URI uri = new URI(urlEncoded);
+		File jarFile = new File(uri.getPath());
+		File jarDir = jarFile.getParentFile();
+		File propFile = null;
+		if (jarDir != null && jarDir.isDirectory()) { 
+			propFile = new File(jarDir, filename); 
+		}
+		return propFile;
+	}
 }

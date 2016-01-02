@@ -35,7 +35,11 @@ public class DateRange {
 			
 		}
 	}
-	
+
+	public boolean contains(long timestamp, boolean includeBound) {
+		return contains(new Date(timestamp), includeBound);
+	}
+
 	@Override
 	public String toString() {
 		return " x IN (" +   DateUtils.formatForISO(start) + "," + DateUtils.formatForISO(end) + ")"; 
