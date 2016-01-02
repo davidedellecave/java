@@ -1,6 +1,7 @@
 package ddc.core.ftp.matcher;
 
-import ddc.core.ftp.FtpFileWrapper;
+import ddc.core.ftp.FtpFileMatcher;
+import ddc.core.ftp.FtpLiteFile;
 
 public class AndMatcher implements FtpFileMatcher {
 	private FtpFileMatcher matcher1;
@@ -13,7 +14,7 @@ public class AndMatcher implements FtpFileMatcher {
 	}
 	
 	@Override
-	public boolean isMatched(FtpFileWrapper file) {		
+	public boolean isMatched(FtpLiteFile file) {		
 		return matcher1.isMatched(file) && matcher2.isMatched(file);
 	}
 	

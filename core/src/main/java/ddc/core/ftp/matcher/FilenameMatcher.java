@@ -1,6 +1,7 @@
 package ddc.core.ftp.matcher;
 
-import ddc.core.ftp.FtpFileWrapper;
+import ddc.core.ftp.FtpFileMatcher;
+import ddc.core.ftp.FtpLiteFile;
 
 public class FilenameMatcher implements FtpFileMatcher {
 	private String matcher;
@@ -11,7 +12,7 @@ public class FilenameMatcher implements FtpFileMatcher {
 	}
 
 	@Override
-	public boolean isMatched(FtpFileWrapper file) {
+	public boolean isMatched(FtpLiteFile file) {
 		String source = file.getFilename();
 		return source.contains(matcher);
 	}

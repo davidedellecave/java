@@ -19,21 +19,22 @@ import org.apache.commons.net.ftp.FTPReply;
 import org.apache.commons.net.io.CopyStreamAdapter;
 import org.apache.log4j.Logger;
 
+import ddc.core.ftp.matcher.TrueMatcher;
 import ddc.util.Chronometer;
 import ddc.util.FileUtils;
 
-public class FtpClientWrapper {
-	private final static Logger logger = Logger.getLogger(FtpClientWrapper.class);
+public class FtpLiteClient {
+	private final static Logger logger = Logger.getLogger(FtpLiteClient.class);
 	private final static String WORKING_PREFIX_UPLOAD = "ftpuploading__";
 	private final static String WORKING_PREFIX_DOWNLOAD = "ftpdownloading__";
 	private final static String DELETE_PREFIX = "deleted__";
 	private String INFO = "FtpClient - ";
 
-	private FtpConfigWrapper config = null;
+	private FtpLiteConfig config = null;
 	private FTPClient ftp;
 	private boolean CONF_useEpsvWithIPv4 = false;
 
-	public FtpClientWrapper(FtpConfigWrapper config) {
+	public FtpLiteClient(FtpLiteConfig config) {
 		super();
 		this.config = config;
 		INFO += config.getFtpServer().getHost() + " - ";
@@ -43,25 +44,25 @@ public class FtpClientWrapper {
 		return ftp.isConnected();
 	}
 
-	synchronized public void login() throws FtpExceptionWrapper {
+	synchronized public void login() throws FtpLiteException {
 		try {
 			logger.info(INFO + "Login...");
 			Chronometer chron = new Chronometer();
 			doLogin();
 			logger.info(INFO + "Login ok - elapsed:[" + chron.toString() + "]");
 		} catch (Exception e) {
-			throw new FtpExceptionWrapper(e);
+			throw new FtpLiteException(e);
 		}
 	}
 
-	synchronized public void logout() throws FtpExceptionWrapper {
+	synchronized public void logout() throws FtpLiteException {
 		try {
 			logger.info(INFO + "Logout...");
 			Chronometer chron = new Chronometer();
 			doLogout();
 			logger.info(INFO + "Logout ok - elapsed:[" + chron.toString() + "]");
 		} catch (Exception e) {
-			throw new FtpExceptionWrapper(e);
+			throw new FtpLiteException(e);
 		}
 	}
 
@@ -70,9 +71,9 @@ public class FtpClientWrapper {
 	 * 
 	 * @param remotePath
 	 * @return
-	 * @throws FtpExceptionWrapper
+	 * @throws FtpLiteException
 	 */
-	synchronized public boolean exists(Path remotePath) throws FtpExceptionWrapper {
+	synchronized public boolean exists(Path remotePath) throws FtpLiteException {
 		try {
 			logger.info(INFO + "Existing - file:[" + remotePath + "]...");
 			Chronometer chron = new Chronometer();
@@ -80,101 +81,114 @@ public class FtpClientWrapper {
 			logger.info(INFO + "Existing - file:[" + remotePath + "] exists:[" + exists + "] elapsed:[" + chron.toString() + "]");
 			return exists;
 		} catch (Exception e) {
-			throw new FtpExceptionWrapper(e);
+			throw new FtpLiteException(e);
 		}
 	}
 
 	/**
 	 * Return list of file from working path
 	 */
-	synchronized public List<FtpFileWrapper> listing() throws FtpExceptionWrapper {
+	synchronized public List<FtpLiteFile> listing() throws FtpLiteException {
 		return listing(Paths.get(config.getWorkingPath()));
 	}
 
-	synchronized public List<FtpFileWrapper> listing(Path remotePath) throws FtpExceptionWrapper {
+	synchronized public List<FtpLiteFile> listing(Path remotePath) throws FtpLiteException {
 		try {
 			logger.info(INFO + "Listing :[" + remotePath + "]...");
 			Chronometer chron = new Chronometer();
-			List<FtpFileWrapper> list = doListing(remotePath);
-			if (logger.isInfoEnabled()) {
-				for (FtpFileWrapper f : list) {
-					logger.info(INFO + "file:[" + f.getPath() + "]");
-				}
-			}
+			List<FtpLiteFile> list = doListing(remotePath);
+			logListing(list);
 			logger.info(INFO + "Listing ok:[" + remotePath + "] size:[" + list.size() + "] elapsed:[" + chron.toString() + "]");
 			return list;
 		} catch (Exception e) {
-			throw new FtpExceptionWrapper(e);
+			throw new FtpLiteException(e);
 		}
 	}
 
-	synchronized public List<FtpFileWrapper> listing(Path remotePath, boolean includeDir, boolean includeFile, boolean isRecursive) throws FtpExceptionWrapper {
+	synchronized public List<FtpLiteFile> listing(Path remotePath, boolean includeDir, boolean includeFile, boolean isRecursive) throws FtpLiteException {
 		try {
-			logger.info(INFO + "Listing :[" + remotePath + "]...");
+			logger.info(INFO + "Listing :[" + remotePath + "] recursive:[" + isRecursive + "]...");
 			Chronometer chron = new Chronometer();
-			List<FtpFileWrapper> list = doListing(remotePath, includeDir, includeFile, isRecursive);
-			if (logger.isInfoEnabled()) {
-				for (FtpFileWrapper f : list) {
-					logger.info(INFO + "file:[" + f.getPath() + "]");
-				}
-			}
+			List<FtpLiteFile> list = doListing(remotePath, includeDir, includeFile, new TrueMatcher(), isRecursive);
+			logListing(list);
 			logger.info(INFO + "Listing ok:[" + remotePath + "] size:[" + list.size() + "] elapsed:[" + chron.toString() + "]");
 			return list;
 		} catch (Exception e) {
-			throw new FtpExceptionWrapper(e);
+			throw new FtpLiteException(e);
 		}
 	}
-
-	private List<FtpFileWrapper> doListing(Path remotePath, boolean includeDir, boolean includeFile, boolean isRecursive) throws IOException  {
-		final List<FtpFileWrapper> list = new LinkedList<>();
+	
+	synchronized public List<FtpLiteFile> listing(Path remotePath, FtpFileMatcher matcher, boolean isRecursive) throws FtpLiteException {		
+		try {
+			logger.info(INFO + "Listing :[" + remotePath + "] matcher:[" + matcher.toString() + "] recursive:[" + isRecursive + "]...");
+			Chronometer chron = new Chronometer();
+			List<FtpLiteFile> list = doListing(remotePath, false, true, matcher, isRecursive);
+			logListing(list);
+			logger.info(INFO + "Listing ok:[" + remotePath + "] size:[" + list.size() + "] elapsed:[" + chron.toString() + "]");
+			return list;
+		} catch (Exception e) {
+			throw new FtpLiteException(e);
+		}
+	}
+	
+	private void logListing(List<FtpLiteFile> list) {
+		if (logger.isDebugEnabled()) {
+			for (FtpLiteFile f : list) {
+				logger.debug(INFO + "listing - "+ f.toString() + "]");
+			}
+		}
+	}
+	
+	private List<FtpLiteFile> doListing(Path remotePath, boolean includeDir, boolean includeFile,  FtpFileMatcher matcher, boolean isRecursive) throws IOException  {
+		final List<FtpLiteFile> list = new LinkedList<>();
 		if (isRecursive) {
 			recursiveListing(remotePath, new FtpListener() {				
 				@Override
-				public FtpListenerAction visitFile(FtpFileWrapper file) throws IOException {
-					if (includeFile) list.add(file);
+				public FtpListenerAction visitFile(FtpLiteFile file) throws IOException {
+					if (includeFile && matcher.isMatched(file)) list.add(file);
 					return FtpListenerAction.CONTINUE;
 				}
 				@Override
-				public FtpListenerAction preVisitDirectory(FtpFileWrapper dir) throws IOException {
+				public FtpListenerAction preVisitDirectory(FtpLiteFile dir) throws IOException {
 					if (includeDir) list.add(dir);
 					return FtpListenerAction.CONTINUE;
 				}
 				@Override
-				public FtpListenerAction postVisitDirectory(FtpFileWrapper dir) throws IOException {
+				public FtpListenerAction postVisitDirectory(FtpLiteFile dir) throws IOException {
 					return FtpListenerAction.CONTINUE;
 				}
 			});
 			return list;
 		} else {
-			return doListing(remotePath, includeDir, includeFile);
+			return doListing(remotePath, includeDir, includeFile, new TrueMatcher());
 		}	
 	}
 
-	synchronized public void listing(Path remotePath, FtpListener listener) throws FtpExceptionWrapper {
+	synchronized public void listing(Path remotePath, FtpListener listener) throws FtpLiteException {
 		try {
 			logger.info(INFO + "Recursive listing...");
 			Chronometer chron = new Chronometer();
 			recursiveListing(remotePath, listener);
 			logger.info(INFO + "Recursive listing ok - elapsed:[" + chron.toString() + "]");
 		} catch (Exception e) {
-			throw new FtpExceptionWrapper(e);
+			throw new FtpLiteException(e);
 		}
 	}
 	
-	synchronized public void upload(Path localPath, Path remotePath) throws FtpExceptionWrapper {
+	synchronized public void upload(Path localPath, Path remotePath) throws FtpLiteException {
 		try {
 			logger.info(INFO + "Uploading...:[" + localPath + "] > [" + remotePath + "]");
 			Chronometer chron = new Chronometer();
-			FtpFileWrapper remote = doUpload(localPath, remotePath);
+			FtpLiteFile remote = doUpload(localPath, remotePath);
 			String info = remote != null ? remote.toString() : "";
 			logger.info(INFO + "Uploading ok - local:[" + localPath + "] > remote:[" + info + "] elapsed:["
 					+ chron.toString() + "]");
 		} catch (Exception e) {
-			throw new FtpExceptionWrapper(e);
+			throw new FtpLiteException(e);
 		}
 	}
 
-	synchronized public void rename(Path remotePath, Path remotePath2) throws FtpExceptionWrapper {
+	synchronized public void rename(Path remotePath, Path remotePath2) throws FtpLiteException {
 		try {
 			logger.info(INFO + "Renaming...:[" + remotePath + "] > [" + remotePath2 + "]");
 			Chronometer chron = new Chronometer();
@@ -182,25 +196,25 @@ public class FtpClientWrapper {
 			logger.info(INFO + "Renaming ok:[" + remotePath + "] > [" + remotePath2 + "] elapsed:[" + chron.toString()
 					+ "]");
 		} catch (Exception e) {
-			throw new FtpExceptionWrapper(e);
+			throw new FtpLiteException(e);
 		}
 	}
 
-	synchronized public void download(Path remotePath, Path localPath) throws FtpExceptionWrapper {
+	synchronized public void download(Path remotePath, Path localPath) throws FtpLiteException {
 		download(remotePath, localPath, false);
 	}
 
 	synchronized public void download(Path remotePath, Path localPath, boolean deleteRemote)
-			throws FtpExceptionWrapper {
+			throws FtpLiteException {
 		try {
 			logger.info(INFO + "Downloading ...:[" + remotePath + "] > [" + localPath + "]");
 			Chronometer chron = new Chronometer();
-			FtpFileWrapper remote = doDownload(remotePath, localPath, deleteRemote);
+			FtpLiteFile remote = doDownload(remotePath, localPath, deleteRemote);
 			String info = remote != null ? remote.toString() : "";
 			logger.info(INFO + "Downloading ok - remote:[" + info + "] > local:[" + localPath + "] elapsed:["
 					+ chron.toString() + "]");
 		} catch (Exception e) {
-			throw new FtpExceptionWrapper(e);
+			throw new FtpLiteException(e);
 		}
 	}
 
@@ -209,8 +223,8 @@ public class FtpClientWrapper {
 		if (terminateRecursion) return;
 		boolean skipSubtree = false;
 		FtpListenerAction next = FtpListenerAction.CONTINUE;
-		List<FtpFileWrapper> list = doListing(remotePath, true, true);
-		for (FtpFileWrapper f : list) {
+		List<FtpLiteFile> list = doListing(remotePath, true, true, new TrueMatcher());
+		for (FtpLiteFile f : list) {
 			if (terminateRecursion)
 				return;
 			if (f.isDirectory() && !skipSubtree) {
@@ -323,11 +337,11 @@ public class FtpClientWrapper {
 	// + "]---------------------");
 	// }
 
-	synchronized public boolean delete(Path remotePath) throws FtpExceptionWrapper {
+	synchronized public boolean delete(Path remotePath) throws FtpLiteException {
 		return delete(remotePath, config.isRemoteLogicalDelete());
 	}
 
-	synchronized public boolean delete(Path remotePath, boolean isLogical) throws FtpExceptionWrapper {
+	synchronized public boolean delete(Path remotePath, boolean isLogical) throws FtpLiteException {
 		try {
 			logger.info(INFO + "Deleting ...:[" + remotePath + "] isLogical:[" + isLogical + "]");
 			Chronometer chron = new Chronometer();
@@ -336,11 +350,11 @@ public class FtpClientWrapper {
 					+ chron.toString() + "]");
 			return affected;
 		} catch (IOException e) {
-			throw new FtpExceptionWrapper(e);
+			throw new FtpLiteException(e);
 		}
 	}
 
-	synchronized public int deleteAll(Path remotePath, boolean isLogical) throws FtpExceptionWrapper {
+	synchronized public int deleteAll(Path remotePath, boolean isLogical) throws FtpLiteException {
 		try {
 			logger.info(INFO + "Deleting ...:[" + remotePath + "] isLogical:[" + isLogical + "]");
 			Chronometer chron = new Chronometer();
@@ -349,16 +363,16 @@ public class FtpClientWrapper {
 					+ chron.toString() + "]");
 			return affected;
 		} catch (IOException e) {
-			throw new FtpExceptionWrapper(e);
+			throw new FtpLiteException(e);
 		}
 	}
 
 	synchronized public boolean equalByTimeAndSize(Path remotePath, Path localPath) throws IOException {
-		FtpFileWrapper remote = doGetOneRemote(remotePath);
+		FtpLiteFile remote = doGetOneRemote(remotePath);
 		return equalInTimeAndSize(remote, localPath);
 	}
 
-	synchronized public boolean equalInTimeAndSize(FtpFileWrapper remote, Path localPath) throws IOException {
+	synchronized public boolean equalInTimeAndSize(FtpLiteFile remote, Path localPath) throws IOException {
 		if (remote == null)
 			return false;
 		if (!Files.exists(localPath))
@@ -371,12 +385,12 @@ public class FtpClientWrapper {
 	}
 
 	private boolean doExists(Path remotePath) throws IOException {
-		List<FtpFileWrapper> list = doListing(remotePath);
+		List<FtpLiteFile> list = doListing(remotePath);
 		return (list.size() == 1);
 	}
 
-	private FtpFileWrapper doGetOneRemote(Path remotePath) throws IOException {
-		List<FtpFileWrapper> list = doListing(remotePath);
+	private FtpLiteFile doGetOneRemote(Path remotePath) throws IOException {
+		List<FtpLiteFile> list = doListing(remotePath);
 		if (list.size() == 1)
 			return list.get(0);
 		return null;
@@ -399,8 +413,8 @@ public class FtpClientWrapper {
 
 	private int doDeleteAll(Path remotePath, boolean isLogical) throws IOException {
 		int success = 0;
-		List<FtpFileWrapper> list = doListing(remotePath);
-		for (FtpFileWrapper f : list) {
+		List<FtpLiteFile> list = doListing(remotePath);
+		for (FtpLiteFile f : list) {
 			if (doDelete(f.getPath(), isLogical))
 				success++;
 		}
@@ -421,13 +435,13 @@ public class FtpClientWrapper {
 		return done;
 	}
 
-	private FtpFileWrapper doDownload(Path remotePath, Path localPath, boolean deleteRemote)
-			throws IOException, FtpExceptionWrapper {
+	private FtpLiteFile doDownload(Path remotePath, Path localPath, boolean deleteRemote)
+			throws IOException, FtpLiteException {
 		OutputStream output = null;
 		try {
-			FtpFileWrapper remoteFile = doGetOneRemote(remotePath);
+			FtpLiteFile remoteFile = doGetOneRemote(remotePath);
 			if (remoteFile == null) {
-				throw new FtpExceptionWrapper(INFO + "Downloading - remote file is not found :[" + remotePath + "]");
+				throw new FtpLiteException(INFO + "Downloading - remote file is not found :[" + remotePath + "]");
 			}
 			// check if local file exists
 			if (Files.exists(localPath)) {
@@ -437,7 +451,7 @@ public class FtpClientWrapper {
 					return remoteFile;
 				}
 				if (!config.isOverwriteLocal()) {
-					throw new FtpExceptionWrapper(INFO
+					throw new FtpLiteException(INFO
 							+ "Downloading - Local file already exists but cannot overwrite by configuration settings (see overwriteLocal parameter)");
 				} else {
 					logger.info(INFO + "Downloading - Local file already exists than deleting it - file:[" + localPath
@@ -470,21 +484,21 @@ public class FtpClientWrapper {
 		}
 	}
 
-	private FtpFileWrapper doUpload(Path localPath, Path remotePath) throws IOException, FtpExceptionWrapper {
+	private FtpLiteFile doUpload(Path localPath, Path remotePath) throws IOException, FtpLiteException {
 		InputStream input = null;
 		try {
 			if (!Files.exists(localPath)) {
-				throw new FtpExceptionWrapper(INFO + "Uploading - local file is not found :[" + localPath + "]");
+				throw new FtpLiteException(INFO + "Uploading - local file is not found :[" + localPath + "]");
 			}
 			// check if remote file exists
-			FtpFileWrapper remoteFile = doGetOneRemote(remotePath);
+			FtpLiteFile remoteFile = doGetOneRemote(remotePath);
 			if (remoteFile != null) {
 				if (equalInTimeAndSize(remoteFile, localPath)) {
 					logger.info(INFO + "Uploading - skipped because local and remote files are equal in time and size");
 					return remoteFile;
 				}
 				if (!config.isOverwriteRemote()) {
-					throw new FtpExceptionWrapper(INFO
+					throw new FtpLiteException(INFO
 							+ "Uploading - Remote file already exists but cannot overwrite by configuration settings (see overwriteRemote parameter)");
 				} else {
 					logger.info(
@@ -511,38 +525,39 @@ public class FtpClientWrapper {
 		ftp.rename(remotePath.toString(), remotePath2.toString());
 	}
 
-	private List<FtpFileWrapper> doListing(Path remotePath) throws IOException {
-		return doListing(remotePath, true, true);
+	private List<FtpLiteFile> doListing(Path remotePath) throws IOException {
+		return doListing(remotePath, true, true, new TrueMatcher());
 	}
 
-	private List<FtpFileWrapper> doListing(Path remotePath, boolean includeDir, boolean includeFile)
+	private List<FtpLiteFile> doListing(Path remotePath, boolean includeDir, boolean includeFile, FtpFileMatcher matcher)
 			throws IOException {
 		FTPFile[] files = ftp.listFiles(remotePath.toString());
-		List<FtpFileWrapper> list = new LinkedList<>();
+		List<FtpLiteFile> list = new LinkedList<>();
 		for (int i = 0; i < files.length; i++) {
 			if ((files[i].getType() == FTPFile.DIRECTORY_TYPE && includeDir) || (files[i].getType() == FTPFile.FILE_TYPE && includeFile)) {
-				list.add(buildFileWrapper(remotePath, files[i]));
+				FtpLiteFile f = buildFileWrapper(remotePath, files[i]);
+				if (matcher.isMatched(f)) list.add(f);
 			}
 		}
 		return list;
 	}
 
-	private FtpFileWrapper buildFileWrapper(Path remotePath, FTPFile file) {
-		FtpFileWrapper f = new FtpFileWrapper();
+	private FtpLiteFile buildFileWrapper(Path remotePath, FTPFile file) {
+		FtpLiteFile f = new FtpLiteFile();
 		f.setPath(remotePath.resolve(file.getName()));
 		f.setSize(file.getSize());
 		f.setTimestamp(file.getTimestamp().getTimeInMillis());
-		f.setType(file.getType() == FTPFile.DIRECTORY_TYPE ? FtpFileWrapper.TYPE_DIRECTORY
-				: FtpFileWrapper.TYPE_FILE);
+		f.setType(file.getType() == FTPFile.DIRECTORY_TYPE ? FtpLiteFile.TYPE_DIRECTORY
+				: FtpLiteFile.TYPE_FILE);
 		return f;
 	}
 	
-	private void doLogin() throws IOException, FtpExceptionWrapper {
+	private void doLogin() throws IOException, FtpLiteException {
 		getConnector();
 		connect();
 		if (!ftp.login(config.getFtpServer().getUsername(), config.getFtpServer().getPassword())) {
 			ftp.logout();
-			throw new FtpExceptionWrapper(INFO + "Login - esername or password is wrong");
+			throw new FtpLiteException(INFO + "Login - esername or password is wrong");
 		}
 		logger.info(INFO + "Login - Remote system is " + ftp.getSystemType());
 		if (config.isBinaryTransfer()) {

@@ -2,7 +2,8 @@ package ddc.core.ftp.matcher;
 
 import java.util.Date;
 
-import ddc.core.ftp.FtpFileWrapper;
+import ddc.core.ftp.FtpFileMatcher;
+import ddc.core.ftp.FtpLiteFile;
 import ddc.util.DateRange;
 import ddc.util.DateUtils;
 
@@ -24,7 +25,7 @@ public class DateMatcher implements FtpFileMatcher {
 	}
 		
 	@Override
-	public boolean isMatched(FtpFileWrapper file) {		
+	public boolean isMatched(FtpLiteFile file) {		
 		return matcher.contains(file.getTimestamp(), true);
 	}
 	

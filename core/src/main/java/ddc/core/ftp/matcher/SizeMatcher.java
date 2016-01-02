@@ -1,6 +1,7 @@
 package ddc.core.ftp.matcher;
 
-import ddc.core.ftp.FtpFileWrapper;
+import ddc.core.ftp.FtpFileMatcher;
+import ddc.core.ftp.FtpLiteFile;
 import ddc.util.LRange;
 
 public class SizeMatcher implements FtpFileMatcher {
@@ -25,7 +26,7 @@ public class SizeMatcher implements FtpFileMatcher {
 	}
 
 	@Override
-	public boolean isMatched(FtpFileWrapper file) {
+	public boolean isMatched(FtpLiteFile file) {
 		return isMatched(file.getSize());
 	}
 	

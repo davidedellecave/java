@@ -16,7 +16,7 @@ public class ConcurrentFtpClient {
 		try {
 			doDownload(list);
 		} catch (InterruptedException e) {
-			new FtpExceptionWrapper(e);
+			new FtpLiteException(e);
 		}
 	}
 	
@@ -24,7 +24,7 @@ public class ConcurrentFtpClient {
 		try {
 			doUpload(list);
 		} catch (InterruptedException e) {
-			new FtpExceptionWrapper(e);
+			new FtpLiteException(e);
 		}
 	}
 
@@ -33,23 +33,23 @@ public class ConcurrentFtpClient {
 		for (FilePair p : list) {
 			Runnable r = new Runnable() {
 				public void run() {
-					FtpConfigWrapper c = new FtpConfigWrapper();
+					FtpLiteConfig c = new FtpLiteConfig();
 					c.setBinaryTransfer(true);
 					c.setPassiveMode(false);
 					c.setPreserveRemoteTimestamp(true);
 					c.setOverwriteLocal(true);
 					c.setOverwriteRemote(true);
 					c.setFtpServer(server);
-					FtpClientWrapper client = new FtpClientWrapper(c);
+					FtpLiteClient client = new FtpLiteClient(c);
 					try {
 						client.login();
 						client.download(p.source, p.target);
-					} catch (FtpExceptionWrapper e) {
+					} catch (FtpLiteException e) {
 					} finally {
 						if (client!=null)
 							try {
 								client.logout();
-							} catch (FtpExceptionWrapper e) {}
+							} catch (FtpLiteException e) {}
 					}
 				}
 			};
@@ -64,23 +64,23 @@ public class ConcurrentFtpClient {
 		for (FilePair p : list) {
 			Runnable r = new Runnable() {
 				public void run() {
-					FtpConfigWrapper c = new FtpConfigWrapper();
+					FtpLiteConfig c = new FtpLiteConfig();
 					c.setBinaryTransfer(true);
 					c.setPassiveMode(false);
 					c.setPreserveRemoteTimestamp(true);
 					c.setOverwriteLocal(true);
 					c.setOverwriteRemote(true);
 					c.setFtpServer(server);
-					FtpClientWrapper client = new FtpClientWrapper(c);
+					FtpLiteClient client = new FtpLiteClient(c);
 					try {
 						client.login();
 						client.upload(p.source, p.target);
-					} catch (FtpExceptionWrapper e) {
+					} catch (FtpLiteException e) {
 					} finally {
 						if (client!=null)
 							try {
 								client.logout();
-							} catch (FtpExceptionWrapper e) {}
+							} catch (FtpLiteException e) {}
 					}
 				}
 			};

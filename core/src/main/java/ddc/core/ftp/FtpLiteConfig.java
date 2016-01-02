@@ -1,7 +1,7 @@
 package ddc.core.ftp;
 
 
-public class FtpConfigWrapper {
+public class FtpLiteConfig {
 	//Remote conf
 	private FtpServer ftpServer = new FtpServer();
 //	private int retryLogin=3;

@@ -5,7 +5,8 @@ import java.util.concurrent.TimeUnit;
 
 import org.apache.log4j.Logger;
 
-import ddc.core.ftp.FtpFileWrapper;
+import ddc.core.ftp.FtpFileMatcher;
+import ddc.core.ftp.FtpLiteFile;
 import ddc.util.DateRange;
 import ddc.util.LRange;
 import ddc.util.Timespan;
@@ -60,7 +61,7 @@ public class RelativeDateMatcher implements FtpFileMatcher {
 	}
 
 	@Override
-	public boolean isMatched(FtpFileWrapper file) {
+	public boolean isMatched(FtpLiteFile file) {
 		return isMatched(file.getTimestamp());
 	}
 	
