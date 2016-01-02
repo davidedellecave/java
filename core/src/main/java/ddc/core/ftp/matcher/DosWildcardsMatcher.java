@@ -17,7 +17,7 @@ public class DosWildcardsMatcher implements FtpFileMatcher {
 	}
 
 	@Override
-	public boolean isMatched(FtpLiteFile file) {
+	public boolean accept(FtpLiteFile file) {
 		return isMatched(file.getFilename());
 	}
 	

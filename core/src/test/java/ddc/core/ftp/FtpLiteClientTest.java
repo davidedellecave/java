@@ -86,10 +86,10 @@ public class FtpLiteClientTest {
 	@Test
 	public void testListing_6() throws FtpLiteException {
 		FtpLiteClient c = getClient();
-		c.login();
+		c.connect();
 		FtpFileMatcher m = new AndMatcher(new PathMatcher("Studio"), new DosWildcardsMatcher("*.ascx")) ;
 		List<FtpLiteFile> list = c.listing(WORKINGPATH, m, true);
-		c.logout();
+		c.disconnect();
 //		list.forEach(System.out::println);
 	}
 	

@@ -12,7 +12,7 @@ public class PathMatcher implements FtpFileMatcher {
 	}
 
 	@Override
-	public boolean isMatched(FtpLiteFile file) {
+	public boolean accept(FtpLiteFile file) {
 		String source = file.getPath().getParent().toString();
 		return source.contains(matcher);
 	}

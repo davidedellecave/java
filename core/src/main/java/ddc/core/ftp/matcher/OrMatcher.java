@@ -14,8 +14,8 @@ public class OrMatcher implements FtpFileMatcher {
 	}
 	
 	@Override
-	public boolean isMatched(FtpLiteFile file) {		
-		return matcher1.isMatched(file) || matcher2.isMatched(file);
+	public boolean accept(FtpLiteFile file) {		
+		return matcher1.accept(file) || matcher2.accept(file);
 	}
 
 	@Override

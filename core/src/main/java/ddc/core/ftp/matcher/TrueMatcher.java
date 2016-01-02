@@ -6,7 +6,7 @@ import ddc.core.ftp.FtpLiteFile;
 public class TrueMatcher implements FtpFileMatcher {
 
 	@Override
-	public boolean isMatched(FtpLiteFile file) {
+	public boolean accept(FtpLiteFile file) {
 		return true;
 	}
 

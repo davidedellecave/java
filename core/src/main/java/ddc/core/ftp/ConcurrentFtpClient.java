@@ -42,13 +42,13 @@ public class ConcurrentFtpClient {
 					c.setFtpServer(server);
 					FtpLiteClient client = new FtpLiteClient(c);
 					try {
-						client.login();
+						client.connect();
 						client.download(p.source, p.target);
 					} catch (FtpLiteException e) {
 					} finally {
 						if (client!=null)
 							try {
-								client.logout();
+								client.disconnect();
 							} catch (FtpLiteException e) {}
 					}
 				}
@@ -73,13 +73,13 @@ public class ConcurrentFtpClient {
 					c.setFtpServer(server);
 					FtpLiteClient client = new FtpLiteClient(c);
 					try {
-						client.login();
+						client.connect();
 						client.upload(p.source, p.target);
 					} catch (FtpLiteException e) {
 					} finally {
 						if (client!=null)
 							try {
-								client.logout();
+								client.disconnect();
 							} catch (FtpLiteException e) {}
 					}
 				}

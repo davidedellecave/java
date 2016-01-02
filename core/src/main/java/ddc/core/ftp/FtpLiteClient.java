@@ -41,26 +41,27 @@ public class FtpLiteClient {
 	}
 
 	synchronized public boolean isConnected() {
+		if (ftp==null) return false;
 		return ftp.isConnected();
 	}
 
-	synchronized public void login() throws FtpLiteException {
+	synchronized public void connect() throws FtpLiteException {
 		try {
-			logger.info(INFO + "Login...");
+			logger.info(INFO + "Connecting...");
 			Chronometer chron = new Chronometer();
-			doLogin();
-			logger.info(INFO + "Login ok - elapsed:[" + chron.toString() + "]");
+			doConnect();
+			logger.info(INFO + "Connecting ok - elapsed:[" + chron.toString() + "]");
 		} catch (Exception e) {
 			throw new FtpLiteException(e);
 		}
 	}
 
-	synchronized public void logout() throws FtpLiteException {
+	synchronized public void disconnect() throws FtpLiteException {
 		try {
-			logger.info(INFO + "Logout...");
+			logger.info(INFO + "Disconnecting...");
 			Chronometer chron = new Chronometer();
-			doLogout();
-			logger.info(INFO + "Logout ok - elapsed:[" + chron.toString() + "]");
+			doDisconnect();
+			logger.info(INFO + "Disconnecting ok - elapsed:[" + chron.toString() + "]");
 		} catch (Exception e) {
 			throw new FtpLiteException(e);
 		}
@@ -145,7 +146,7 @@ public class FtpLiteClient {
 			recursiveListing(remotePath, new FtpListener() {				
 				@Override
 				public FtpListenerAction visitFile(FtpLiteFile file) throws IOException {
-					if (includeFile && matcher.isMatched(file)) list.add(file);
+					if (includeFile && matcher.accept(file)) list.add(file);
 					return FtpListenerAction.CONTINUE;
 				}
 				@Override
@@ -536,7 +537,7 @@ public class FtpLiteClient {
 		for (int i = 0; i < files.length; i++) {
 			if ((files[i].getType() == FTPFile.DIRECTORY_TYPE && includeDir) || (files[i].getType() == FTPFile.FILE_TYPE && includeFile)) {
 				FtpLiteFile f = buildFileWrapper(remotePath, files[i]);
-				if (matcher.isMatched(f)) list.add(f);
+				if (matcher.accept(f)) list.add(f);
 			}
 		}
 		return list;
@@ -552,14 +553,14 @@ public class FtpLiteClient {
 		return f;
 	}
 	
-	private void doLogin() throws IOException, FtpLiteException {
+	private void doConnect() throws IOException, FtpLiteException {
 		getConnector();
-		connect();
+		connectSocket();
 		if (!ftp.login(config.getFtpServer().getUsername(), config.getFtpServer().getPassword())) {
 			ftp.logout();
-			throw new FtpLiteException(INFO + "Login - esername or password is wrong");
+			throw new FtpLiteException(INFO + "Connecting - username or password is wrong");
 		}
-		logger.info(INFO + "Login - Remote system is " + ftp.getSystemType());
+		logger.info(INFO + "Connecting - Remote system is " + ftp.getSystemType());
 		if (config.isBinaryTransfer()) {
 			ftp.setFileType(FTP.BINARY_FILE_TYPE);
 		} else {
@@ -571,17 +572,17 @@ public class FtpLiteClient {
 		}
 		if (config.isPassiveMode()) {
 			ftp.enterLocalPassiveMode();
-			logger.info(INFO + "Login - Interaction mode is passive");
+			logger.info(INFO + "Connecting - Interaction mode is passive");
 		} else {
 			ftp.enterLocalActiveMode();
-			logger.info(INFO + "Login - Interaction mode is active");
+			logger.info(INFO + "Connecting - Interaction mode is active");
 		}
 		ftp.setUseEPSVwithIPv4(CONF_useEpsvWithIPv4);
 	}
 
-	private void doLogout() throws IOException {
+	private void doDisconnect() throws IOException {
 		ftp.logout();
-		disconnect();
+		disconnectSocket();
 	}
 
 	private void getConnector() {
@@ -590,19 +591,19 @@ public class FtpLiteClient {
 
 	}
 
-	private void connect() throws IOException {
+	private void connectSocket() throws IOException {
 		int port = config.getFtpServer().getPort() > 0 ? config.getFtpServer().getPort() : ftp.getDefaultPort();
 		ftp.connect(config.getFtpServer().getHost(), port);
-		logger.info(INFO + "Login - Connected to " + config.getFtpServer().getHost() + " on " + port);
+		logger.info(INFO + "Connected to " + config.getFtpServer().getHost() + " on " + port);
 		// After connection attempt, you should check the reply code to verify
 		// success.
 		int reply = ftp.getReplyCode();
 		if (!FTPReply.isPositiveCompletion(reply)) {
-			disconnect();
+			disconnectSocket();
 		}
 	}
 
-	private void disconnect() throws IOException {
+	private void disconnectSocket() throws IOException {
 		if (ftp != null && ftp.isConnected()) {
 			ftp.disconnect();
 		}

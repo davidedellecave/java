@@ -25,7 +25,7 @@ public class DateMatcher implements FtpFileMatcher {
 	}
 		
 	@Override
-	public boolean isMatched(FtpLiteFile file) {		
+	public boolean accept(FtpLiteFile file) {		
 		return matcher.contains(file.getTimestamp(), true);
 	}
 	

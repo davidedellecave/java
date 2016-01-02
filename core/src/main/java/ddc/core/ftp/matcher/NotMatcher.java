@@ -13,8 +13,8 @@ public class NotMatcher implements FtpFileMatcher {
 	}
 
 	@Override
-	public boolean isMatched(FtpLiteFile file) {		
-		return !matcher.isMatched(file);
+	public boolean accept(FtpLiteFile file) {		
+		return !matcher.accept(file);
 	}
 
 	@Override

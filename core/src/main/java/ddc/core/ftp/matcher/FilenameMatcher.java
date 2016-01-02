@@ -12,7 +12,7 @@ public class FilenameMatcher implements FtpFileMatcher {
 	}
 
 	@Override
-	public boolean isMatched(FtpLiteFile file) {
+	public boolean accept(FtpLiteFile file) {
 		String source = file.getFilename();
 		return source.contains(matcher);
 	}

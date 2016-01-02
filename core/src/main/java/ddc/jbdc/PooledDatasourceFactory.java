@@ -29,9 +29,11 @@ import org.apache.commons.dbcp2.DriverManagerConnectionFactory;
 import org.apache.commons.dbcp2.PoolableConnection;
 import org.apache.commons.dbcp2.PoolableConnectionFactory;
 import org.apache.commons.dbcp2.PoolingDataSource;
-import org.apache.commons.pool.ObjectPool;
-import org.apache.commons.pool.PoolableObjectFactory;
-import org.apache.commons.pool.impl.GenericObjectPool;
+import org.apache.commons.pool2.ObjectPool;
+import org.apache.commons.pool2.impl.GenericObjectPool;
+
+import ddc.core.ftp.FtpLiteClient;
+import ddc.core.ftp.FtpLitePoolFactory;
 
 //
 // Here's a simple example of how to use the PoolingDataSource.
@@ -96,7 +98,9 @@ public class PooledDatasourceFactory {
 		// We'll use a GenericObjectPool instance, although
 		// any ObjectPool implementation will suffice.
 		//
-		ObjectPool<PoolableConnection> connectionPool = new GenericObjectPool<PoolableConnection>((PoolableObjectFactory<PoolableConnection>) poolableConnectionFactory);
+//		ObjectPool<PoolableConnection> connectionPool = new GenericObjectPool<PoolableConnection>((PoolableObjectFactory<PoolableConnection>) poolableConnectionFactory);		
+		ObjectPool<PoolableConnection> connectionPool = new GenericObjectPool<PoolableConnection>(poolableConnectionFactory);
+		
 
 		// Set the factory's pool property to the owning pool
 		poolableConnectionFactory.setPool((org.apache.commons.pool2.ObjectPool<PoolableConnection>) connectionPool);
