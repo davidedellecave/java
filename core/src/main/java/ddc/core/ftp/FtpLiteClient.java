@@ -99,7 +99,8 @@ public class FtpLiteClient {
 			Chronometer chron = new Chronometer();
 			List<FtpLiteFile> list = doListing(remotePath);
 			logListing(list);
-			logger.info(INFO + "Listing ok:[" + remotePath + "] size:[" + list.size() + "] elapsed:[" + chron.toString() + "]");
+			long bytes = list.stream().mapToLong(x -> x.getSize()).sum();
+			logger.info(INFO + "Listing ok:[" + remotePath + "] #:[" + list.size() + "] bytes:[" + FileUtils.byteCountToDisplaySize(bytes) + "] elapsed:[" + chron.toString() + "]");
 			return list;
 		} catch (Exception e) {
 			throw new FtpLiteException(e);
@@ -112,7 +113,8 @@ public class FtpLiteClient {
 			Chronometer chron = new Chronometer();
 			List<FtpLiteFile> list = doListing(remotePath, includeDir, includeFile, new TrueMatcher(), isRecursive);
 			logListing(list);
-			logger.info(INFO + "Listing ok:[" + remotePath + "] size:[" + list.size() + "] elapsed:[" + chron.toString() + "]");
+			long bytes = list.stream().mapToLong(x -> x.getSize()).sum();
+			logger.info(INFO + "Listing ok:[" + remotePath + "] #:[" + list.size() + "] bytes:[" + FileUtils.byteCountToDisplaySize(bytes) + "] elapsed:[" + chron.toString() + "]");
 			return list;
 		} catch (Exception e) {
 			throw new FtpLiteException(e);
@@ -125,7 +127,8 @@ public class FtpLiteClient {
 			Chronometer chron = new Chronometer();
 			List<FtpLiteFile> list = doListing(remotePath, false, true, matcher, isRecursive);
 			logListing(list);
-			logger.info(INFO + "Listing ok:[" + remotePath + "] size:[" + list.size() + "] elapsed:[" + chron.toString() + "]");
+			long bytes = list.stream().mapToLong(x -> x.getSize()).sum();
+			logger.info(INFO + "Listing ok:[" + remotePath + "] #:[" + list.size() + "] bytes:[" + FileUtils.byteCountToDisplaySize(bytes) + "] elapsed:[" + chron.toString() + "]");
 			return list;
 		} catch (Exception e) {
 			throw new FtpLiteException(e);
@@ -554,7 +557,8 @@ public class FtpLiteClient {
 	}
 	
 	private void doConnect() throws IOException, FtpLiteException {
-		getConnector();
+		if (ftp!=null && ftp.isConnected()) return;
+		createConnector();
 		connectSocket();
 		if (!ftp.login(config.getFtpServer().getUsername(), config.getFtpServer().getPassword())) {
 			ftp.logout();
@@ -564,11 +568,9 @@ public class FtpLiteClient {
 		if (config.isBinaryTransfer()) {
 			ftp.setFileType(FTP.BINARY_FILE_TYPE);
 		} else {
-			// in theory this should not be necessary as servers should default
-			// to ASCII
+			// in theory this should not be necessary as servers should default to ASCII
 			// but they don't all do so - see NET-500
 			ftp.setFileType(FTP.ASCII_FILE_TYPE);
-
 		}
 		if (config.isPassiveMode()) {
 			ftp.enterLocalPassiveMode();
@@ -585,8 +587,7 @@ public class FtpLiteClient {
 		disconnectSocket();
 	}
 
-	private void getConnector() {
-		// ToDo http tunnel, FTPSecure,
+	private void createConnector() {
 		ftp = new FTPClient();
 
 	}
