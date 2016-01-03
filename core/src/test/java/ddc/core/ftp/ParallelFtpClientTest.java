@@ -49,7 +49,7 @@ public class ParallelFtpClientTest {
 	public void testDownload() throws FtpLiteException {
 		FtpLiteClient c = getClient();
 		c.connect();
-		FtpFileMatcher m = new AndMatcher(new OrMatcher(new PathMatcher("/log/"), new PathMatcher("/App_Data/")), new RelativeDateMatcher("-7 DAYS, -20 MINUTES")) ;
+		FtpFileMatcher m = new AndMatcher(new OrMatcher(new PathMatcher("/log/"), new PathMatcher("/App_Data/")), new RelativeDateMatcher("-7 DAYS, -2 HOURS")) ;
 		List<FtpLiteFile> list = c.listing(WORKINGPATH, m, true);
 		c.disconnect();
 		
