@@ -17,6 +17,8 @@ import ddc.util.FileUtils;
 
 public class ParallelFtpClientTest {
 	private final Path WORKINGPATH=Paths.get("/");
+	private final int MAX_CONNECTION=4;
+	
 	private FtpServer getServer() {
 		FtpServer s = new FtpServer();
 		s.setHost("5.134.124.246");
@@ -59,7 +61,7 @@ public class ParallelFtpClientTest {
 			System.out.println(target);
 			pairs.add(new FilePair(source, target));
 		}
-		ParallelFtpClient p = new ParallelFtpClient(getConfig(), 4);
+		ParallelFtpClient p = new ParallelFtpClient(getConfig(), MAX_CONNECTION);
 		p.download(pairs);
 		
 	}

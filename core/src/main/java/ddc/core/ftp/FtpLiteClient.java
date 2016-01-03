@@ -179,7 +179,7 @@ public class FtpLiteClient {
 		}
 	}
 	
-	synchronized public void upload(Path localPath, Path remotePath) throws FtpLiteException {
+	synchronized public FtpLiteFile upload(Path localPath, Path remotePath) throws FtpLiteException {
 		try {
 			logger.info(INFO + "Uploading...:[" + localPath + "] > [" + remotePath + "]");
 			Chronometer chron = new Chronometer();
@@ -187,6 +187,7 @@ public class FtpLiteClient {
 			String info = remote != null ? remote.toString() : "";
 			logger.info(INFO + "Uploading ok - local:[" + localPath + "] > remote:[" + info + "] elapsed:["
 					+ chron.toString() + "]");
+			return remote;
 		} catch (Exception e) {
 			throw new FtpLiteException(e);
 		}
@@ -204,11 +205,11 @@ public class FtpLiteClient {
 		}
 	}
 
-	synchronized public void download(Path remotePath, Path localPath) throws FtpLiteException {
-		download(remotePath, localPath, false);
+	synchronized public FtpLiteFile download(Path remotePath, Path localPath) throws FtpLiteException {
+		return download(remotePath, localPath, false);
 	}
 
-	synchronized public void download(Path remotePath, Path localPath, boolean deleteRemote)
+	synchronized public FtpLiteFile download(Path remotePath, Path localPath, boolean deleteRemote)
 			throws FtpLiteException {
 		try {
 			logger.info(INFO + "Downloading ...:[" + remotePath + "] > [" + localPath + "]");
@@ -217,6 +218,7 @@ public class FtpLiteClient {
 			String info = remote != null ? remote.toString() : "";
 			logger.info(INFO + "Downloading ok - remote:[" + info + "] > local:[" + localPath + "] elapsed:["
 					+ chron.toString() + "]");
+			return remote;
 		} catch (Exception e) {
 			throw new FtpLiteException(e);
 		}
