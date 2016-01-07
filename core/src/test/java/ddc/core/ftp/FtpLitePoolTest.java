@@ -27,7 +27,7 @@ public class FtpLitePoolTest {
 		s.setWorkingPath(WORKINGPATH.toString());
 		s.setBinaryTransfer(true);
 		s.setPassiveMode(true);
-		s.setRemoteLogicalDelete(true);
+		s.setDeleteRemoteLogically(true);
 		return s;
 	}
 	
@@ -39,13 +39,13 @@ public class FtpLitePoolTest {
 		
 		FtpLiteClient c = pool.hold();
 		
-		c.listing();
+		c.listFiles();
 		
 		pool.release(c);		
 		
 		c = pool.hold();
 		
-		c.listing();
+		c.listFiles();
 		
 		pool.release(c);
 		

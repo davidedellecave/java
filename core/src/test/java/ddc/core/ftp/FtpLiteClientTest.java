@@ -29,7 +29,7 @@ public class FtpLiteClientTest {
 		s.setWorkingPath(WORKINGPATH.toString());
 		s.setBinaryTransfer(true);
 		s.setPassiveMode(true);
-		s.setRemoteLogicalDelete(true);
+		s.setDeleteRemoteLogically(true);
 		return s;
 	}
 	
@@ -83,104 +83,32 @@ public class FtpLiteClientTest {
 //		list.forEach(System.out::println);
 //	}
 	
+//	@Test
+//	public void testListing_6() throws FtpLiteException {
+//		FtpLiteClient c = getClient();
+//		c.connect();
+//		FtpFileMatcher m = new AndMatcher(new PathMatcher("Studio"), new DosWildcardsMatcher("*.ascx")) ;
+//		List<FtpLiteFile> list = c.listFiles(WORKINGPATH, m, true);
+//		c.disconnect();
+////		list.forEach(System.out::println);
+//	}
+	
 	@Test
-	public void testListing_6() throws FtpLiteException {
+	public void testGetFiles_1() throws FtpLiteException {
 		FtpLiteClient c = getClient();
 		c.connect();
-		FtpFileMatcher m = new AndMatcher(new PathMatcher("Studio"), new DosWildcardsMatcher("*.ascx")) ;
-		List<FtpLiteFile> list = c.listing(WORKINGPATH, m, true);
+		
+//		String s ="/admin.medisportgottardo.it/log/admin.medisportgottardo.it/2016-01-06/admin.medisportgottardo.it_2016-01-06_rgqc5wz13ovudvabcyjllnji.txt";
+//		String s ="/admin.medisportgottardo.it/log/admin.medisportgottardo.it/2016-01-06";
+		String s ="/admin.medisportgottardo.it/log/admin.medisportgottardo.it/2015-12-01";
+		
+		Path p = Paths.get(s);
+		FtpLiteFile f =c.getFile(p);
+			
+		System.out.println(f);
+		
 		c.disconnect();
 //		list.forEach(System.out::println);
 	}
-	
-//	@Test
-//	public void testIsConnected() {
-//		fail("Not yet implemented");
-//	}
-//
-//	@Test
-//	public void testLogin() {
-//		fail("Not yet implemented");
-//	}
-//
-//	@Test
-//	public void testLogout() {
-//		fail("Not yet implemented");
-//	}
-//
-//	@Test
-//	public void testExists() {
-//		fail("Not yet implemented");
-//	}
-//
-//	@Test
-//	public void testListing() {
-//		fail("Not yet implemented");
-//	}
-//
-//	@Test
-//	public void testListingPath() {
-//		fail("Not yet implemented");
-//	}
-//
-//	@Test
-//	public void testListingPathBooleanBooleanBoolean() {
-//		fail("Not yet implemented");
-//	}
-//
-//	@Test
-//	public void testListingPathFtpFileMatcherBoolean() {
-//		fail("Not yet implemented");
-//	}
-//
-//	@Test
-//	public void testListingPathFtpListener() {
-//		fail("Not yet implemented");
-//	}
-//
-//	@Test
-//	public void testUpload() {
-//		fail("Not yet implemented");
-//	}
-//
-//	@Test
-//	public void testRename() {
-//		fail("Not yet implemented");
-//	}
-//
-//	@Test
-//	public void testDownloadPathPath() {
-//		fail("Not yet implemented");
-//	}
-//
-//	@Test
-//	public void testDownloadPathPathBoolean() {
-//		fail("Not yet implemented");
-//	}
-//
-//	@Test
-//	public void testDeletePath() {
-//		fail("Not yet implemented");
-//	}
-//
-//	@Test
-//	public void testDeletePathBoolean() {
-//		fail("Not yet implemented");
-//	}
-//
-//	@Test
-//	public void testDeleteAll() {
-//		fail("Not yet implemented");
-//	}
-//
-//	@Test
-//	public void testEqualByTimeAndSize() {
-//		fail("Not yet implemented");
-//	}
-//
-//	@Test
-//	public void testEqualInTimeAndSize() {
-//		fail("Not yet implemented");
-//	}
 
 }

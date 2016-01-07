@@ -11,6 +11,7 @@ import org.apache.log4j.Logger;
 
 import ddc.util.Chronometer;
 import ddc.util.FilePair;
+import ddc.util.FileUtils;
 
 public class ParallelFtpClient {
 	private Logger logger = Logger.getLogger(ParallelFtpClient.class);
@@ -37,7 +38,8 @@ public class ParallelFtpClient {
 		} finally {
 			pool.close();
 		}
-		logger.info("Download elapsed:[" + chron + "] " + sizeStats.toString());
+		long bytesOverSecs = (long)(sizeStats.getSum()/chron.getElapsed()*1000);		
+		logger.info("Download elapsed:[" + chron + "] #:[" + sizeStats.getN() +"] size:[" + FileUtils.formatBytes((long)sizeStats.getSum()) + "] throughput:[" + FileUtils.formatBytes(bytesOverSecs) + "/sec]");
 	}
 
 	public void upload(List<FilePair> list) throws FtpLiteException {
@@ -85,6 +87,7 @@ public class ParallelFtpClient {
 						FtpLiteFile file = client.download(p.source, p.target);
 						addBytes(file.getSize());
 					} catch (FtpLiteException e) {
+						logger.error(e.getMessage());
 					} finally {
 						try {
 							pool.release(client);
