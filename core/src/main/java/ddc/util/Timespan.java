@@ -34,7 +34,6 @@ public class Timespan {
 
 	/**
 	 * Returm the spantime representation using specified timespan unit
-	 * 
 	 * @param newUnit
 	 * @return
 	 */
@@ -59,13 +58,10 @@ public class Timespan {
 	}
 
 	public static String getHumanReadable(long millis) {
-		int sign = 1;
 		if (millis < 0) {
-			sign = -1;
-			millis *=-1;
+			throw new IllegalArgumentException(
+					"Duration must be greater than zero!");
 		}
-		
-
 		long days = TimeUnit.MILLISECONDS.toDays(millis);
 		millis -= TimeUnit.DAYS.toMillis(days);
 
@@ -82,37 +78,31 @@ public class Timespan {
 
 		if (days > 0) {
 			sb.append(days);
-			sb.append(" days ");
+			sb.append("days ");
 		}
 
 		if (days > 0 || hours > 0) {
 			sb.append(hours);
-			sb.append(" h ");
+			sb.append("h ");
 		}
 
 		if (days > 0 || hours > 0 || minutes > 0) {
 			sb.append(minutes);
-			sb.append(" min ");
+			sb.append("min ");
 		}
 
 		if (days > 0 || hours > 0 || minutes > 0 || seconds > 0) {
 			sb.append(seconds);
-//			if (millis > 0) {
-//				sb.append(".");
-//				sb.append(millis);
-//			}
-			sb.append(" sec ");
-		} 
-		
-		if (days > 0 || hours > 0 || minutes > 0 || seconds > 0 || millis > 0) {
+			if (millis>0) {
+				sb.append(".");
+				sb.append(millis);
+			}
+			sb.append("sec");
+		} else {
 			sb.append(millis);
-			sb.append(" millis");
+			sb.append("millis");
 		}
-		
-		if (sign < 0)
-			return "-" + sb.toString();
-		else
-			return (sb.toString());
+		return (sb.toString());
 	}
 
 	public static Timespan createTimespan(long duration, TimeUnit unit) {
