@@ -1,17 +1,41 @@
 package ddc.util;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 import org.apache.log4j.Logger;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import ddc.dao.LiteFields;
 
-public class ParseUtils2 {
-	private static Logger logger = Logger.getLogger(ParseUtils2.class);
+public class ParseUtil {
+	private static Logger logger = Logger.getLogger(ParseUtil.class);
 
+	public static Double parseDouble(Object value) {
+		try {
+			return Double.parseDouble(String.valueOf(value));
+		} catch(NumberFormatException e) {
+			System.err.println("parseDouble() Exception:[" + e.getMessage() + "]");
+			return (double)0;
+		}
+	}
+
+	public static Float parseFloat(Object value) {
+		try {
+			return Float.parseFloat(String.valueOf(value));
+		} catch(NumberFormatException e) {
+			System.err.println("parseFloat() Exception:[" + e.getMessage() + "]");
+			return (float)0;
+		}
+	}
+	
+	public static Long parseLong(Object value) {
+		try {
+			return Long.parseLong(String.valueOf(value));
+		} catch(NumberFormatException e) {
+			System.err.println("parseLong() Exception:[" + e.getMessage() + "]");
+			return (long)0;
+		}
+	}
+	
 	public static String parseString(Object o, String defaultValue) {
 		if (o == null)
 			return defaultValue;
@@ -68,19 +92,6 @@ public class ParseUtils2 {
 	public static boolean parseBoolean(String s, boolean defaultValue) {
 		try {
 			return Boolean.parseBoolean(s);
-		} catch (Exception e) {
-			return defaultValue;
-		}
-	}
-
-	public static String DATE_PATTERN_ISO = "yyyy-MM-dd HH:mm:ss";
-
-	public static String parseDate(Date date, String pattern, String defaultValue) {
-		if (date == null)
-			return "";
-		SimpleDateFormat formatter = new SimpleDateFormat(pattern);
-		try {
-			return formatter.format(date);
 		} catch (Exception e) {
 			return defaultValue;
 		}

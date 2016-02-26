@@ -1,9 +1,6 @@
 package ddc.util;
 
-import static java.util.Date.parse;
-
 import java.io.File;
-import java.util.Date;
 
 import org.apache.commons.lang3.StringUtils;
 

@@ -2,7 +2,7 @@ package ddc.core.ftp;
 
 import java.nio.file.Path;
 
-import ddc.util.DateUtils;
+import ddc.util.DateUtil;
 
 public class FtpLiteFile {
 	public static final int TYPE_FILE = 0;
@@ -62,9 +62,9 @@ public class FtpLiteFile {
 	@Override
 	public String toString() {
 		if (isFile()) {
-			return "file:[" + path.toString() + "] size:[" + size + "] date:[" + DateUtils.formatISO(timestamp) + "]";
+			return "file:[" + path.toString() + "] size:[" + size + "] date:[" + DateUtil.formatISO(timestamp) + "]";
 		} else  {
-			return "dir:[" + path.toString() + "] date:[" + DateUtils.formatISO(timestamp) + "]";
+			return "dir:[" + path.toString() + "] date:[" + DateUtil.formatISO(timestamp) + "]";
 		}
 
 	}

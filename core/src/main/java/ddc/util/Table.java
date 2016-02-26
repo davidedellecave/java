@@ -9,7 +9,7 @@ import java.util.List;
 public class Table {
 	private String name;
 	private List<String> columns = new ArrayList<String>();
-	private List<Row> rows = new ArrayList<Row>();
+	private List<TableRow> rows = new ArrayList<TableRow>();
 	
 	public Table(String name) {
 		this.name=name;
@@ -31,11 +31,11 @@ public class Table {
 		this.columns = columns;
 	}
 
-	public List<Row> getRows() {
+	public List<TableRow> getRows() {
 		return rows;
 	}
 
-	public void setRows(List<Row> rows) {
+	public void setRows(List<TableRow> rows) {
 		this.rows = rows;
 	}
 	

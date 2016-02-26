@@ -42,6 +42,6 @@ public class DateRange {
 
 	@Override
 	public String toString() {
-		return " x IN (" +   DateUtils.formatForISO(start) + "," + DateUtils.formatForISO(end) + ")"; 
+		return " x IN (" +   DateUtil.formatForISO(start) + "," + DateUtil.formatForISO(end) + ")"; 
 	}
 }

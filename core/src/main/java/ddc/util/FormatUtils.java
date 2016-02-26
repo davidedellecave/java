@@ -8,8 +8,6 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 
 public class FormatUtils {
 	
-
-		
 	public static String format(Object name, Object value) {
 		String s = " " + name!=null ? name + ":" : "";
 		s += format(value);
