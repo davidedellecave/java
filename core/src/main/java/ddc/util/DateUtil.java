@@ -96,6 +96,15 @@ public class DateUtil extends org.apache.commons.lang3.time.DateUtils {
 		return dateISOFormatter.format(date);
 	}
 	
+	public static String formatISO(long timestamp) {
+		Date d = new Date(timestamp);
+		return formatForISO(d);
+	}
+	
+	public static String formatNowToISO() {
+		return formatForISO(new Date());
+	}
+	
 	public static String formatForHuman(Date date) {
 		if (date==null) return "";
 		return dateHumanReadableFormatter.format(date);
@@ -131,26 +140,6 @@ public class DateUtil extends org.apache.commons.lang3.time.DateUtils {
 		return (lowerBoundMillis<=timeMillis && timeMillis<=upperBoundMillis);
 	}
 
-
-	public static String formatISO(long timestamp) {
-		Date d = new Date(timestamp);
-		return format(d, DATE_PATTERN_ISO);
-	}
-
-	public static String formatISO(Date date) {
-		return format(date, DATE_PATTERN_ISO);
-	}
-	
-	public static String formatNowToISO() {
-		SimpleDateFormat formatter = new SimpleDateFormat(DATE_PATTERN_ISO);			
-		return formatter.format(new Date());
-	}
-		
-	public static String format(Object name, Object value) {
-		String s = " " + name!=null ? name + ":" : "";
-		s += FormatUtils.format(value);
-		return s;
-	}
 	//---------------- Create
 	
 	public static Date create(int year, Month month, int day) {

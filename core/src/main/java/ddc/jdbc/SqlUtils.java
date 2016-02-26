@@ -25,7 +25,7 @@ public class SqlUtils {
 	private final static int RS_CONCURRENCY = ResultSet.CONCUR_READ_ONLY;
 	private final static int FETCH_SIZE = 100000;
 
-	public static void select(Connection connection, String sql, SqlRowHandler handler) throws Exception {
+	public static void select(Connection connection, String sql, SqlRowHandler handler) throws Exception  {
 		logger.debug("Executing... sql:[" + sql + "]");
 		Statement statement = null;
 		ResultSet rs = null;
@@ -47,7 +47,19 @@ public class SqlUtils {
 		}
 	}
 
-	public static void printSqlSelect(Connection connection, String sql, PrintStream ps, int colSize) throws Exception {
+	public static void execute(Connection connection, String sql) throws SQLException {
+		logger.debug("Executing... sql:[" + sql + "]");
+		Statement statement = null;
+		try {
+			statement = connection.createStatement(RS_TYPE, RS_CONCURRENCY);
+			statement.execute(sql);
+		} finally {
+			if (statement != null && !statement.isClosed())
+				statement.close();
+		}
+	}
+	
+	public static void printSqlSelect(Connection connection, String sql, PrintStream ps, int colSize) throws Exception  {
 		select(connection, sql, new SqlRowHandler() {
 			ResultSetMetaData meta = null;
 

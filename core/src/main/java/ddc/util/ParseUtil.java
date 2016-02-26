@@ -18,6 +18,14 @@ public class ParseUtil {
 		}
 	}
 
+	public static Double parseDouble(Object o, double defaultValue) {
+		try {
+			return Double.parseDouble(String.valueOf(o));
+		} catch(NumberFormatException e) {
+			return defaultValue;
+		}
+	}
+	
 	public static Float parseFloat(Object value) {
 		try {
 			return Float.parseFloat(String.valueOf(value));

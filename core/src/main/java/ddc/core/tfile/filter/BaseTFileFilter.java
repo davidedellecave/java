@@ -61,7 +61,7 @@ public class BaseTFileFilter implements TFileFilter, TFileContextListener {
 
 	@Override
 	public void onClose(TFileContext context) throws TFileException {
-		
+		this.context = context;	
 	}
 
 	

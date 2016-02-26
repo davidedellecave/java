@@ -83,12 +83,12 @@ public class Timespan {
 
 		if (days > 0 || hours > 0) {
 			sb.append(hours);
-			sb.append("h ");
+			sb.append("h");
 		}
 
 		if (days > 0 || hours > 0 || minutes > 0) {
 			sb.append(minutes);
-			sb.append("min ");
+			sb.append("'");
 		}
 
 		if (days > 0 || hours > 0 || minutes > 0 || seconds > 0) {
@@ -97,10 +97,10 @@ public class Timespan {
 				sb.append(".");
 				sb.append(millis);
 			}
-			sb.append("sec");
+			sb.append("''");
 		} else {
 			sb.append(millis);
-			sb.append("millis");
+			sb.append("ms");
 		}
 		return (sb.toString());
 	}

@@ -36,11 +36,11 @@ public abstract class JdbcConnectionFactory {
 	}
 	
 	public String getUser() {
-		return conf.getDatabase();
+		return conf.getUser();
 	}
 	
 	public String getPassword() {
-		return conf.getDatabase();
+		return conf.getPassword();
 	}
 	
 	
