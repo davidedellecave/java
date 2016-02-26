@@ -1,0 +1,45 @@
+package ddc.core.tfile.filter;
+
+import ddc.core.tfile.TFileException;
+
+public class XslCsvFilter extends BaseTFileFilter {
+	private String charToSkip;
+	private boolean inField = false;
+	private char oldSeparator;
+	private char newSeparator;
+	private char fieldCompound;
+
+	public XslCsvFilter(char oldSeparator, char fieldCompound, char newSeparator, String charToSkip) {
+		super();
+		this.oldSeparator = oldSeparator;
+		this.newSeparator = newSeparator;
+		this.fieldCompound = fieldCompound;
+		this.charToSkip = charToSkip + oldSeparator + newSeparator;
+	}
+
+	@Override
+	public StringBuilder onStartLine(long lineNumber, StringBuilder lineBuffer) throws TFileException {
+		inField = false;
+		return lineBuffer;
+	}
+
+	@Override
+	public char onChar(long lineNumber, long position, char ch) throws TFileException {
+		//if start or end field skip field separator
+		if (ch == fieldCompound) {
+			inField = !inField;
+			return '\0';
+		}
+		//if infield skip chars
+		if (inField) {
+			if (charToSkip.indexOf(ch) != -1)
+				return '\0';
+		} else {
+			//if not in field replace separator
+			if (ch == oldSeparator) {
+				ch = newSeparator;
+			}
+		}
+		return ch;
+	}
+}
