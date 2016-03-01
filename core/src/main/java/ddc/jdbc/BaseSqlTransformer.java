@@ -26,7 +26,7 @@ public abstract class BaseSqlTransformer  {
 	// configuration
 	private boolean autocloseConnection = false;
 	private boolean isExecuteBatchEnabled = true;
-	private int itemForBatchExecution = 10000;
+	private int itemForBatchExecution = 20000;
 
 	public BaseSqlTransformer(boolean autocloseConnection) {
 		this.autocloseConnection = autocloseConnection;

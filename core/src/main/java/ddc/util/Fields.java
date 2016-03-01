@@ -31,6 +31,11 @@ public class Fields extends ArrayList<Field>{
 		return this;
 	}
 	
+	/**
+	 * Return the field named
+	 * @param name
+	 * @return if the name is not found return NULL
+	 */
 	public Field get(String name) {
 		for (Field f : this) {
 			if (f.getName().equals(name)) return f;
