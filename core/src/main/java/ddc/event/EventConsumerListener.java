@@ -1,5 +1,5 @@
 package ddc.event;
 
-public interface ConsumerListener<T> {
+public interface EventConsumerListener<T> {
 	public void consume(T event) throws Exception;
 }

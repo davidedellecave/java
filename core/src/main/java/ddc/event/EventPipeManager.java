@@ -9,13 +9,13 @@ import ddc.util.Timespan;
 public class EventPipeManager<T> {
 	private BlockingDeque<T> queue = null;
 	private EventProducer<T> producer=null;
-	private ConsumerListener<T> consumerListener;
+	private EventConsumerListener<T> consumerListener;
 	private boolean stopRequest = false;
 	private boolean startRequest = false;
 	private Thread thProducer = null;
 	private Thread thConsumer = null;
 	
-	public EventPipeManager(EventProducer<T> producer, ConsumerListener<T> listener) {
+	public EventPipeManager(EventProducer<T> producer, EventConsumerListener<T> listener) {
 		super();	
 		this.producer=producer;
 		this.consumerListener=listener;

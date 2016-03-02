@@ -37,7 +37,7 @@ public class AsyncConsumerTest {
 	}
 
 	
-	class TestConsumer implements ConsumerListener<String> {
+	class TestConsumer implements EventConsumerListener<String> {
 
 		@Override
 		public void consume(String event) {

@@ -8,11 +8,11 @@ import ddc.util.Timespan;
 @Deprecated
 public class _AsyncConsumer<T> implements Runnable {
 	private BlockingDeque<T> queue = null;
-	private ConsumerListener<T> consumer = null;
+	private EventConsumerListener<T> consumer = null;
 	private Timespan waitforPoll = Timespan.createTimespan(10, TimeUnit.SECONDS);
 	private boolean stopRequest = false;
 
-	public _AsyncConsumer(BlockingDeque<T> queue, ConsumerListener<T> consumer) {
+	public _AsyncConsumer(BlockingDeque<T> queue, EventConsumerListener<T> consumer) {
 		this.queue = queue;
 		this.consumer = consumer;
 	}

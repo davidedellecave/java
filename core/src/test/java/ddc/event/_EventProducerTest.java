@@ -21,7 +21,7 @@ public class _EventProducerTest {
 					produce(String.valueOf(counter));
 				}
 			}
-		}, new ConsumerListener<String>() {
+		}, new EventConsumerListener<String>() {
 			@Override
 			public void consume(String event) throws Exception {
 				System.out.println(event);
