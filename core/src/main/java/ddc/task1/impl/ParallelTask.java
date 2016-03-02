@@ -3,8 +3,8 @@ package ddc.task1.impl;
 import java.util.ArrayList;
 import java.util.List;
 
-import ddc.task1.StoppableThread;
 import ddc.util.Chronometer;
+import ddc.util.StoppableThread;
 
 public class ParallelTask extends MultipleTask {
 	public ParallelTask() {}

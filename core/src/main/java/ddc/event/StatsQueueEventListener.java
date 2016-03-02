@@ -8,8 +8,8 @@ import ddc.util.Statistics;
 public class StatsQueueEventListener implements QueueEventListener {
 	private Statistics stats = new Statistics();
 	private Chronometer chron = new Chronometer();
-	private DataEvent lastPut = null;
-	private DataEvent lastPool = null;
+	private EventData lastPut = null;
+	private EventData lastPool = null;
 	private long queueSize = 0;
 	@Override
 	public void onStart(int items) {
@@ -30,13 +30,13 @@ public class StatsQueueEventListener implements QueueEventListener {
 	}
 
 	@Override
-	public void onPut(DataEvent event, int items) {
+	public void onPut(EventData event, int items) {
 		queueSize = items;
 		lastPut = event;
 	}
 
 	@Override
-	public void onPool(DataEvent event, int items) {
+	public void onPool(EventData event, int items) {
 		queueSize = items;
 		stats.itemsProcessed++;
 		stats.bytesProcessed += event.getData().length;
@@ -59,11 +59,11 @@ public class StatsQueueEventListener implements QueueEventListener {
 		return stats.bytesProcessed;
 	}
 
-	public DataEvent getLastPut() {
+	public EventData getLastPut() {
 		return lastPut;
 	}
 
-	public DataEvent getLastPool() {
+	public EventData getLastPool() {
 		return lastPool;
 	}
 

@@ -15,7 +15,7 @@ public class AsyncConsumerTest {
 	public void testAsyncConsumer() throws InterruptedException {
 		BlockingDeque<String> queue = new LinkedBlockingDeque<>();
 		TestConsumer consumer = new TestConsumer();
-		AsyncConsumer<String> asynch = new AsyncConsumer<>(queue, consumer);
+		_AsyncConsumer<String> asynch = new _AsyncConsumer<>(queue, consumer);
 		
 		Thread t = new Thread(asynch);
 		t.start();	

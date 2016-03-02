@@ -12,7 +12,7 @@ public class QueueEventStream extends InputStream {
 	private boolean inputIsStopped = false;
 	private int lastChar = 0;
 	private ByteArrayInputStream stream = null;
-	private BlockingDeque<DataEvent> queue = null;
+	private BlockingDeque<EventData> queue = null;
 	private QueueEventListener listener = null;
 	
 	public QueueEventStream() {
@@ -31,7 +31,7 @@ public class QueueEventStream extends InputStream {
 		if (inputIsStopped) {
 			throw new InterruptedException("Cannot put new event because - input events are stopped:[" + inputIsStopped + "]");
 		}
-		DataEvent e = new DataEvent(id, data);
+		EventData e = new EventData(id, data);
 		queue.put(e);
 		if (listener!=null) listener.onPut(e, queue.size());
 	}
@@ -46,8 +46,8 @@ public class QueueEventStream extends InputStream {
 		if (listener!=null) listener.onStopInput(queue.size());
 	}
 	
-	private DataEvent pool() {
-		DataEvent event = null;
+	private EventData pool() {
+		EventData event = null;
 		while (event == null) {
 			try {
 				event  = queue.poll(WAIT_TO_POOL_MILLIS, TimeUnit.MILLISECONDS);
@@ -66,7 +66,7 @@ public class QueueEventStream extends InputStream {
 	public int read() throws IOException {
 //		System.out.println("Read requested...");
 		if (stream == null) {
-			DataEvent event = pool();
+			EventData event = pool();
 			if (event!=null) {
 				if (listener!=null) listener.onPool(event, queue.size());
 				stream = new ByteArrayInputStream(event.getData());

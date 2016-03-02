@@ -1,10 +1,10 @@
 package ddc.event;
 
-public class DataEvent {
+public class EventData {
 	private String id = null;
 	private byte[] data = null;
 	
-	public DataEvent(String id, byte[] data) {
+	public EventData(String id, byte[] data) {
 		this.id=id;
 		this.data=data;
 	}

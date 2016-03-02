@@ -5,13 +5,14 @@ import java.util.concurrent.TimeUnit;
 
 import ddc.util.Timespan;
 
-public class AsyncConsumer<T> implements Runnable {
+@Deprecated
+public class _AsyncConsumer<T> implements Runnable {
 	private BlockingDeque<T> queue = null;
 	private ConsumerListener<T> consumer = null;
 	private Timespan waitforPoll = Timespan.createTimespan(10, TimeUnit.SECONDS);
 	private boolean stopRequest = false;
 
-	public AsyncConsumer(BlockingDeque<T> queue, ConsumerListener<T> consumer) {
+	public _AsyncConsumer(BlockingDeque<T> queue, ConsumerListener<T> consumer) {
 		this.queue = queue;
 		this.consumer = consumer;
 	}

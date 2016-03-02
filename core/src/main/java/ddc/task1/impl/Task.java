@@ -4,12 +4,12 @@ import static ddc.task1.TaskStatus.running;
 
 import org.apache.log4j.Logger;
 
-import ddc.task1.StoppableThread;
 import ddc.task1.TaskEntity;
 import ddc.task1.TaskExitCode;
 import ddc.task1.TaskListener;
 import ddc.task1.TaskStatus;
 import ddc.util.Chronometer;
+import ddc.util.StoppableThread;
 
 
 public abstract class Task implements TaskEntity, StoppableThread {
