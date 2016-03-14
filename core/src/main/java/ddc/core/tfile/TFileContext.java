@@ -124,7 +124,7 @@ public class TFileContext {
 		info.append(" Char #:[" + charTotal + "]");
 		info.append(" Error #:[" + errorTotal + "]");		
 		if (chron != null)
-			info.append(" Elapsed:[" + chron.getElapsed() + "]");
+			info.append(" Elapsed:[" + chron.getElapsed() + " ("+chron.toString()+")]" );
 		return info.toString();
 	}
 }

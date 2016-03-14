@@ -7,6 +7,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.file.Path;
+import java.util.zip.GZIPOutputStream;
 
 import ddc.core.tfile.TFileContext;
 import ddc.core.tfile.TFileException;
@@ -27,8 +28,9 @@ public class FileOutFilter extends BaseTFileFilter {
 	public void onOpen(TFileContext context) throws TFileException {
 		super.onOpen(context);
 		try {
-			out = new BufferedOutputStream(new FileOutputStream(outFile));
-		} catch (FileNotFoundException e) {
+//			out = new BufferedOutputStream(new FileOutputStream(outFile));
+			out = new GZIPOutputStream(new BufferedOutputStream(new FileOutputStream(outFile)));
+		} catch (IOException e) {
 			throw new TFileException(e);
 		}
 	}

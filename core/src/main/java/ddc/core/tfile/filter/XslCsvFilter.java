@@ -25,7 +25,7 @@ public class XslCsvFilter extends BaseTFileFilter {
 
 	@Override
 	public char onChar(long lineNumber, long position, char ch) throws TFileException {
-		//if start or end field skip field separator
+		//if the line starts or ends with fieldCompound than skip fieldSeparator
 		if (ch == fieldCompound) {
 			inField = !inField;
 			return '\0';
