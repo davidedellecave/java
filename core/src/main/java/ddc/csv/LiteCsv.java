@@ -33,7 +33,6 @@ public class LiteCsv {
 		String source = "/Users/dellecave/data/anobii/anobii.csv.gz";
 		
 		c.read(args[0]);
-		
 		System.out.println(chron.toString());
 	}
 	
