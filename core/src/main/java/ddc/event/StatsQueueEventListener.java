@@ -91,7 +91,7 @@ public class StatsQueueEventListener implements QueueEventListener {
 
 	@Override
 	public String toString() {
-		String info = "processed#:[" + getProcessedItem() + "]";
+		String info = "Stats - processed#:[" + getProcessedItem() + "]";
 		info += " processed bytes:[" + getProcessedBytes() + " (" + FileUtils.byteCountToDisplaySize(getProcessedBytes()) + ")]";
 		info += " elapsed:[" + chron.toString() + "]";
 //		info += " throughput #:[" + getItemsThroughput() + "]";

@@ -30,6 +30,24 @@ public class Log4jUtils {
 		return logger;
 	}
 	
+	public static Logger createLogInstance(String appenderName, Level level, String fileName) {
+		Logger logger = Logger.getRootLogger();
+		logger.removeAllAppenders();
+		DailyRollingFileAppender appender = new DailyRollingFileAppender();
+		appender.setName(appenderName);
+		appender.setFile(fileName);
+		appender.setThreshold(level);
+		PatternLayout jobPattern = new PatternLayout();
+		jobPattern.setConversionPattern("%d{dd-MM-yyyy HH:mm:ss} %p %C - %m%n");
+//		jobPattern.setConversionPattern("%d{dd-MM-yyyy HH:mm:ss} %p %C.%M() - %m%n");
+		appender.setLayout(jobPattern);
+		//activate options before adding 
+		appender.activateOptions();
+		logger.addAppender(appender);
+		return logger;
+	}
+	
+	
 	public static void setAppenderFilename(Logger logger, String fileName) {
 		Enumeration<?> enumAppenders = logger.getAllAppenders();
 		if (!enumAppenders.hasMoreElements()) {

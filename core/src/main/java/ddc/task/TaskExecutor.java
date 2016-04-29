@@ -22,6 +22,13 @@ public class TaskExecutor implements Runnable {
 		this.ctx.set(contextValue);
 	}
 	
+	public TaskExecutor(TaskSchema schema, Object[] contextValueList) {
+		super();
+		this.schema = schema;
+		for (Object obj : contextValueList)
+			this.ctx.set(obj);
+	}
+	
 	public TaskContext getContext() {
 		return ctx;
 	}
