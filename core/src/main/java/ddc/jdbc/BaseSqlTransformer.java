@@ -27,9 +27,11 @@ public abstract class BaseSqlTransformer  {
 	private boolean autocloseConnection = false;
 	private boolean isExecuteBatchEnabled = true;
 	private int itemForBatchExecution = 20000;
-
-	public BaseSqlTransformer(boolean autocloseConnection) {
+	private boolean stopOnException = true;
+	
+	public BaseSqlTransformer(boolean autocloseConnection, boolean stopOnException) {
 		this.autocloseConnection = autocloseConnection;
+		this.stopOnException=stopOnException;
 	}
 
 	public abstract Fields createSqlFieldsOneShot();
@@ -125,9 +127,9 @@ public abstract class BaseSqlTransformer  {
 				}
 			}
 			executeStatement();
-		} catch (Exception e) {
+		} catch (Throwable e) {
 			logger.error("DB Writing - exception:[" + e.getMessage() + "]  line:[" + lineNumber + "] values:[" + fields.toString() + "] source:[" + item + "]");
-			throw e;
+			if (stopOnException) throw e;
 		}
 		//return the input item
 		return item;

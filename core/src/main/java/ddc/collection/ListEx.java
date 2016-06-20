@@ -13,7 +13,7 @@ public class ListEx<E extends Comparable<E>> extends LinkedList<E> {
 		return this;
 	}
 	
-	public void forEach(ActionOnItem<E> action) {
+	public void forItem(ActionOnItem<E> action) {
 		for (E e : this) {
 			e = action.functor(e);
 		}

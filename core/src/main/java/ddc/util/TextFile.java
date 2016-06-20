@@ -7,12 +7,49 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 
 public class TextFile {
 	private Path path = null;
 	private String charset ="UTF-8";
 	private String text = "";
 
+	public static void create(Path path, String text) throws UnsupportedEncodingException, IOException {
+		Files.write(path, text.getBytes(), CREATE);
+	}
+	
+	public static void append(Path path, String text) throws UnsupportedEncodingException, IOException {
+		Files.write(path, text.getBytes(), APPEND);
+	}
+
+	public static String load(String path) throws UnsupportedEncodingException, IOException {
+		return load(Paths.get(path));
+	}
+
+	public static String load(Path path) throws UnsupportedEncodingException, IOException {
+		return new String(Files.readAllBytes(path), "UTF-8");
+	}
+	
+	public static TextFile instanceLoad(Path path) throws UnsupportedEncodingException, IOException {
+		TextFile tf = new TextFile(path);
+		tf.load();
+		return tf;
+	}
+	
+	public static TextFile instanceCreate(Path path, String text) throws UnsupportedEncodingException, IOException {
+		TextFile tf = new TextFile(path);
+		tf.setText(text);
+		tf.create();
+		return tf;
+	}
+	
+	public static TextFile instanceAppend(Path path, String text) throws UnsupportedEncodingException, IOException {
+		TextFile tf = new TextFile(path);
+		tf.setText(text);
+		tf.append();
+		return tf;
+	}
+	
 	public TextFile(Path path) {
 		this.path=path;
 	}
@@ -37,16 +74,6 @@ public class TextFile {
 		return path.getFileName().toString();
 	}
 	
-	public static void create(Path path, String text) throws UnsupportedEncodingException, IOException {
-		Files.write(path, text.getBytes(), CREATE);
-	}
-	
-	public static void append(Path path, String text) throws UnsupportedEncodingException, IOException {
-		Files.write(path, text.getBytes(), APPEND);
-	}
-
-	//
-
 	public Path getPath() {
 		return path;
 	}
