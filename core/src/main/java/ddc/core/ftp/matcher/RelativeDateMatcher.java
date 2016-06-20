@@ -67,6 +67,7 @@ public class RelativeDateMatcher implements FtpFileMatcher {
 	
 	@Override
 	public String toString() {
-		return " x.ModifiedDate IN (" + Timespan.getHumanReadable(matcher.getLower()) + "," +  Timespan.getHumanReadable(matcher.getUpper()) +")"; 
+		//return " x.ModifiedDate IN (" + Timespan.getHumanReadable(matcher.getLower()) + "," +  Timespan.getHumanReadable(matcher.getUpper()) +")";
+		return "fake";
 	}
 }
