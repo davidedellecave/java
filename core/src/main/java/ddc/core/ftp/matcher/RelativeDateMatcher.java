@@ -45,7 +45,6 @@ public class RelativeDateMatcher implements FtpFileMatcher {
 		}
 		return b;
 	}
-	
 
 
 	private boolean isMatched(Date date) {
@@ -67,7 +66,10 @@ public class RelativeDateMatcher implements FtpFileMatcher {
 	
 	@Override
 	public String toString() {
-		//return " x.ModifiedDate IN (" + Timespan.getHumanReadable(matcher.getLower()) + "," +  Timespan.getHumanReadable(matcher.getUpper()) +")";
-		return "fake";
+		String hr1 = matcher.getLower() < 0 ? "-" + Timespan.getHumanReadable(matcher.getLower()*-1) : Timespan.getHumanReadable(matcher.getLower()); 
+		String hr2 = matcher.getUpper() < 0 ? "-" + Timespan.getHumanReadable(matcher.getUpper()*-1) : Timespan.getHumanReadable(matcher.getUpper());
+		String s = " x.ModifiedDate IN (" + hr1 + "," +  hr2 +")";
+//		String s = " x.ModifiedDate IN (" + matcher.toString() +")";
+		return s;
 	}
 }
