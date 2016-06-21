@@ -6,10 +6,6 @@ import java.util.List;
 
 import org.junit.Test;
 
-import ddc.core.ftp.matcher.AndMatcher;
-import ddc.core.ftp.matcher.DosWildcardsMatcher;
-import ddc.core.ftp.matcher.PathMatcher;
-
 public class FtpLiteClientTest {
 	private final Path WORKINGPATH=Paths.get("/");
 	private FtpServer getServer() {
@@ -38,14 +34,14 @@ public class FtpLiteClientTest {
 		return c;
 	}
 	
-//	@Test
-//	public void testListing_1() throws FtpExceptionWrapper {
-//		FtpLiteClient c = getClient();
-//		c.login();
-//		List<FtpFileWrapper> list = c.listing();
-//		c.logout();
-//		list.forEach(System.out::println);
-//	}
+	@Test
+	public void testListing_1() throws FtpLiteException {
+		FtpLiteClient c = getClient();
+		c.connect();
+		List<FtpLiteFile> list = c.listFiles(Paths.get("/"), true, true, true);
+		c.disconnect();
+		list.forEach(System.out::println);
+	}
 	
 //	@Test
 //	public void testListing_2() throws FtpExceptionWrapper {
