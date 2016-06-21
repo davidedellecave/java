@@ -53,7 +53,7 @@ public class LocalPath {
 	}
 	
 	public String toString() {
-		return FormatUtils.toString(this);
+		return FormatUtils.format(this);
 	}
 	
 }

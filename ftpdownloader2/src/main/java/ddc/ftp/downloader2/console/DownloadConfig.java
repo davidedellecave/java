@@ -11,9 +11,11 @@ public class DownloadConfig {
 	private List<RemotePath> remotePath = null;
 	private LocalPath localPath;
 	private boolean deleteRemoteEmptyFolder=false;
-
+	private boolean testmode = false;
+	private String testmodeOutpath = null;
+	
 	public String toString() {
-		return FormatUtils.toString(this);
+		return FormatUtils.format(this);
 	}
 
 	public int getMaxConnection() {
@@ -56,4 +58,19 @@ public class DownloadConfig {
 		this.deleteRemoteEmptyFolder = deleteRemoteEmptyFolder;
 	}
 
+	public boolean isTestmode() {
+		return testmode;
+	}
+
+	public void setTestmode(boolean testmode) {
+		this.testmode = testmode;
+	}
+
+	public String getTestmodeOutpath() {
+		return testmodeOutpath;
+	}
+
+	public void setTestmodeOutpath(String testmodeOutpath) {
+		this.testmodeOutpath = testmodeOutpath;
+	}
 }
