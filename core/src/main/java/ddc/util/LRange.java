@@ -448,7 +448,7 @@ public class LRange {
     }
 
     public String toString() {
-        return "[" + lower + "-" + upper + "]";
+        return "[(" + lower + ")-(" + upper + ")]";
     }
 
 }
