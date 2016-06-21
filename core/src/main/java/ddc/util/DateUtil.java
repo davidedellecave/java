@@ -67,7 +67,7 @@ public class DateUtil extends org.apache.commons.lang3.time.DateUtils {
 			Date fromDate = formatter.parse(formattedDate);
 			return fromDate;
 		} catch (ParseException e) {
-			System.err.println("formatDate() Exception:[" + e.getMessage() + "]");
+			System.err.println("parseDate() Exception:[" + e.getMessage() + "]");
 			return null;
 		}
 	}

@@ -1,13 +1,39 @@
 package ddc.util;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.Collection;
-
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
+import java.util.Date;
 
 public class FormatUtils {
 	
+	private static SimpleDateFormat dateHumanReadableFormatter = new SimpleDateFormat("dd MMMM yyyy HH:mm:ss");	
+	private static SimpleDateFormat dateFormatterForFile = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss");
+
+	public static String formatDate(Date date, String pattern) {
+		if (date==null) return "";
+		SimpleDateFormat formatter = new SimpleDateFormat(pattern);
+		return formatter.format(date);
+	}
+
+	public static String formatForHuman(Date date) {
+		if (date==null) return "";
+		return dateHumanReadableFormatter.format(date);
+	}
+	public static String formatForHuman(Object date) {	
+		if (date==null) return "";
+		return dateHumanReadableFormatter.format(date);
+	}
+	
+	public static String formatForFilename(Object date) {	
+		if (date==null) return "";
+		return dateFormatterForFile.format(date);
+	}
+	public static String formatForFilename(Date date) {
+		if (date==null) return "";
+		return dateFormatterForFile.format(date);
+	}
+		
 	public static String format(Object name, Object value) {
 		String s = " " + name!=null ? name + ":" : "";
 		s += format(value);
@@ -31,11 +57,6 @@ public class FormatUtils {
 			return " {" + ss + "}"; 
 		}	
 		return "[" + value + "]";
-	}
-	
-	
-	public static String toString(Object o) {
-		return ToStringBuilder.reflectionToString(o, ToStringStyle.MULTI_LINE_STYLE);
 	}
 	
 	public static String formatFile(File file) {
