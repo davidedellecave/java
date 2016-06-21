@@ -52,7 +52,7 @@ public class FtpLiteClient {
 			Chronometer chron = new Chronometer();
 			doConnect();
 			logger.info(INFO + "Connecting ok - elapsed:[" + chron.toString() + "]");
-		} catch (Exception e) {
+		} catch (IOException e) {
 			throw new FtpLiteException(e);
 		}
 	}
@@ -63,7 +63,7 @@ public class FtpLiteClient {
 			Chronometer chron = new Chronometer();
 			doDisconnect();
 			logger.info(INFO + "Disconnecting ok - elapsed:[" + chron.toString() + "]");
-		} catch (Exception e) {
+		} catch (IOException e) {
 			throw new FtpLiteException(e);
 		}
 	}
@@ -83,7 +83,7 @@ public class FtpLiteClient {
 			logger.info(INFO + "Existing - file:[" + remotePath + "] exists:[" + exists + "] elapsed:["
 					+ chron.toString() + "]");
 			return exists;
-		} catch (Exception e) {
+		} catch (IOException e) {
 			throw new FtpLiteException(e);
 		}
 	}
@@ -93,7 +93,8 @@ public class FtpLiteClient {
 			logger.debug(INFO + "GetFile - file:[" + remotePath + "]...");
 			Chronometer chron = new Chronometer();
 			FtpLiteFile file = doGetFile(remotePath);
-			logger.info(INFO + "GetFile - " + file + " result:[" + (file!=null ? "success" : "failed") + "]  elapsed:[" + chron.toString() + "]");
+			logger.info(INFO + "GetFile - " + file + " result:[" + (file != null ? "success" : "failed")
+					+ "]  elapsed:[" + chron.toString() + "]");
 			return file;
 		} catch (IOException e) {
 			throw new FtpLiteException(e);
@@ -146,7 +147,7 @@ public class FtpLiteClient {
 			logger.info(INFO + "Listing ok:[" + remotePath + "] #:[" + list.size() + "] bytes:["
 					+ FileUtils.byteCountToDisplaySize(bytes) + "] elapsed:[" + chron.toString() + "]");
 			return list;
-		} catch (Exception e) {
+		} catch (IOException e) {
 			throw new FtpLiteException(e);
 		}
 	}
@@ -273,7 +274,7 @@ public class FtpLiteClient {
 	private void logListing(List<FtpLiteFile> list) {
 		if (logger.isDebugEnabled()) {
 			for (FtpLiteFile f : list) {
-				logger.debug(INFO + "listing - " + f.toString() + "]");
+				logger.debug(INFO + "listing - [" + f.toString() + "]");
 			}
 		}
 	}
@@ -427,7 +428,7 @@ public class FtpLiteClient {
 	// + "]---------------------");
 	// }
 
-	synchronized public boolean equalInTimeAndSize(Path remotePath, Path localPath) throws IOException {
+	synchronized public boolean equalInTimeAndSize(Path remotePath, Path localPath) throws IOException, FtpLiteException {
 		FtpLiteFile remote = doGetFile(remotePath);
 		return equalInTimeAndSize(remote, localPath);
 	}
@@ -454,7 +455,7 @@ public class FtpLiteClient {
 		return (files.length == 1);
 	}
 
-	private FtpLiteFile doGetFile(Path remotePath) throws IOException {
+	private FtpLiteFile doGetFile(Path remotePath) throws IOException, FtpLiteException {
 		FTPFile[] files = ftp.listFiles(remotePath.toString());
 		if (files.length == 0) {
 			logger.warn("GetFile - The file required not found - path:[" + remotePath + "]");
@@ -482,7 +483,7 @@ public class FtpLiteClient {
 		ftp.setCopyStreamListener(streamListener);
 	}
 
-	private int doDeleteAll(Path remotePath, boolean isLogical) throws IOException {
+	private int doDeleteAll(Path remotePath, boolean isLogical) throws IOException, FtpLiteException {
 		int success = 0;
 		int expected = 0;
 		List<FtpLiteFile> list = doListFiles(remotePath);
@@ -505,7 +506,7 @@ public class FtpLiteClient {
 		return done;
 	}
 
-	private boolean doDelete(Path remotePath, boolean isLogical) throws IOException {
+	private boolean doDelete(Path remotePath, boolean isLogical) throws IOException, FtpLiteException {
 		boolean done = false;
 		FtpLiteFile f = doGetFile(remotePath);
 		if (f == null) {
@@ -621,30 +622,47 @@ public class FtpLiteClient {
 
 	private List<FtpLiteFile> doListing(Path remotePath, boolean includeDir, boolean includeFile,
 			FtpFileMatcher matcher) throws IOException {
+		
 		FTPFile[] files = ftp.listFiles(remotePath.toString());
 		List<FtpLiteFile> list = new LinkedList<>();
 		for (int i = 0; i < files.length; i++) {
 			if ((files[i].getType() == FTPFile.DIRECTORY_TYPE && includeDir)
 					|| (files[i].getType() == FTPFile.FILE_TYPE && includeFile)) {
-				FtpLiteFile f = buildFileWrapper(remotePath, files[i]);
-				if (matcher.accept(f))
+				
+				FtpLiteFile f = null;
+				try {
+					f = buildFileWrapper(remotePath, files[i]);
+				} catch(FtpLiteException e) {
+					logger.warn("Skipping file because - File Wrapper Exception:[" + e.getMessage() + "]");
+				}
+				if (f!=null && matcher.accept(f))
 					list.add(f);
 			}
 		}
 		return list;
 	}
 
-	private FtpLiteFile buildFileWrapper(Path remotePath, FTPFile file) {
-		FtpLiteFile f = new FtpLiteFile();
-		if (remotePath.getFileName()!=null && remotePath.getFileName().toString().equals(file.getName())) {
-			f.setPath(remotePath);
-		} else {
-			f.setPath(remotePath.resolve(file.getName()));
+	private FtpLiteFile buildFileWrapper(Path remotePath, FTPFile file) throws FtpLiteException {
+		try {
+			FtpLiteFile f = new FtpLiteFile();
+			if (remotePath.getFileName()!=null && remotePath.getFileName().toString().equals(file.getName())) {
+				f.setPath(remotePath);
+			} else {
+				f.setPath(remotePath.resolve(file.getName()));
+			}
+			f.setSize(file.getSize());
+			f.setTimestamp(file.getTimestamp().getTimeInMillis());
+			f.setType(file.getType() == FTPFile.DIRECTORY_TYPE ? FtpLiteFile.TYPE_DIRECTORY : FtpLiteFile.TYPE_FILE);
+			return f;
+		} catch (Throwable e) {
+			String info = "";
+			if (file!=null && file.getName()!=null) info += "file:[" + file.getName() + "] - formattedInfo:[" + file.toFormattedString() + "] rawInfo:[" + file.getRawListing() + "]";			
+			if (file==null) info += "file is null ";
+			if (file.getName()==null) info += "file.getName() is null";								
+			if (file.getTimestamp()==null) info += " file.getTimestamp() is null";
+			logger.error(info);			
+			throw new FtpLiteException(info);
 		}
-		f.setSize(file.getSize());
-		f.setTimestamp(file.getTimestamp().getTimeInMillis());
-		f.setType(file.getType() == FTPFile.DIRECTORY_TYPE ? FtpLiteFile.TYPE_DIRECTORY : FtpLiteFile.TYPE_FILE);
-		return f;
 	}
 
 	private void doConnect() throws IOException, FtpLiteException {
@@ -657,8 +675,7 @@ public class FtpLiteClient {
 			ftp.logout();
 			throw new FtpLiteException(INFO + "Connecting - username or password is wrong");
 		}
-		info += "host:[" + config.getFtpServer().getUsername() + "@" + config.getFtpServer().getHost() + "] system:["
-				+ ftp.getSystemType() + "]";
+		info += "host:[" + config.getFtpServer().getUsername() + "@" + config.getFtpServer().getHost() + "] system:[" + ftp.getSystemType() + "]";
 		if (config.isBinaryTransfer()) {
 			ftp.setFileType(FTP.BINARY_FILE_TYPE);
 			info += " type:[BINARY]";

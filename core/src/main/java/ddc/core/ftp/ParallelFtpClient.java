@@ -33,7 +33,7 @@ public class ParallelFtpClient {
 		Chronometer chron = new Chronometer();
 		try {
 			doDownload(list);
-		} catch (InterruptedException | FtpLiteException e) {
+		} catch (InterruptedException e) {
 			throw new FtpLiteException(e);
 		} finally {
 			pool.close();

@@ -123,7 +123,7 @@
 			<version>1.10</version>
 			<scope>provided</scope>
 		</dependency>
-		
+
 		<!-- Quartz Scheduler -->
 
 		<dependency>
@@ -203,6 +203,23 @@
 			<version>4.1.4</version>
 			<scope>provided</scope>
 		</dependency>
+
+
+		<!-- Berkley DB -->
+		<!-- dependency> <groupId>berkeleydb</groupId> <artifactId>je</artifactId> 
+			<version>6.0.11</version> <scope>provided</scope> </dependency> -->
+
+		<dependency>
+			<groupId>berkeleydb</groupId>
+			<artifactId>je</artifactId>
+			<version>3.2.76</version>
+		</dependency>
+
+		<!-- dependency>
+			<groupId>com.sleepycat</groupId>
+			<artifactId>je</artifactId>
+			<version>6.0.11</version>
+		</dependency -->
 	</dependencies>
 
 	<build>

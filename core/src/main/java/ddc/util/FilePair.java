@@ -11,4 +11,9 @@ public class FilePair {
 		this.source = source;
 		this.target = target;
 	}
+	
+	@Override
+	public String toString() {
+		return "[" + source.toString() + "] > [" + target.toString() + "]";
+	}
 }
