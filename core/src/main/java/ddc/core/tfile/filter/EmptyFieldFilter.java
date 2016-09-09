@@ -23,20 +23,22 @@ public class EmptyFieldFilter extends BaseTFileFilter {
 	}
 
 	@Override
-	public StringBuilder onEndLine(long lineNumber, StringBuilder lineBuffer) throws TFileException {
-		String[] toks =  StringUtils.split(lineBuffer.toString(), separator);
+	public void onTransformLine(final long lineNumber, final StringBuilder sourceLine) throws TFileException {		
+		String[] toks =  StringUtils.split(sourceLine.toString(), separator);
 		boolean empty = false;
 		for (int i=0; i<requiredFields.length; i++) {
 			int pos = requiredFields[i];
 			if (toks.length<=pos || toks[pos].length()==0) { 
-				if (outCSV)
-					System.out.println(lineBuffer + separator + "Field empty#:[" + pos +"]");
-				else
-					System.out.println("Field empty#:[" + pos + "] line #:[" + lineNumber + "] line:[" + lineBuffer + "]");
 				empty = true;
+				if (outCSV)
+					System.out.println(sourceLine + separator + "Field empty#:[" + pos +"]");
+				else
+					System.out.println("Field empty#:[" + pos + "] line #:[" + lineNumber + "] line:[" + sourceLine + "]");
 			}
 		}
-		return empty ? new StringBuilder() : lineBuffer;
+		if (empty) {
+			super.emptyLine(sourceLine);
+		}
 	}
 
 }

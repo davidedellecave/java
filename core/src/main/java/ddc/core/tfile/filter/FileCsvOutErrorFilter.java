@@ -17,7 +17,7 @@ import ddc.util.DateUtil;
 public class FileCsvOutErrorFilter extends BaseTFileFilter {
 	private File outFile = null;
 	private OutputStream out = null;
-	private char separator;
+	private char separator=',';
 	private boolean enableSource=false;
 
 	public FileCsvOutErrorFilter(Path path, char separator, boolean enableSource) {

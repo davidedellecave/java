@@ -44,12 +44,11 @@ public class HttpClientFilter extends BaseTFileFilter {
 		}
 	}
 
-	@Override
-	public StringBuilder onEndLine(long lineNumber, StringBuilder lineBuffer) throws TFileException {
-		if (StringUtils.isNotBlank(lineBuffer)) {
-			getBulkClient().bulkSend(lineBuffer.toString());
+	@Override	
+	public void onTransformLine(final long lineNumber, final StringBuilder sourceLine) throws TFileException {		
+		if (StringUtils.isNotBlank(sourceLine)) {
+			getBulkClient().bulkSend(sourceLine.toString());
 		}
-		return lineBuffer;
 	}
 
 	private class HttpCallback implements HttpBulkCallback {

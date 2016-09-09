@@ -55,7 +55,7 @@ public class ScanFolder {
 			return;
 		}
 		if (isStopped()) {
-			logger.info(INFO_TITLE + "stopped - folder:[" + folder + "]");
+			logger.info(INFO_TITLE + "stop requested - folder:[" + folder + "]");
 			return;
 		}		
 		//get files and subfolder of folder
@@ -107,7 +107,6 @@ public class ScanFolder {
 			stats.setThroughput(throughput);
 			stats.setThroughputSize(throughputSize);
 		}
-		
 		return scanHandler.endScan(ctx);
 	}
 	
@@ -148,7 +147,4 @@ public class ScanFolder {
 		}
 		return ScanResult.continueScan;
 	}
-
-
-
 }

@@ -1,8 +1,11 @@
 package ddc.core.tfile.filter;
 
+import org.apache.log4j.Logger;
+
 import ddc.core.tfile.TFileException;
 
 public class StopAtLineFilter extends BaseTFileFilter {
+	private final static Logger logger = Logger.getLogger(StopAtLineFilter.class);
 	private long stopAtLine = -1;
 
 	public StopAtLineFilter(long stopAtLine) {
@@ -10,11 +13,10 @@ public class StopAtLineFilter extends BaseTFileFilter {
 	}
 
 	@Override
-	public StringBuilder onEndLine(long lineNumber, StringBuilder lineBuffer) throws TFileException {
+	public void onTransformLine(final long lineNumber, final StringBuilder sourceLine) throws TFileException {		
 		if (lineNumber>=stopAtLine) {
-			System.out.println("onEndLine - #:[" + lineNumber + "] line:[" + lineBuffer + "]");
+			logger.info("onEndLine - #:[" + lineNumber + "] line:[" + sourceLine + "]");
 			throw new TFileException("Reached the end line:[" + stopAtLine + "]");
 		}
-		return lineBuffer;
 	}
 }

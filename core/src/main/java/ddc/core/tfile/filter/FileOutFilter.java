@@ -15,37 +15,42 @@ import ddc.core.tfile.TFileException;
 public class FileOutFilter extends BaseTFileFilter {
 	private File outFile = null;
 	private OutputStream out = null;
+	private boolean enableCompression=false;
 
-	public FileOutFilter(File outFile) {
+	public FileOutFilter(File outFile, boolean enableCompression) {
 		this.outFile = outFile;
+		this.enableCompression=enableCompression;
 	}
 	
-	public FileOutFilter(Path path) {
+	public FileOutFilter(Path path, boolean enableCompression) {
 		this.outFile = path.toFile();
+		this.enableCompression=enableCompression;
 	}
 
 	@Override
 	public void onOpen(TFileContext context) throws TFileException {
 		super.onOpen(context);
 		try {
-//			out = new BufferedOutputStream(new FileOutputStream(outFile));
-			out = new GZIPOutputStream(new BufferedOutputStream(new FileOutputStream(outFile)));
+			if (enableCompression) {
+				out = new GZIPOutputStream(new BufferedOutputStream(new FileOutputStream(outFile)));
+			} else {
+				out = new BufferedOutputStream(new FileOutputStream(outFile));					
+			}
 		} catch (IOException e) {
 			throw new TFileException(e);
 		}
 	}
 
-	@Override
-	public StringBuilder onEndLine(long lineNumber, StringBuilder lineBuffer) throws TFileException {
+	@Override	
+	public void onTransformLine(final long lineNumber, final StringBuilder sourceLine) throws TFileException {		
 		try {
-			if (lineBuffer != null && lineBuffer.length() > 0) {
-				for (int i = 0; i < lineBuffer.length(); i++) {
-					out.write((int) lineBuffer.charAt(i));
+			if (sourceLine.length() > 0) {
+				for (int i = 0; i < sourceLine.length(); i++) {
+					out.write((int) sourceLine.charAt(i));
 				}
 				if (getContext().isAppendNewLine())
 					out.write((int) getContext().getSourceEOL());
 			}
-			return lineBuffer;
 		} catch (IOException e) {
 			throw new TFileException(e);
 		}

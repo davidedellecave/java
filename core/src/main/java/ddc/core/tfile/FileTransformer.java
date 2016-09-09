@@ -128,8 +128,8 @@ public class FileTransformer {
 		try (ReadableByteChannel channel = Channels.newChannel(source)) {
 			onRead(channel);
 		}
-	}	
-	
+	}
+
 	private void onRead(ReadableByteChannel inChannel) throws IOException, TFileException {
 		StringBuilder lineBuffer = new StringBuilder(BUFFERSIZE);
 		ByteBuffer buffer = ByteBuffer.allocate(BUFFERSIZE);
@@ -145,7 +145,6 @@ public class FileTransformer {
 				charCounter++;
 				if (isEndLineFound) {
 					lineCounter++;
-					proxyFilter.onStartLine(lineCounter, lineBuffer);
 					isEndLineFound = false;
 				}
 				ch = proxyFilter.onChar(lineCounter, lineBuffer.length(), ch);
@@ -157,7 +156,7 @@ public class FileTransformer {
 				} else {
 					// if new line
 					isEndLineFound = true;
-					lineBuffer = proxyFilter.onEndLine(lineCounter, lineBuffer);
+					proxyFilter.onTransformLine(lineCounter, lineBuffer);
 					lineBuffer.delete(0, lineBuffer.length());
 				}
 			}
@@ -169,10 +168,10 @@ public class FileTransformer {
 	private class ProxyFilter implements TFileFilter, TFileContextListener {
 
 		@Override
-		public StringBuilder onStartLine(long lineNumber, StringBuilder lineBuffer) throws TFileException {
+		public void onTransformLine(long lineNumber, StringBuilder lineBuffer) throws TFileException {
 			context.setLineTotal(lineNumber);
 			context.setCharTotal(charCounter);
-			return context.getFilter().onStartLine(lineNumber, lineBuffer);
+			context.getFilter().onTransformLine(lineNumber, lineBuffer);
 		}
 
 		@Override
@@ -180,13 +179,6 @@ public class FileTransformer {
 			context.setLineTotal(lineNumber);
 			context.setCharTotal(charCounter);
 			return context.getFilter().onChar(lineNumber, position, ch);
-		}
-
-		@Override
-		public StringBuilder onEndLine(long lineNumber, StringBuilder lineBuffer) throws TFileException {
-			context.setLineTotal(lineNumber);
-			context.setCharTotal(charCounter);
-			return context.getFilter().onEndLine(lineNumber, lineBuffer);
 		}
 
 		@Override
@@ -211,5 +203,11 @@ public class FileTransformer {
 			}
 		}
 
+		@Override
+		public void onTransformLine(long lineNumber, StringBuilder lineBuffer, String[] fields)
+				throws TFileException {
+			// TODO Auto-generated method stub
+			
+		}
 	}
 }

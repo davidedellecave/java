@@ -9,18 +9,17 @@ public class XslCsvFilter extends BaseTFileFilter {
 	private char newSeparator;
 	private char fieldCompound;
 
+//	delimiter 	
+//	CHAR
+//	enclosed_by 	CHAR 	" 	"
+//	escape 	CHAR 	" 	\
+//	record_terminator 	CHAR 	\n or \r\n 	\n or \r\n
 	public XslCsvFilter(char oldSeparator, char fieldCompound, char newSeparator, String charToSkip) {
 		super();
 		this.oldSeparator = oldSeparator;
 		this.newSeparator = newSeparator;
 		this.fieldCompound = fieldCompound;
 		this.charToSkip = charToSkip + oldSeparator + newSeparator;
-	}
-
-	@Override
-	public StringBuilder onStartLine(long lineNumber, StringBuilder lineBuffer) throws TFileException {
-		inField = false;
-		return lineBuffer;
 	}
 
 	@Override

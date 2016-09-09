@@ -39,14 +39,11 @@ public class CsvHeaderFilter extends BaseTFileFilter {
 	}
 
 	@Override
-	public StringBuilder onEndLine(long lineNumber, StringBuilder lineBuffer) throws TFileException {
-		if (lineNumber != 1)
-			return lineBuffer;
+	public void onTransformLine(final long lineNumber, final StringBuilder sourceLine) throws TFileException {
 		// Optionally remove header
-		if (removeHeader) {
-			return super.emptyLine(lineBuffer);
+		if (lineNumber==1 && removeHeader) {
+			super.emptyLine(sourceLine);
 		}
-		return lineBuffer;
 	}
 
 	private String getHeaderFromFile(Path path) throws TFileException {

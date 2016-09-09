@@ -20,22 +20,41 @@ public class BaseTFileFilter implements TFileFilter, TFileContextListener {
 	public static final char TAB='\t';
 	public static final String TAB_XML="&#9;";
 	
+	public static final char COMMA=',';
+	public static final String COMMA_XML="&#44;";
+
+	public static final char BACKSLASH='\\';
+	public static final String BACKSLASH_XML="&#92;"; 
+
+	public static final char DOUBLEQUOTE='"';
+	public static final String DOUBLEQUOTE_XML="&#34;";
+
+	public static final char QUOTE='\'';
+	public static final String QUOTE_XML="&#39;";
+	
 	public static final String EMPTY_CHAR_S="";
 	public static final String CARRIAGE_RETURN_S="\r";
 	public static final String LINE_FEED_S="\n";
 	public static final String TAB_S="\t";
 
-	public StringBuilder emptyLine(StringBuilder lineBuffer) {
+	public void emptyLine(StringBuilder lineBuffer) {
 		lineBuffer.delete(0, lineBuffer.length());
-		return lineBuffer;
 	}
 	
-	
-	@Override
-	public StringBuilder onStartLine(long lineNumber, StringBuilder lineBuffer) throws TFileException {
-		return lineBuffer;
+	public void copyLine(StringBuilder source, StringBuilder target) {
+		emptyLine(target);
+		target.append(source);
 	}
 
+	public void copyLine(String source, StringBuilder target) {
+		emptyLine(target);
+		target.append(source);
+	}
+
+	public boolean isEOL(char ch) {
+		return (ch==CARRIAGE_RETURN || ch==LINE_FEED);
+	}
+	
 	
 	@Override
 	public char onChar(long lineNumber, long position, char ch) throws TFileException {
@@ -44,15 +63,13 @@ public class BaseTFileFilter implements TFileFilter, TFileContextListener {
 
 	
 	@Override
-	public StringBuilder onEndLine(long lineNumber, StringBuilder lineBuffer) throws TFileException {
-		consumeLine(lineNumber, lineBuffer);
-		return lineBuffer;
+	public void onTransformLine(final long lineNumber, final StringBuilder sourceLine) throws TFileException {	
 	}
 	
-	public void consumeLine(long lineNumber, StringBuilder lineBuffer) throws TFileException {
+	@Override
+	public void onTransformLine(long lineNumber, StringBuilder lineBuffer, String[] fields) throws TFileException {
 	}
-
-
+	
 	@Override
 	public void onOpen(TFileContext context) throws TFileException {
 		this.context = context;		
@@ -73,4 +90,6 @@ public class BaseTFileFilter implements TFileFilter, TFileContextListener {
 	@Override
 	public void onError(TFileLineError error) throws TFileException {
 	}
+
+
 }

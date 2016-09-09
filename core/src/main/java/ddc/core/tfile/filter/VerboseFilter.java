@@ -1,12 +1,14 @@
 package ddc.core.tfile.filter;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.log4j.Logger;
 
 import ddc.core.tfile.TFileException;
-import ddc.core.tfile.TFileFilter;
 import ddc.core.tfile.TFileLineError;
 
-public class VerboseFilter implements TFileFilter {
+public class VerboseFilter extends BaseTFileFilter {
+	private final static Logger logger = Logger.getLogger(VerboseFilter.class);
+	
 	private boolean traceChar = false;
 	private boolean traceLine = true;
 	private String separator = "\t";
@@ -17,7 +19,7 @@ public class VerboseFilter implements TFileFilter {
 		super();
 		this.traceChar = traceChar;
 		this.traceLine = traceLine;
-		System.out.println("Verbose enabled - char:[" + traceChar + "] line:[" + traceLine + "]");
+		logger.debug("Verbose enabled - char:[" + traceChar + "] line:[" + traceLine + "]");
 	}
 
 	public VerboseFilter(boolean traceChar, boolean traceLine, String separator) {
@@ -25,8 +27,7 @@ public class VerboseFilter implements TFileFilter {
 		this.traceChar = traceChar;
 		this.traceLine = traceLine;
 		this.separator = separator;
-		System.out.println(
-				"Verbose enabled - char:[" + traceChar + "] line:[" + traceLine + "] line:[" + traceLine + "]");
+		logger.debug("Verbose enabled - char:[" + traceChar + "] line:[" + traceLine + "] line:[" + traceLine + "]");
 	}
 
 	public VerboseFilter(boolean traceChar, boolean traceLine, String separator, long traceLineFrom, long traceLineTo) {
@@ -38,26 +39,19 @@ public class VerboseFilter implements TFileFilter {
 	}
 
 	@Override
-	public StringBuilder onStartLine(long lineNumber, StringBuilder lineBuffer) throws TFileException {
-		return lineBuffer;
-	}
-
-	@Override
 	public char onChar(long lineNumber, long position, char ch) throws TFileException {
 		if (traceChar)
-			System.out.println("OnChar - line#:[" + lineNumber + "] position:[" + position + "] char:[" + ch + "] int:"
-					+ (int) ch);
+			logger.debug("OnChar - line#:[" + lineNumber + "] position:[" + position + "] char:[" + ch + "] int:" + (int) ch);
 		return ch;
 	}
 
 	@Override
-	public StringBuilder onEndLine(long lineNumber, StringBuilder lineBuffer) throws TFileException {
+	public void onTransformLine(final long lineNumber, final StringBuilder sourceLine) throws TFileException {		
 		if (traceLine)
 			if (traceLineFrom == -1 || traceLineTo == -1)
-				trace(lineNumber, lineBuffer);
+				trace(lineNumber, sourceLine);
 			else if (traceLineFrom <= lineNumber && lineNumber <= traceLineTo)
-				trace(lineNumber, lineBuffer);
-		return lineBuffer;
+				trace(lineNumber, sourceLine);
 	}
 
 	private void trace(long lineNumber, StringBuilder lineBuffer) {
@@ -67,15 +61,15 @@ public class VerboseFilter implements TFileFilter {
 			for (int i = 0; i < toks.length; i++) {
 				s.append(i + ":[").append(toks[i]).append("] ");
 			}
-			System.out.println("onEndLine - #:[" + lineNumber + "] line:[" + s + "]");
+			logger.debug("onEndLine - #:[" + lineNumber + "] line:[" + s + "]");
 		} else {
-			System.out.println("onEndLine - #:[" + lineNumber + "] line:[" + lineBuffer + "]");
+			logger.debug("onEndLine - #:[" + lineNumber + "] line:[" + lineBuffer + "]");
 		}
 	}
 
 	@Override
 	public void onError(TFileLineError error) throws TFileException {
-		System.out.println("Error - line#:[" + error.getLine() + "] line:[" + error.getSource() + "] exception:[" + error.getException().getMessage() + "]");
+		logger.debug("Error - line#:[" + error.getLine() + "] line:[" + error.getSource() + "] exception:[" + error.getException().getMessage() + "]");
 	}
 
 }

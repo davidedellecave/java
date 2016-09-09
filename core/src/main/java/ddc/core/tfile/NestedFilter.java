@@ -23,13 +23,6 @@ public class NestedFilter implements TFileFilter, TFileContextListener {
 		return this;
 	}
 
-	@Override
-	public StringBuilder onStartLine(long lineNumber, StringBuilder lineBuffer) throws TFileException {
-		for (TFileFilter filter : list) {
-			lineBuffer = filter.onStartLine(lineNumber, lineBuffer);
-		}
-		return lineBuffer;
-	}
 
 	@Override
 	public char onChar(long lineNumber, long position, char ch) throws TFileException {
@@ -40,15 +33,22 @@ public class NestedFilter implements TFileFilter, TFileContextListener {
 		return ch;
 	}
 
+	
 	@Override
-	public StringBuilder onEndLine(long lineNumber, StringBuilder lineBuffer) throws TFileException {
+	public void onTransformLine(final long lineNumber, final StringBuilder sourceLine) throws TFileException {
 		for (TFileFilter filter : list) {
-			if (lineBuffer.length() > 0)
-				lineBuffer = filter.onEndLine(lineNumber, lineBuffer);
+			filter.onTransformLine(lineNumber, sourceLine);
 		}
-		return lineBuffer;
 	}
-
+	
+	@Override
+	public void onTransformLine(long lineNumber, StringBuilder sourceLine, String[] fields) throws TFileException {
+		for (TFileFilter filter : list) {
+			filter.onTransformLine(lineNumber, sourceLine, fields);
+		}
+	}
+	
+	
 	@Override
 	public void onOpen(TFileContext context) throws TFileException {
 		for (TFileFilter filter : list) {
@@ -73,13 +73,4 @@ public class NestedFilter implements TFileFilter, TFileContextListener {
 			filter.onError(error);
 		}
 	}
-
-	// @Override
-	// public void onErrorLine(List<TFileLineError> errors) throws
-	// TFileException {
-	// for (TFileFilter filter : list) {
-	// filter.onErrorLine(errors);
-	// }
-	// }
-
 }
