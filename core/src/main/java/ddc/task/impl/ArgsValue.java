@@ -5,7 +5,6 @@ import ddc.config.ConfigurationException;
 public class ArgsValue {
 	private String[] args;
 	private Class<?> confClass;
-//	private String confFilename;
 	
 	public ArgsValue(String[] args) {
 		this.args=args;
@@ -28,13 +27,4 @@ public class ArgsValue {
 	public void setConfClass(Class<?> confClass) {
 		this.confClass = confClass;
 	}
-
-//	public String getConfFilename() {
-//		return confFilename;
-//	}
-//
-//	public void setConfFilename(String confFilename) {
-//		this.confFilename = confFilename;
-//	}
-	
 }

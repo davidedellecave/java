@@ -1,4 +1,7 @@
-package ddc.jdbc;
+package ddc.core.db.mssql;
+
+import ddc.jdbc.JdbcConfig;
+import ddc.jdbc.JdbcConnectionFactory;
 
 public class MsSqlConnection extends JdbcConnectionFactory {
 

@@ -1,4 +1,7 @@
-package ddc.jdbc;
+package ddc.core.db.oracle;
+
+import ddc.jdbc.JdbcConfig;
+import ddc.jdbc.JdbcConnectionFactory;
 
 public class OracleConnection extends JdbcConnectionFactory {
 

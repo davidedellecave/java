@@ -1,8 +1,11 @@
-package ddc.jdbc;
+package ddc.core.db.postgresql;
 
-public class PostgreSQLFactory extends JdbcConnectionFactory {
+import ddc.jdbc.JdbcConfig;
+import ddc.jdbc.JdbcConnectionFactory;
 
-	public PostgreSQLFactory(JdbcConfig conf) {
+public class PostgreSqlFactory extends JdbcConnectionFactory {
+
+	public PostgreSqlFactory(JdbcConfig conf) {
 		super(conf);
 	}
 
@@ -20,5 +23,4 @@ public class PostgreSQLFactory extends JdbcConnectionFactory {
 	public int getDefaultPort() {
 		return 5432;
 	}
-	
 }

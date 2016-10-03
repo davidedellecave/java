@@ -5,6 +5,7 @@ import java.util.LinkedHashMap;
 public class TaskContext {
 	private LinkedHashMap<Class<?>, Object> values = new LinkedHashMap<Class<?>, Object>();
 	private LinkedHashMap<String, Object> params = new LinkedHashMap<String, Object>();
+	
 	private Throwable exception = null;
 	
 	public synchronized Object get(Class<?> clazz) throws TaskException {
@@ -16,7 +17,9 @@ public class TaskContext {
 		if (values.containsKey(clazz)) {
 			return values.get(clazz);	
 		} else {
-			return clazz.newInstance();
+			Object o = clazz.newInstance();
+			set(o);
+			return o;
 		}
 	}
 

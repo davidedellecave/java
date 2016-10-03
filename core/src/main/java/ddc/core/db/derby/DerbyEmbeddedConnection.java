@@ -1,4 +1,7 @@
-package ddc.jdbc;
+package ddc.core.db.derby;
+
+import ddc.jdbc.JdbcConfig;
+import ddc.jdbc.JdbcConnectionFactory;
 
 /**
  * @author davidedc 2014

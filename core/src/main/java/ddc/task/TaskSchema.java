@@ -6,9 +6,25 @@ import ddc.util.BTree;
 import ddc.util.BTreeListener;
 
 public class TaskSchema extends BTree<Class<? extends Task>> {
-		
+//	private Class<? extends Task> defaultFail = null;
+	
 	public TaskSchema(Class<? extends Task> clazz) {
 		super(clazz);
+	}
+	
+	public TaskSchema(Class<? extends Task> clazz, Class<? extends Task> onFailClass) {
+		super(clazz);
+		this.setRight(new TaskSchema(onFailClass));
+	}
+	
+//	public static TaskSchema create(Class<? extends Task> clazz,  Class<? extends Task> defaultFail) {
+//		TaskSchema t = new TaskSchema(clazz, defaultFail);
+//		return t;
+//	}
+	
+	public static TaskSchema create(Class<? extends Task> clazz) {
+		TaskSchema t = new TaskSchema(clazz);		
+		return t;
 	}
 	
 	public String getName() {
@@ -23,9 +39,7 @@ public class TaskSchema extends BTree<Class<? extends Task>> {
 		return (TaskSchema)this.search(clazz);
 	}
 	
-	public void setOnSuccess(Class<? extends Task> clazz) {
-		this.setLeft(new TaskSchema(clazz));
-	}
+
 
 	public void pathSuccess(Class<? extends Task>[] clazzList) {
 		TaskSchema current = this;
@@ -44,6 +58,14 @@ public class TaskSchema extends BTree<Class<? extends Task>> {
 	public TaskSchema nextSuccess(Class<? extends Task> clazz) {
 		TaskSchema t = new TaskSchema(clazz);
 		this.setLeft(t);
+//		if (defaultFail != null) this.setRight(new TaskSchema(defaultFail));
+		return t;
+	}
+	
+	public TaskSchema nextSuccess(Class<? extends Task> clazz, Class<? extends Task> onFailClass) {
+		TaskSchema t = new TaskSchema(clazz);
+		this.setLeft(t);
+		this.setRight(new TaskSchema(onFailClass));
 		return t;
 	}
 	
@@ -57,7 +79,11 @@ public class TaskSchema extends BTree<Class<? extends Task>> {
 		this.setLeft(new TaskSchema(onSuccessClass));
 		this.setRight(new TaskSchema(onFailClass));
 	}
-	
+
+	public void setOnSuccess(Class<? extends Task> clazz) {
+		this.setLeft(new TaskSchema(clazz));
+	}
+
 	public void setOnFail(Class<? extends Task> clazz) {
 		this.setRight(new TaskSchema(clazz));
 	}

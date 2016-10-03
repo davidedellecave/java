@@ -25,8 +25,7 @@ public class StatsQueueEventListener implements QueueEventListener {
 	@Override
 	public void onClose(int items) {
 		queueSize = items;
-		chron.stop();
-		stats.elapsed = chron.getElapsed();
+		stats.chron.stop();
 	}
 
 	@Override

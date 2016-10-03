@@ -1,4 +1,7 @@
-package ddc.jdbc;
+package ddc.core.db.db2;
+
+import ddc.jdbc.JdbcConfig;
+import ddc.jdbc.JdbcConnectionFactory;
 
 //IBM DB2 Universal Driver Type 4 
 //

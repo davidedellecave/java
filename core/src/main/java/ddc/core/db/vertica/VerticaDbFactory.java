@@ -1,8 +1,11 @@
-package ddc.jdbc;
+package ddc.core.db.vertica;
 
-public class VerticaDbConnection extends JdbcConnectionFactory {
+import ddc.jdbc.JdbcConfig;
+import ddc.jdbc.JdbcConnectionFactory;
 
-	public VerticaDbConnection(JdbcConfig conf) {
+public class VerticaDbFactory extends JdbcConnectionFactory {
+
+	public VerticaDbFactory(JdbcConfig conf) {
 		super(conf);
 	}
 	
