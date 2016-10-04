@@ -8,19 +8,17 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-public class LiteSqlSchema {
-	private String database;
+public class LiteSchema {
 	private String schema;
 	private String table;
-	private List<LiteSqlColumn> columns = new ArrayList<LiteSqlColumn>();
+	private List<LiteColumn> columns = new ArrayList<LiteColumn>();
 	
-	public static LiteSqlSchema createInstance(String database, String schema, ResultSetMetaData meta) throws SQLException {
-		LiteSqlSchema s = new LiteSqlSchema();
-		s.setDatabase(database);
-		s.setSchema(schema);		
+	public static LiteSchema createInstance(String schema, ResultSetMetaData meta) throws SQLException {
+		LiteSchema s = new LiteSchema();
+		s.setSchema(schema);
 		s.setTable(meta.getTableName(1));
 		for (int i = 1; i <= meta.getColumnCount(); i++) {
-			LiteSqlColumn c = new LiteSqlColumn();
+			LiteColumn c = new LiteColumn();
 			c.setName(meta.getColumnName(i));
 			c.setNullable(meta.isNullable(i)==ResultSetMetaData.columnNullable);
 			c.setSize(meta.getPrecision(i));
@@ -30,12 +28,6 @@ public class LiteSqlSchema {
 		return s;
 	}
 	
-	public String getDatabase() {
-		return database;
-	}
-	public void setDatabase(String database) {
-		this.database = database;
-	}
 	public String getSchema() {
 		return schema;
 	}
@@ -48,10 +40,10 @@ public class LiteSqlSchema {
 	public void setTable(String table) {
 		this.table = table;
 	}
-	public List<LiteSqlColumn> getColumns() {
+	public List<LiteColumn> getColumns() {
 		return columns;
 	}
-	public void setColumns(List<LiteSqlColumn> columns) {
+	public void setColumns(List<LiteColumn> columns) {
 		this.columns = columns;
 	}
 	
@@ -68,7 +60,7 @@ public class LiteSqlSchema {
 	public String generateCreateTable(Map<JDBCType, String> typeMap) {
 		StringBuilder sql = new StringBuilder();
 		sql.append("CREATE TABLE " + table + " (");
-		for (LiteSqlColumn c : getColumns()) {
+		for (LiteColumn c : getColumns()) {
 			sql.append(c.getName());
 			String typeName = typeMap.get(c.getType());
 			sql.append(" " + typeName);

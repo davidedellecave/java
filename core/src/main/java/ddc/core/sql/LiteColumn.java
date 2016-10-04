@@ -2,7 +2,7 @@ package ddc.core.sql;
 
 import java.sql.JDBCType;
 
-public class LiteSqlColumn {
+public class LiteColumn {
 	private String name;
 	private JDBCType type;
 	private boolean isNullable;
