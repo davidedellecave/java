@@ -1,6 +1,6 @@
 package ddc.core.sql;
 
-import java.sql.JDBCType;
+
 
 public class LiteColumn {
 	private String name;

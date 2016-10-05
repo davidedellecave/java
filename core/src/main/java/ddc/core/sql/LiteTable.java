@@ -1,5 +1,7 @@
 package ddc.core.sql;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,5 +23,15 @@ public class LiteTable {
 	}
 	public void setRows(List<LiteRow> rows) {
 		this.rows = rows;
+	}
+	
+	public static LiteTable build(String schema, ResultSet rs) throws SQLException {
+		LiteTable t = new LiteTable();
+		t.setSchema(new LiteSchema());
+		t.setSchema(LiteSchema.build(schema, rs.getMetaData()));
+		while (rs.next()) {
+			t.rows.add(LiteRow.build(rs));
+		}
+		return t;
 	}
 }

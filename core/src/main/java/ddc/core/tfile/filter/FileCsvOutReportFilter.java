@@ -26,7 +26,7 @@ public class FileCsvOutReportFilter extends BaseTFileFilter {
 	}
 
 	@Override
-	public void onClose(TFileContext context) throws TFileException {
+	public void onClose(final TFileContext context) throws TFileException {
 		super.onClose(context);
 		OutputStream out = null;
 		try {

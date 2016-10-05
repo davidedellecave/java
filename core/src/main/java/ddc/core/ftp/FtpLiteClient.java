@@ -127,7 +127,11 @@ public class FtpLiteClient {
 			Chronometer chron = new Chronometer();
 			List<FtpLiteFile> list = doListFiles(remotePath);
 			logListing(list);
-			long bytes = list.stream().mapToLong(x -> x.getSize()).sum();
+//			long bytes = list.stream().mapToLong(x -> x.getSize()).sum();
+			long bytes = 0;
+			for (FtpLiteFile f : list) {
+				bytes += f.getSize();
+			}			
 			logger.info(INFO + "Listing ok:[" + remotePath + "] #:[" + list.size() + "] bytes:["
 					+ FileUtils.byteCountToDisplaySize(bytes) + "] elapsed:[" + chron.toString() + "]");
 			return list;
@@ -143,7 +147,11 @@ public class FtpLiteClient {
 			Chronometer chron = new Chronometer();
 			List<FtpLiteFile> list = doListFiles(remotePath, includeDir, includeFile, new TrueMatcher(), isRecursive);
 			logListing(list);
-			long bytes = list.stream().mapToLong(x -> x.getSize()).sum();
+//			long bytes = list.stream().mapToLong(x -> x.getSize()).sum();
+			long bytes = 0;
+			for (FtpLiteFile f : list) {
+				bytes += f.getSize();
+			}
 			logger.info(INFO + "Listing ok:[" + remotePath + "] #:[" + list.size() + "] bytes:["
 					+ FileUtils.byteCountToDisplaySize(bytes) + "] elapsed:[" + chron.toString() + "]");
 			return list;
@@ -160,7 +168,11 @@ public class FtpLiteClient {
 			Chronometer chron = new Chronometer();
 			List<FtpLiteFile> list = doListFiles(remotePath, false, true, matcher, isRecursive);
 			logListing(list);
-			long bytes = list.stream().mapToLong(x -> x.getSize()).sum();
+			long bytes = 0;
+			for (FtpLiteFile f : list) {
+				bytes += f.getSize();
+			}
+//			long bytes = list.stream().mapToLong(x -> x.getSize()).sum();
 			logger.info(INFO + "Listing ok:[" + remotePath + "] #:[" + list.size() + "] bytes:["
 					+ FileUtils.byteCountToDisplaySize(bytes) + "] elapsed:[" + chron.toString() + "]");
 			return list;
@@ -279,8 +291,8 @@ public class FtpLiteClient {
 		}
 	}
 
-	private List<FtpLiteFile> doListFiles(Path remotePath, boolean includeDir, boolean includeFile,
-			FtpFileMatcher matcher, boolean isRecursive) throws IOException {
+	private List<FtpLiteFile> doListFiles(Path remotePath, final boolean includeDir, final boolean includeFile,
+			final FtpFileMatcher matcher, boolean isRecursive) throws IOException {
 		final List<FtpLiteFile> list = new LinkedList<>();
 		if (isRecursive) {
 			recursiveListing(remotePath, new FtpListener() {

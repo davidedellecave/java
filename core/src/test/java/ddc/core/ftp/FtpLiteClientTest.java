@@ -40,7 +40,9 @@ public class FtpLiteClientTest {
 		c.connect();
 		List<FtpLiteFile> list = c.listFiles(Paths.get("/"), true, true, true);
 		c.disconnect();
-		list.forEach(System.out::println);
+		for (FtpLiteFile f : list)
+			System.out.println(f.toString());
+//		list.forEach(System.out::println);
 	}
 	
 //	@Test

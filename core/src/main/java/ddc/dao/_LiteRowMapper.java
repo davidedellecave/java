@@ -4,11 +4,11 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 
-public class LiteRowMapper {
+public class _LiteRowMapper {
 
-	public LiteRow mapRow(ResultSet rs, int rowNum) throws SQLException {
+	public _LiteRow mapRow(ResultSet rs, int rowNum) throws SQLException {
 		ResultSetMetaData meta = rs.getMetaData();
-		LiteRow row = new LiteRow();
+		_LiteRow row = new _LiteRow();
 		for (int i = 1; i <= meta.getColumnCount(); i++) {
 			String name = meta.getColumnName(i);
 			String value = rs.getString(name);

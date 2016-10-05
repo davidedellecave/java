@@ -79,7 +79,7 @@ public class ParallelFtpClient {
 	
 	private void doDownload(List<FilePair> list) throws InterruptedException, FtpLiteException {
 		List<Thread> threads = new ArrayList<>();
-		for (FilePair p : list) {
+		for (final FilePair p : list) {
 			final FtpLiteClient client = pool.hold();			
 			Runnable r = new Runnable() {
 				public void run() {
@@ -106,7 +106,7 @@ public class ParallelFtpClient {
 
 	private void doUpload(List<FilePair> list) throws InterruptedException, FtpLiteException {
 		final ExecutorService executor = Executors.newFixedThreadPool(maxConnection);
-		for (FilePair p : list) {
+		for (final FilePair p : list) {
 			Runnable r = new Runnable() {
 				public void run() {
 					FtpLiteClient client = null;

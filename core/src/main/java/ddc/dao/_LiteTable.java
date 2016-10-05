@@ -8,14 +8,14 @@ import java.util.List;
  *
  */
 //public class LiteTable extends ArrayList<LiteRow>{
-public class LiteTable {
-	private List<LiteRow> rows = new ArrayList<LiteRow>(); 
+public class _LiteTable {
+	private List<_LiteRow> rows = new ArrayList<_LiteRow>(); 
 	
-	public void setRows(List<LiteRow> rows) {
+	public void setRows(List<_LiteRow> rows) {
 		this.rows=rows;
 	}
 
-	public List<LiteRow> getRows() {
+	public List<_LiteRow> getRows() {
 		return rows;
 	}
 
@@ -23,7 +23,7 @@ public class LiteTable {
 	 * Remove all rows and add one row using specified fields
 	 * @param fields
 	 */
-	public void setFields(LiteFields fields) {
+	public void setFields(_LiteFields fields) {
 		this.rows.clear();
 		addFields(fields);
 	}
@@ -31,8 +31,8 @@ public class LiteTable {
 	/*
 	 * Add row using specified fields
 	 */
-	public void addFields(LiteFields fields) {
-		LiteRow row = new LiteRow();
+	public void addFields(_LiteFields fields) {
+		_LiteRow row = new _LiteRow();
 		row.setFields(fields);
 		this.rows.add(row);
 	}

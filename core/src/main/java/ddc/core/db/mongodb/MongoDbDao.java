@@ -27,41 +27,51 @@ public class MongoDbDao implements AutoCloseable {
 
 	@Override
 	public void close() throws Exception {
-		if (client!=null) {
+		if (client != null) {
 			client.close();
 			client = null;
 		}
 	}
-	
+
 	private MongoClient getClient() {
 		if (client != null)
 			return client;
 
 		MongoCredential credential = null;
 		if (config.hasCredential()) {
-			credential = MongoCredential.createCredential(config.getUsername(), config.getDatabase(), config.getPassword().toCharArray());
+			credential = MongoCredential.createCredential(config.getUsername(), config.getDatabase(),
+					config.getPassword().toCharArray());
 		}
 		if (config.getReplicasetList().size() == 1) {
 			String serverAddress = config.getReplicasetList().get(0);
-			if (credential!=null) {
+			if (credential != null) {
 				client = new MongoClient(new ServerAddress(serverAddress), Arrays.asList(credential));
 			} else {
 				client = new MongoClient(new ServerAddress(serverAddress));
-			}			
+			}
 		} else {
 			List<ServerAddress> replicaSetAddress = new ArrayList<ServerAddress>();
-			config.getReplicasetList().forEach((String s) -> {
+			for (String s : config.getReplicasetList()) {
 				String toks[] = s.split(":");
 				if (toks.length != 2)
-					throw new RuntimeException("MongoClient - Host Address sintax error, mandatory format is <host>:<port>");
+					throw new RuntimeException(
+							"MongoClient - Host Address sintax error, mandatory format is <host>:<port>");
 				replicaSetAddress.add(new ServerAddress(toks[0], Integer.valueOf(toks[1])));
-			});
-			if (credential!=null) {
+			}
+			// config.getReplicasetList().forEach((String s) -> {
+			// String toks[] = s.split(":");
+			// if (toks.length != 2)
+			// throw new RuntimeException("MongoClient - Host Address sintax
+			// error, mandatory format is <host>:<port>");
+			// replicaSetAddress.add(new ServerAddress(toks[0],
+			// Integer.valueOf(toks[1])));
+			// });
+			if (credential != null) {
 				client = new MongoClient(replicaSetAddress, Arrays.asList(credential));
 			} else {
 				client = new MongoClient(replicaSetAddress);
-			}	
-		}		
+			}
+		}
 		return client;
 	}
 
@@ -76,28 +86,28 @@ public class MongoDbDao implements AutoCloseable {
 		MongoCollection<Document> coll = database.getCollection(collection);
 		FindIterable<Document> docs = coll.find(filter);
 		List<Document> list = new LinkedList<Document>();
-		docs.forEach((Document d) -> {
+		for (Document d : docs)
 			list.add(d);
-		});
 		return list;
 	}
 
-
-//	public Document replace(String collection, String jsonFilter, String jsonDoc) throws MongoException {
-//		Bson filter = Document.parse(jsonFilter);
-//		Document doc = Document.parse(jsonDoc);
-//		return replace(collection, filter, doc);
-//	}
-//
-//	public Document replace(String collection, Bson filter, Document doc) throws MongoException {
-//		try (MongoClient client = getClient()) {
-//			MongoDatabase database = client.getDatabase(config.getDatabase());
-//			MongoCollection<Document> coll = database.getCollection(collection);
-//			Document newDoc = coll.findOneAndReplace(filter, doc);
-//			if (newDoc == null) {
-//				coll.insertOne(newDoc);
-//			}
-//			return newDoc;
-//		}
-//	}
+	// public Document replace(String collection, String jsonFilter, String
+	// jsonDoc) throws MongoException {
+	// Bson filter = Document.parse(jsonFilter);
+	// Document doc = Document.parse(jsonDoc);
+	// return replace(collection, filter, doc);
+	// }
+	//
+	// public Document replace(String collection, Bson filter, Document doc)
+	// throws MongoException {
+	// try (MongoClient client = getClient()) {
+	// MongoDatabase database = client.getDatabase(config.getDatabase());
+	// MongoCollection<Document> coll = database.getCollection(collection);
+	// Document newDoc = coll.findOneAndReplace(filter, doc);
+	// if (newDoc == null) {
+	// coll.insertOne(newDoc);
+	// }
+	// return newDoc;
+	// }
+	// }
 }

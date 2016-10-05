@@ -1,6 +1,5 @@
 package ddc.core.sql;
 
-import java.sql.JDBCType;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -13,7 +12,7 @@ public class LiteSchema {
 	private String table;
 	private List<LiteColumn> columns = new ArrayList<LiteColumn>();
 	
-	public static LiteSchema createInstance(String schema, ResultSetMetaData meta) throws SQLException {
+	public static LiteSchema build(String schema, ResultSetMetaData meta) throws SQLException {
 		LiteSchema s = new LiteSchema();
 		s.setSchema(schema);
 		s.setTable(meta.getTableName(1));

@@ -4,7 +4,7 @@ import org.apache.log4j.Logger;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import ddc.dao.LiteFields;
+import ddc.dao._LiteFields;
 
 public class ParseUtil {
 	private static Logger logger = Logger.getLogger(ParseUtil.class);
@@ -124,8 +124,8 @@ public class ParseUtil {
 	 * @param node
 	 * @return
 	 */
-	public static LiteFields parseXmlNode(Node node) {
-		LiteFields res = new LiteFields();
+	public static _LiteFields parseXmlNode(Node node) {
+		_LiteFields res = new _LiteFields();
 		NodeList list = node.getChildNodes();
 		for (int i = 0; i < list.getLength(); i++) {
 			Node child = list.item(i);

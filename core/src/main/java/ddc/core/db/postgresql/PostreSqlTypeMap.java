@@ -1,8 +1,9 @@
 package ddc.core.db.postgresql;
 
-import java.sql.JDBCType;
 import java.util.Map;
 import java.util.TreeMap;
+
+import ddc.core.sql.JDBCType;
 
 
 public class PostreSqlTypeMap {
@@ -34,14 +35,14 @@ public class PostreSqlTypeMap {
 		map.put(JDBCType.OTHER,  "");
 		map.put(JDBCType.REAL,  "");
 		map.put(JDBCType.REF,  "");
-		map.put(JDBCType.REF_CURSOR, "");
+//		map.put(JDBCType.REF_CURSOR, "");
 		map.put(JDBCType.ROWID, "");
 		map.put(JDBCType.SMALLINT,"");
 		map.put(JDBCType.SQLXML, "");
 		map.put(JDBCType.STRUCT, "");
 		map.put(JDBCType.TIME, "");
-		map.put(JDBCType.TIME_WITH_TIMEZONE, "");
-		map.put(JDBCType.TIMESTAMP_WITH_TIMEZONE, "");
+//		map.put(JDBCType.TIME_WITH_TIMEZONE, "");
+//		map.put(JDBCType.TIMESTAMP_WITH_TIMEZONE, "");
 		map.put(JDBCType.TINYINT,"");
 		map.put(JDBCType.VARBINARY, "");
 		map.put(JDBCType.VARCHAR, "string");

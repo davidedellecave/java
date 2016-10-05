@@ -37,7 +37,7 @@ public class BerkeleyDb {
 		
 	}
 
-	private void setupShutdownHook(BerkeleyDb db) {
+	private void setupShutdownHook(final BerkeleyDb db) {
 		final Thread mainThread = Thread.currentThread();
 		Runtime.getRuntime().addShutdownHook(new Thread() {
 		    public void run() {

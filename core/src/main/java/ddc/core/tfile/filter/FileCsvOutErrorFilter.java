@@ -7,11 +7,11 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.file.Path;
-import java.util.Base64;
 
 import ddc.core.tfile.TFileContext;
 import ddc.core.tfile.TFileException;
 import ddc.core.tfile.TFileLineError;
+import ddc.util.Base64Utils;
 import ddc.util.DateUtil;
 
 public class FileCsvOutErrorFilter extends BaseTFileFilter {
@@ -57,8 +57,8 @@ public class FileCsvOutErrorFilter extends BaseTFileFilter {
 			sb.append(separator).append(getContext().getSource().getFileName());
 			sb.append(separator).append(error.getLine());
 			sb.append(separator).append(error.getException().getMessage());
-			if (enableSource) {
-				String base64 = new String(Base64.getEncoder().encode(error.getSource().getBytes()));
+			if (enableSource) {				
+				String base64 = Base64Utils.decodeToString(error.getSource().getBytes(), "UTF-8");
 				sb.append(separator).append(base64);	
 			}
 			sb.append(getContext().getSourceEOL());

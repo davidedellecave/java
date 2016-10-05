@@ -11,7 +11,7 @@ import ddc.files.scan.ScanFolder.ScanResult;
 
 public class ScanUtil {
 
-	public static List<Path> getFiles(Path folder, String[] includeExtension, String[] excludeExtension)
+	public static List<Path> getFiles(Path folder, final String[] includeExtension, final String[] excludeExtension)
 			throws Exception {
 		if (!folder.toFile().isDirectory()) {
 			return Collections.emptyList();

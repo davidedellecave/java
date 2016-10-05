@@ -2,7 +2,6 @@ package ddc.jdbc;
 
 import java.io.PrintStream;
 import java.sql.Connection;
-import java.sql.JDBCType;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
@@ -11,6 +10,7 @@ import java.sql.Statement;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 
+import ddc.core.sql.JDBCType;
 import ddc.util.Chronometer;
 
 public class SqlUtils {
@@ -122,8 +122,29 @@ public class SqlUtils {
 		logger.debug(message);
 	}
 
+	public static String getRowInfo(ResultSetMetaData meta) throws SQLException {
+		StringBuilder b = new StringBuilder();
+		b.append("Sql row - "); 
+		for (int i = 1; i <= meta.getColumnCount(); i++) {
+			b.append("#:[" + i + "] name:[" + meta.getColumnName(i) + "] type:[" + JDBCType.valueOf(meta.getColumnType(i)).getName() + "]");
+			b.append('\n');
+		}
+		return b.toString();
+	}
 	
-	public static void printSqlSelect(Connection connection, String sql, PrintStream ps, int colSize) throws Exception {
+	public static String getRowInfo(ResultSet rs) throws SQLException {
+		ResultSetMetaData meta = rs.getMetaData();
+		StringBuilder b = new StringBuilder();
+		b.append("Sql row - "); 
+		for (int i = 1; i <= meta.getColumnCount(); i++) {
+			b.append("#:[" + i + "] name:[" + meta.getColumnName(i) + "] type:[" + JDBCType.valueOf(meta.getColumnType(i)).getName() + "]");
+			b.append(" value:[" + String.valueOf(rs.getObject(i))+ "]");
+			b.append('\n');
+		}
+		return b.toString();
+	}
+
+	public static void printSqlSelect(Connection connection, String sql,final PrintStream ps, final int colSize) throws Exception {
 		select(connection, sql, new SqlRowHandler() {
 			ResultSetMetaData meta = null;
 
