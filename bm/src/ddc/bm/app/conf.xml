@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<settings>
+	<features>
+		<feature name="createDb" period="*,*" desc="Feature always enabled" />
+		<feature name="exportDb" period="*,*" desc="Feature always enabled" />
+		<feature name="importDb" period="," desc="Feature newer enabled" />
+		<feature name="deleteDb" period="*,*" desc="Feature always enabled" />
+		
+		<feature name="writeReport" period="2016-10-01 00:00:00, 2016-10-10 00:00:00" desc="" />
+		<feature name="readReport" period="*,*" desc="" />
+		
+		<feature name="writeAgenda" period="*,*" desc="" />
+		<feature name="readAgenda" period="*,*" desc="" />
+		
+		<feature name="writeAvailability" period="*,*" desc="" />
+		<feature name="readAvailability" period="*,*" desc="" />
+		
+		<feature name="notification" period="*,*" desc="" />
+		<feature name="alerting" period="*,*" desc="" />
+		<feature name="monitoring" period="*,*" desc="" />
+		<feature name="configure" period="*,*" desc="" />
+		<feature name="gottardo_newFeature" period="*,*" desc="" />
+	</features>
+
+	<profiles>
+		<profile name="reader" extends=""
+			features="readReport, readAgenda, readAvailability" desc="Only read features" />
+
+		<profile name="writer" extends=""
+			features="writeReport, writeAgenda, writeAvailability" desc="Only write features" />
+
+		<profile name="recipient" extends="reader" features="notification" desc="Only write features" />
+		
+		<profile name="dba" extends="" features="createDb,deleteDb,exportDb,importDb" desc="Db Features" />
+
+		<profile name="maintainer" extends="" features="exportDb" desc="Only export db" />
+
+		<profile name="webmaster" extends="reader,writer,recipient" features="monitoring,configure,notification" desc="admin features" />
+
+		<profile name="secretary" extends="reader,writer" features="notification" desc="" />
+
+		<profile name="doctor" extends="reader" features="" desc="reader alias" />
+			
+		<profile name="gottardo_tester1" extends="writer" features="gottardo_newFeature"
+			desc="Extending 'writer' profile to test new features" />
+
+		<profile name="tester2" extends="reader,maintainer" features=""
+			desc="Extending 'reader' profile to test new features" />
+
+
+	</profiles>
+
+	<tenants>
+		<tenant name="dev">
+			<user name="davide" password="davidedc" profiles="webmaster" />
+			<user name="techuser" password="techpwd" profiles="maintainer" />
+			<user name="secretary" password="secretarypwd" profiles="reader,writer" />
+			<user name="doctor" password="doctorpwd" profiles="reader" />
+		</tenant>
+
+		<tenant name="test">
+			<user name="davide" password="davidedc" profiles="*" />
+		</tenant>
+
+		<tenant name="gottardo">
+			<user name="davide" password="davidedc" profiles="webmaster" />
+			<user name="techuser" password="techpwd" profiles="maintainer" />
+			<user name="stefania" password="stefania2016" profiles="secretary,gottardo_tester1" />
+			<user name="diego" password="diego2016" profiles="doctor" />
+		</tenant>
+
+		<tenant name="spartaco">
+			<user name="davide" password="davidedc" profiles="webmaster" />
+			<user name="techuser" password="techpwd" profiles="maintainer" />
+			<user name="stefania" password="stefania2016" profiles="reader,writer" />
+		</tenant>
+
+
+	</tenants>
+</settings>

@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<settings>
+    <boostrap>
+        <Version value="2.0" />
+        <!-- ========================================= -->
+        <!-- Mapped prefix -->
+        <!-- ========================================= -->        
+        <EnvironmentPrefix>
+            <item key="dev.centromedicinasportiva" value="cms.dev" />
+            <item key="dev.admin.centromedicinasportiva" value="cms.admin.dev" />
+            <item key="centromedicinasportiva.net" value="cms" />
+            <item key="admin.centromedicinasportiva.net" value="cms.admin" />
+
+            <item key="dev.spartaco" value="spartaco.dev" />
+            <item key="spartacoms.it" value="spartaco" />
+            <item key="admin.spartacoms.it" value="spartaco.admin" />
+
+            <item key="dev.medisportgottardo" value="gottardo.dev" />
+            <item key="medisportgottardo.it" value="gottardo" />
+            <item key="admin.medisportgottardo.it" value="gottardo.admin" />
+        </EnvironmentPrefix>
+
+        <!-- ========================================= -->
+        <!-- AppType {admin, site}-->
+        <!-- ========================================= -->
+        <AppType>
+            <item key="cms.dev" value="site" />
+            <item key="cms.admin.dev" value="admin" />
+            <item key="cms" value="site" />
+            <item key="cms.admin" value="admin" />
+
+            <item key="spartaco.dev" value="admin" />
+            <item key="spartaco" value="site" />
+            <item key="spartaco.admin" value="admin" />
+
+            <item key="gottardo.dev" value="admin" />
+            <item key="gottardo" value="site" />
+            <item key="gottardo.admin" value="admin" />
+        </AppType>
+        <!-- ========================================= -->
+        <!-- Runtime {dev, test, prod}-->
+        <!-- ========================================= -->
+        <Runtime>
+            <item key="cms.dev" value="dev" />
+            <item key="cms.admin.dev" value="dev" />
+            <item key="cms" value="prod" />
+            <item key="cms.admin" value="prod" />
+
+            <item key="spartaco.dev" value="dev" />
+            <item key="spartaco" value="prod" />
+            <item key="spartaco.admin" value="prod" />
+
+            <item key="gottardo.dev" value="dev" />
+            <item key="gottardo" value="prod" />
+            <item key="gottardo.admin" value="prod" />
+        </Runtime>
+    </boostrap>
+        
+    <application>
+        <AppEnabled>
+            <item key="cms.dev" value="true" />
+            <item key="cms.admin.dev" value="true" />
+            <item key="cms" value="true" />
+            <item key="cms.admin" value="true" />
+
+            <item key="spartaco.dev" value="true" />
+            <item key="spartaco" value="true" />
+            <item key="spartaco.admin" value="true" />
+
+            <item key="gottardo.dev" value="true" />
+            <item key="gottardo" value="true" />
+            <item key="gottardo.admin" value="true" />
+        </AppEnabled>
+        <LogPath>
+            <item key="ALL" value="/log/" />
+        </LogPath>
+        <LogLevel>
+            <!-- cms -->
+            <item key="cms.dev" value="INFO" />
+            <item key="cms.admin.dev" value="INFO" />
+            <item key="cms" value="TRACE" />
+            <item key="cms.admin" value="INFO" />
+            <!-- spartaco -->
+            <item key="spartaco.dev" value="TRACE" />
+            <item key="spartaco" value="INFO" />
+            <item key="spartaco.admin" value="INFO" />
+            <!-- gottardo -->
+            <item key="gottardo.dev" value="TRACE" />
+            <item key="gottardo" value="INFO" />
+            <item key="gottardo.admin" value="INFO" />
+        </LogLevel>
+        <!-- ========================================= -->
+        <!-- Folders -->
+        <!-- ========================================= -->
+        <DataFolder>
+            <!-- cms -->
+            <item key="cms.dev" value="/APP_DATA/cms/" />
+            <item key="cms.admin.dev" value="/APP_DATA/cms/" />
+            <item key="cms.admin" value="/APP_DATA/cms/" />
+            <item key="cms" value="/APP_DATA/cms/" />
+            <!-- spartaco -->
+            <item key="spartaco.dev" value="/APP_DATA/spartaco/" />
+            <item key="spartaco.admin" value="/APP_DATA/spartaco/" />
+            <item key="spartaco" value="/APP_DATA/spartaco/" />
+            <!-- gottardo -->
+            <item key="gottardo.dev" value="/APP_DATA/gottardo/" />
+            <item key="gottardo.admin" value="/APP_DATA/gottardo/" />
+            <item key="gottardo" value="/APP_DATA/gottardo/" />
+        </DataFolder>
+
+        <MailFolder>
+            <!-- cms -->
+            <item key="cms.dev" value="/APP_DATA/cms/" />
+            <item key="cms.admin.dev" value="/APP_DATA/cms/" />
+            <item key="cms.admin" value="/APP_DATA/cms/" />
+            <item key="cms" value="/APP_DATA/cms/" />
+            <!-- spartaco -->
+            <item key="spartaco.dev" value="/APP_DATA/spartaco/" />
+            <item key="spartaco.admin" value="/APP_DATA/spartaco/" />
+            <item key="spartaco" value="/APP_DATA/spartaco/" />
+            <!-- gottardo -->
+            <item key="gottardo.dev" value="/APP_DATA/gottardo/" />
+            <item key="gottardo.admin" value="/APP_DATA/gottardo/" />
+            <item key="gottardo" value="/APP_DATA/gottardo/" />
+        </MailFolder>
+
+        <!-- ========================================= -->
+        <!-- Files -->
+        <!-- ========================================= -->
+        <NewsFile>
+            <!-- cms -->
+            <item key="cms.admin.dev" value="/APP_DATA/cms/news.xml" />
+            <item key="cms.dev" value="/APP_DATA/cms/news.xml" />
+            <item key="cms.admin" value="/APP_DATA/cms/news.xml" />
+            <item key="cms" value="/APP_DATA/cms/news.xml" />
+            <!-- spartaco -->
+            <item key="spartaco.dev" value="/APP_DATA/spartaco/news.xml" />
+            <item key="spartaco.admin" value="/APP_DATA/spartaco/news.xml" />
+            <item key="spartaco" value="/APP_DATA/spartaco/news.xml" />
+            <!-- gottardo -->
+            <item key="gottardo.dev" value="/APP_DATA/gottardo/news.xml" />
+            <item key="gottardo.admin" value="/APP_DATA/gottardo/news.xml" />
+            <item key="gottardo" value="/APP_DATA/gottardo/news.xml" />
+        </NewsFile>
+
+        <!-- ========================================= -->
+        <!-- ConnectionString -->
+        <!-- ========================================= -->
+        <ConnectionString>
+            <!-- cms -->
+            <item key="cms.admin.dev" value="Data Source=localhost\sqlexpress;Initial catalog=davidedc_cms_dev;Persist Security Info=True;User Id=cms;Password=cms;" />
+            <!-- item key="cms.admin" value="Server=localhost\SQLExpress;AttachDbFilename=C:/ClientSites/centromedicinasportiva.net/subdomains/admin/httpdocs/App_Data/cms/davidedc_cms.mdf;Integrated Security=True;User Instance=True;" / -->
+            <!-- item key="cms" value="Data Source=localhost,779;AttachDbFilename=|DataDirectory|cms\davidedc_cms.mdf;Integrated Security=True;User Instance=True;" / -->
+           
+            <!-- spartaco -->
+            <item key="spartaco.dev" value="Data Source=localhost\sqlexpress;Initial Catalog=davidedc_cms_dev;User Id=cms;Password=cms;" />
+            <!-- item key="spartaco.admin" value="Data source=localhost,779;Initial catalog=davidedc_spartaco;Persist Security Info=True;User Id=davidedc_spartaco;Password=sql1925;" /-->
+            <item key="spartaco.admin" value="Data source=localhost\MSSQLSERVER2012;Initial catalog=davidedc_spartaco;Persist Security Info=True;User Id=davidedc_spartaco;Password=sql1925;" />
+            <item key="spartaco" value="Data source=localhost\MSSQLSERVER2012;Initial catalog=davidedc_spartaco;Persist Security Info=True;User Id=davidedc_spartaco;Password=sql1925;" />
+            
+            
+            <!-- gottardo -->
+            <item key="gottardo.dev" value="Data Source=localhost\sqlexpress;Initial Catalog=davidedc_cms_dev;User Id=cms;Password=cms;" />
+            <!-- item key="gottardo.admin" value="Data source=localhost,779;Initial catalog=davidedc_gottardo;Persist Security Info=True;User Id=davidedc_gottardo;Password=sql1925;" / -->
+            <item key="gottardo.admin" value="Data source=localhost\MSSQLSERVER2012;Initial catalog=davidedc_gottardo;Persist Security Info=True;User Id=davidedc_gottardo;Password=sql1925;" />
+            <item key="gottardo" value="Data source=localhost\MSSQLSERVER2012;Initial catalog=davidedc_gottardo;Persist Security Info=True;User Id=davidedc_gottardo;Password=sql1925;" />
+
+            
+        </ConnectionString>
+
+        <!-- ========================================= -->
+        <!-- Maintenance -->
+        <!-- ========================================= -->
+        <ApplicationMaitenance>
+            <!-- cms -->
+            <item key="cms.dev" value="false" />
+            <item key="cms.admin.dev" value="false" />
+            <item key="cms" value="false" />
+            <item key="cms.admin" value="false" />
+            <!-- spartaco -->
+            <item key="spartaco.dev" value="false" />
+            <item key="spartaco" value="false" />
+            <item key="spartaco.admin" value="false" />
+            <!-- gottardo -->
+            <item key="gottardo.dev" value="false" />
+            <item key="gottardo" value="false" />
+            <item key="gottardo.admin" value="false" />
+        </ApplicationMaitenance>        
+    </application>
+
+    <feature>
+        <!-- [Done] Task di dev -->
+        <Admin_JobRemainderMail_TESTMODE>
+            <item key="ALL" value="dev" />
+        </Admin_JobRemainderMail_TESTMODE>
+        <Admin_Booking_SendMail_TESTMODE>
+            <item key="ALL" value="dev" />
+        </Admin_Booking_SendMail_TESTMODE>
+
+        <!-- [Done] Spedizione mail reminder - solo PROD -->
+        <Admin_JobRemainderMail_v3>
+            <item key="ALL" value="prod" />
+        </Admin_JobRemainderMail_v3>
+
+        <!-- [Done] Report in pdf - add the feature to Report_v3 -->
+
+        <!-- [ToDo] EventForm - aggiunta della tab per "Studio Chiuso" -->
+        <Admin_EventFormAvailability>
+            <item key="ALL" value="dev" />
+        </Admin_EventFormAvailability>
+
+        <!-- [ToDo] Quando si elimina una prenotazione dare la possibilità di spedire la mail di annullo  -->
+        <!-- [ToDo] Prenotazione Utente v3
+        Consentire la gestione della prenotazione da parte del cliente: presa visione, disdetta, opt-out mail di reminders, nuovo reminder qualche giorno prima della visita
+        -->
+        <Admin_Booking_SendMail_v3>
+            <item key="ALL" value="dev" />
+        </Admin_Booking_SendMail_v3>
+
+        <!-- [ToDo] Al member assegnare l'ultimo evento prenotato. Di norma un certo Member ha più eventi nel tempo  -->
+        <!-- E' necessario aggiungere la proprietà sul db ed eliminare alcune colonne!!: eventLastDate, eventLastBooked { get; set; } -->
+        
+        <!-- [ToDo] Report - popup con dettaglio member e prenotazioni precedenti -->
+        <Admin_Report_v3>
+            <item key="ALL" value="" />
+        </Admin_Report_v3>
+     
+
+        <!-- [ToDo] Si usa l'admin embedded nel sito pubblico per la 
+        prenotazione (così deve aggiornare solo l'admin per le modifiche di prenotazione) -->
+        <Admin_EmbeddingPublicBooking_v1>
+            <item key="ALL" value="" />
+        </Admin_EmbeddingPublicBooking_v1>
+
+        <!-- [ToDo] Aggiunge la vista delle prenotazioni come lista  
+        per consentire (1) la prenotazione (2) importo per il foglio cassa (3) Visualizzazione basata sulle visite prese in giornata
+        -->
+        <Admin_BookList_v1>
+            <item key="ALL" value="" />
+        </Admin_BookList_v1>        
+
+        <!-- [ToDo] Gestione delle note libere  -->
+        <Admin_NoteManager_v1>
+            <item key="ALL" value="" />
+        </Admin_NoteManager_v1>
+
+        <!-- [ToDo] Gestione delle prenotazioni libere  -->
+        <Admin_FreeBooking_v1>
+            <item key="ALL" value="" />
+        </Admin_FreeBooking_v1>
+
+
+        <!-- [ToDo-toVerify] Ristrutturare Customer care in modo che abbia il feedback di diversi eventi, a' gia' cosi?  -->
+        
+        <!-- [Done-toVerify] Elminare gli eventi che non hanno un member: forse sono quelli pending. Medisport ne ha 5 con retry 159 al 10 Marzo 2014 -->
+        <!-- [Done-toVerify] Elminare gli eventi pending  -->
+        <!-- [ToDo] mixpanel  -->
+        <!-- [ToDo] Biglietto da visita  -->
+        <!-- [ToDo] Editor di template di notifica sms, email  -->
+        <!-- [ToDo] Modulo sms  -->
+        <!-- [ToDo] aggiungere un prefisso per ogni campo in modo da semplificare le join  -->
+        <!-- [ToDo] Abilitare o meno i job da conf  -->
+        <!-- [ToDo] Usare quartz come scheduler  -->
+        <!-- [ToDo] Update db with local datetime  -->
+        <!-- [ToDo] Spostare l'hosting, valutare azure  -->
+        <!-- [ToDo] Portare sulla configurazione db i dati "legal" del centro medicina -->
+    </feature>
+
+</settings> 

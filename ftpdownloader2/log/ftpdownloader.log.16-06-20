@@ -1,0 +1,65 @@
+20-06-2016 23:33:46 ; INFO ; ddc.ftp.downloader2.console.FtpMainDownloader; - ; 
+=======================================
+FtpDownloader2 - v1.0 (2016/01/01)
+=======================================
+
+20-06-2016 23:33:46 ; INFO ; ddc.ftp.downloader2.console.SpringConsoleApp; - ; AppContext file:[applicationContext.xml]
+20-06-2016 23:37:14 ; INFO ; ddc.ftp.downloader2.console.FtpMainDownloader; - ; 
+=======================================
+FtpDownloader2 - v1.0 (2016/01/01)
+=======================================
+
+20-06-2016 23:37:14 ; INFO ; ddc.ftp.downloader2.console.SpringConsoleApp; - ; AppContext file:[applicationContext.xml]
+20-06-2016 23:37:18 ; DEBUG ; ddc.core.ftp.FtpLiteClient; - ; Ftp - gottardo@5.134.124.246 - Connecting...
+20-06-2016 23:37:19 ; INFO ; ddc.core.ftp.FtpLiteClient; - ; Ftp - gottardo@5.134.124.246 - Connected - host:[gottardo@5.134.124.246] system:[Windows_NT] type:[BINARY] interaction:[PASSIVE]
+20-06-2016 23:37:19 ; INFO ; ddc.core.ftp.FtpLiteClient; - ; Ftp - gottardo@5.134.124.246 - Connecting ok - elapsed:[189ms]
+20-06-2016 23:38:23 ; INFO ; ddc.ftp.downloader2.console.FtpMainDownloader; - ; 
+=======================================
+FtpDownloader2 - v1.0 (2016/01/01)
+=======================================
+
+20-06-2016 23:38:23 ; INFO ; ddc.ftp.downloader2.console.SpringConsoleApp; - ; AppContext file:[applicationContext.xml]
+20-06-2016 23:38:23 ; DEBUG ; ddc.core.ftp.FtpLiteClient; - ; Ftp - gottardo@5.134.124.246 - Connecting...
+20-06-2016 23:38:24 ; INFO ; ddc.core.ftp.FtpLiteClient; - ; Ftp - gottardo@5.134.124.246 - Connected - host:[gottardo@5.134.124.246] system:[Windows_NT] type:[BINARY] interaction:[PASSIVE]
+20-06-2016 23:38:24 ; INFO ; ddc.core.ftp.FtpLiteClient; - ; Ftp - gottardo@5.134.124.246 - Connecting ok - elapsed:[219ms]
+20-06-2016 23:40:03 ; INFO ; ddc.ftp.downloader2.console.FtpMainDownloader; - ; 
+=======================================
+FtpDownloader2 - v1.0 (2016/01/01)
+=======================================
+
+20-06-2016 23:40:03 ; INFO ; ddc.ftp.downloader2.console.SpringConsoleApp; - ; AppContext file:[applicationContext.xml]
+20-06-2016 23:40:04 ; DEBUG ; ddc.core.ftp.FtpLiteClient; - ; Ftp - gottardo@5.134.124.246 - Connecting...
+20-06-2016 23:40:04 ; INFO ; ddc.core.ftp.FtpLiteClient; - ; Ftp - gottardo@5.134.124.246 - Connected - host:[gottardo@5.134.124.246] system:[Windows_NT] type:[BINARY] interaction:[PASSIVE]
+20-06-2016 23:40:04 ; INFO ; ddc.core.ftp.FtpLiteClient; - ; Ftp - gottardo@5.134.124.246 - Connecting ok - elapsed:[201ms]
+20-06-2016 23:40:52 ; INFO ; ddc.ftp.downloader2.console.FtpMainDownloader; - ; 
+=======================================
+FtpDownloader2 - v1.0 (2016/01/01)
+=======================================
+
+20-06-2016 23:40:52 ; INFO ; ddc.ftp.downloader2.console.SpringConsoleApp; - ; AppContext file:[applicationContext.xml]
+20-06-2016 23:40:53 ; DEBUG ; ddc.core.ftp.FtpLiteClient; - ; Ftp - gottardo@5.134.124.246 - Connecting...
+20-06-2016 23:40:53 ; INFO ; ddc.core.ftp.FtpLiteClient; - ; Ftp - gottardo@5.134.124.246 - Connected - host:[gottardo@5.134.124.246] system:[Windows_NT] type:[BINARY] interaction:[PASSIVE]
+20-06-2016 23:40:53 ; INFO ; ddc.core.ftp.FtpLiteClient; - ; Ftp - gottardo@5.134.124.246 - Connecting ok - elapsed:[182ms]
+20-06-2016 23:41:04 ; INFO ; ddc.ftp.downloader2.console.FtpMainDownloader; - ; 
+=======================================
+FtpDownloader2 - v1.0 (2016/01/01)
+=======================================
+
+20-06-2016 23:41:04 ; INFO ; ddc.ftp.downloader2.console.SpringConsoleApp; - ; AppContext file:[applicationContext.xml]
+20-06-2016 23:41:04 ; DEBUG ; ddc.core.ftp.FtpLiteClient; - ; Ftp - gottardo@5.134.124.246 - Connecting...
+20-06-2016 23:41:04 ; INFO ; ddc.core.ftp.FtpLiteClient; - ; Ftp - gottardo@5.134.124.246 - Connected - host:[gottardo@5.134.124.246] system:[Windows_NT] type:[BINARY] interaction:[PASSIVE]
+20-06-2016 23:41:04 ; INFO ; ddc.core.ftp.FtpLiteClient; - ; Ftp - gottardo@5.134.124.246 - Connecting ok - elapsed:[234ms]
+20-06-2016 23:41:11 ; DEBUG ; ddc.core.ftp.FtpLiteClient; - ; Ftp - gottardo@5.134.124.246 - Listing :[/] matcher:[((fake) AND ( x.Path contains ('/log/')))] recursive:[true]...
+20-06-2016 23:41:19 ; DEBUG ; ddc.core.ftp.FtpLiteClient; - ; Ftp - gottardo@5.134.124.246 - Disconnecting...
+20-06-2016 23:41:19 ; INFO ; ddc.core.ftp.FtpLiteClient; - ; Ftp - gottardo@5.134.124.246 - Disconnecting ok - elapsed:[25ms]
+20-06-2016 23:42:22 ; ERROR ; ddc.ftp.downloader2.FtpDownloader; - ; java.lang.NullPointerException
+20-06-2016 23:42:27 ; INFO ; ddc.ftp.downloader2.console.FtpMainDownloader; - ; =======================================
+20-06-2016 23:42:38 ; INFO ; ddc.ftp.downloader2.console.FtpMainDownloader; - ; 
+=======================================
+FtpDownloader2 - v1.0 (2016/01/01)
+=======================================
+
+20-06-2016 23:42:38 ; INFO ; ddc.ftp.downloader2.console.SpringConsoleApp; - ; AppContext file:[applicationContext.xml]
+20-06-2016 23:42:38 ; DEBUG ; ddc.core.ftp.FtpLiteClient; - ; Ftp - gottardo@5.134.124.246 - Connecting...
+20-06-2016 23:42:39 ; INFO ; ddc.core.ftp.FtpLiteClient; - ; Ftp - gottardo@5.134.124.246 - Connected - host:[gottardo@5.134.124.246] system:[Windows_NT] type:[BINARY] interaction:[PASSIVE]
+20-06-2016 23:42:39 ; INFO ; ddc.core.ftp.FtpLiteClient; - ; Ftp - gottardo@5.134.124.246 - Connecting ok - elapsed:[206ms]
