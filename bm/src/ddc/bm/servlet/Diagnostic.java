@@ -63,9 +63,9 @@ public class Diagnostic extends HttpServlet {
 			for (Map.Entry<String, String> e : System.getenv().entrySet()) {
 				map.put("sys-env-" + e.getKey(), e.getValue());
 			}
+						
+			map.put("servlet-real-rootpath", getServletContext().getRealPath("WEB-INF"));
 
-
-			map.put("app-tenant-id", Environment.getTenantId().toString());
 		} catch (Throwable e) {
 			map.put("exception", e.getMessage());
 		}
