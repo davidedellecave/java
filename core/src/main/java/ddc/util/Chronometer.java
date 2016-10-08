@@ -58,7 +58,7 @@ public class Chronometer {
      * @return
      */
     public boolean isCountdownCycle() {    
-        long times = getCountdownCycle();
+        long times = countdownCycle();
         if (times>countdownCounter) {
             countdownCounter=times;
             return true;
@@ -70,7 +70,7 @@ public class Chronometer {
      * Return how many times the countdown period is passed
      * @return
      */
-    public long getCountdownCycle() {    
+    public long countdownCycle() {    
     	return (long)(getElapsed() / countdown);
     }
     

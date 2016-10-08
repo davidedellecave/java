@@ -17,6 +17,8 @@ import javax.ws.rs.core.Response.Status;
 
 import ddc.bm.app.AppTask;
 import ddc.bm.app.Auth;
+import ddc.bm.app.FeatureName;
+import ddc.bm.app.SecurityAnnotation.SecureFeature;
 import ddc.bm.app.TestTask;
 import ddc.bm.servlet.Environment;
 import ddc.task.TaskExitCode;
@@ -35,7 +37,8 @@ public class Test {
 	public Response echo() {
 		return ApiHelper.instance().buildOk("ok", this.getClass().getName());
 	}
-
+	
+	@SecureFeature({FeatureName.REPORT})
 	@GET
 	@Path("/t1")
 	@Consumes(MediaType.APPLICATION_JSON)

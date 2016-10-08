@@ -7,18 +7,20 @@ import org.apache.commons.codec.DecoderException;
 import org.apache.commons.codec.EncoderException;
 import org.apache.commons.lang3.StringUtils;
 
-import ddc.bm.conf.Configuration;
+import ddc.bm.conf.UserConfiguration;
 import ddc.bm.conf.Feature;
 import ddc.bm.conf.User;
 import ddc.bm.conf.Users;
 import ddc.core.crypto.AESCryptoConfig;
 import ddc.core.crypto.Crypto;
-import ddc.core.crypto.CryptoResult;
+import ddc.core.crypto.Token;
+import ddc.core.crypto.TokenException;
 
 ///ToDo transform to singleton
 public class Auth {
+	
 	// private static final String LOG_INFO = "Auth - ";
-	private static Configuration conf = new Configuration();
+	private static UserConfiguration conf = new UserConfiguration();
 
 	public static Auth instance() {
 		return new Auth();
@@ -35,16 +37,17 @@ public class Auth {
 		if (u == null)
 			return false;
 
-		String token = encodeToken(tenant, username, password);
-		System.out.println(token);
+//		String token = Token.encodeToken(getCrypto(), tenant, username, password);
+//		System.out.println(token);
 
 		return password.equals(u.password);
 	}
 
-	public boolean isUserAuthenticated(String tenant, String token) throws NoSuchAlgorithmException, UnsupportedEncodingException, DecoderException, EncoderException {
+	public boolean isUserAuthenticated(String tenant, String token) throws NoSuchAlgorithmException, UnsupportedEncodingException, DecoderException, EncoderException, TokenException {
 		if (StringUtils.isBlank(tenant) || StringUtils.isBlank(token))
 			return false;
-		String toks[] = decodeToken(token);
+		
+		String toks[] = Token.decodeToken(getCrypto(), token);
 		if (toks == null)
 			return false;
 		if (toks.length != 4)
@@ -54,6 +57,19 @@ public class Auth {
 		return false;
 	}
 
+	public String encodeToken(String tenant, String username, String password) throws NoSuchAlgorithmException, TokenException {
+		return Token.encodeToken(getCrypto(), tenant, username, password);
+	}	
+	
+	//TODO Check value in token
+	public String[] decodeToken(String tenant, String token) throws NoSuchAlgorithmException, TokenException {
+		return Token.decodeToken(getCrypto(), token);
+	}	
+	
+	public void checkToken(String token) throws NoSuchAlgorithmException, TokenException {
+		Token.decodeToken(getCrypto(), token);
+	}
+	
 	public boolean isFeatureEnabled(String tenant, String username, String feature) {
 		User u = getUser(tenant, username);
 		if (u == null)
@@ -69,30 +85,12 @@ public class Auth {
 		return new Crypto(new AESCryptoConfig("KeTQvRIFBlDuJUhslStQAw==", 128, "bRK+VCKvZ+D0qSzSJ9pbEg=="));
 	}
 
-	private String encodeToken(String... toks) throws NoSuchAlgorithmException {
-		String token = "";
-		for (String tok : toks) {
-			token += tok.trim() + " ";
-		}
-		token += System.currentTimeMillis();
-		CryptoResult result = getCrypto().encryptBase32(token);
-		if (result.isFailed())
-			return null;
-		return result.data;
-	}
-
-	private String[] decodeToken(String token) throws NoSuchAlgorithmException {
-		CryptoResult result = getCrypto().decryptBase32(token);
-		if (result.isFailed())
-			return null;
-		System.out.println(result.data);
-		return result.data.split(" ");
-	}
-	
 	private User getUser(String tenant, String username) {
 		Users u = conf.getUsers(tenant);
 		if (u != null)
 			return u.get(username);
 		return null;
 	}
+
+
 }
