@@ -124,7 +124,7 @@ public class SqlUtils {
 
 	public static String getRowInfo(ResultSetMetaData meta) throws SQLException {
 		StringBuilder b = new StringBuilder();
-		b.append("Sql row - "); 
+		b.append("Sql schema - table:[" + meta.getTableName(1) + "]\n"); 
 		for (int i = 1; i <= meta.getColumnCount(); i++) {
 			b.append("#:[" + i + "] name:[" + meta.getColumnName(i) + "] type:[" + JDBCType.valueOf(meta.getColumnType(i)).getName() + "]");
 			b.append('\n');
@@ -135,7 +135,7 @@ public class SqlUtils {
 	public static String getRowInfo(ResultSet rs) throws SQLException {
 		ResultSetMetaData meta = rs.getMetaData();
 		StringBuilder b = new StringBuilder();
-		b.append("Sql row - "); 
+		b.append("Sql rows - table:[" + meta.getTableName(1) + "]\n"); 
 		for (int i = 1; i <= meta.getColumnCount(); i++) {
 			b.append("#:[" + i + "] name:[" + meta.getColumnName(i) + "] type:[" + JDBCType.valueOf(meta.getColumnType(i)).getName() + "]");
 			b.append(" value:[" + String.valueOf(rs.getObject(i))+ "]");
