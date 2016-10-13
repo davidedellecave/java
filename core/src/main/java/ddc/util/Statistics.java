@@ -14,11 +14,11 @@ public class Statistics {
 	public String toString() {
 		String info = "";
 		long itemsSucceeded = itemsProcessed-itemsFailed;
-		info += itemsProcessed != 0 ? " itemsProcessed:[" + itemsProcessed + "]": "";
+		info += " itemsProcessed:[" + itemsProcessed + "]";
 		info += itemsSucceeded != 0 ? " itemsSucceeded:[" + itemsSucceeded + "]" : "";
 		info += itemsFailed != 0 ? " itemsFailed:[" + itemsFailed + "]" : "";
 		info += bytesProcessed != 0 ? " bytesProcessed:[" + bytesProcessed + "]" : "";
 		info += chron != null ? " elapsed:[" + chron.getElapsed() + "(" + chron.toString() + ")]": "";
-		return info;
+		return info.trim();
 	}
 }

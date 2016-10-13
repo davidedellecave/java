@@ -24,7 +24,7 @@ public class ConfigurationTask extends Task {
 	}
 
 	private void doRun() throws ConfigurationException {
-		ArgsValue args = ((ArgsValue) getContext().get(ArgsValue.class));
+		ArgsValue args = ((ArgsValue) this.get(ArgsValue.class));
 //		String confFilename = args.getConfFilename();
 		Class<?> confClass = args.getConfClass();	
 		if (confClass==null)
@@ -40,7 +40,7 @@ public class ConfigurationTask extends Task {
 			throw new ConfigurationException(error);
 		}
 		Object v = XmlConfiguration.read(path.toFile());
-		getContext().set(v);
+		this.set(v);
 	}
 
 }

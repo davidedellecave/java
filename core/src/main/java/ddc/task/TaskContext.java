@@ -13,6 +13,14 @@ public class TaskContext {
 		return values.get(clazz);
 	} 
 	
+	public synchronized void set(Object value) {
+		values.put(value.getClass(), value);
+	}
+	
+	public synchronized Object getOptional(Class<? extends Task> clazz) {
+		return values.get(clazz);
+	}
+	
 	public synchronized Object make(Class<?> clazz) throws InstantiationException, IllegalAccessException {
 		if (values.containsKey(clazz)) {
 			return values.get(clazz);	
@@ -26,14 +34,6 @@ public class TaskContext {
 	public synchronized boolean contains(Class<?> clazz) throws TaskException {
 		return values.containsKey(clazz);
 	} 
-	
-	public synchronized void set(Object value) {
-		values.put(value.getClass(), value);
-	}
-
-	public synchronized Object getOptional(Class<? extends Task> clazz) {
-		return values.get(clazz);
-	}
 
 	public synchronized void setParam(String name, Object value) {
 		params.put(name, value);

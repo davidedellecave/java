@@ -1,7 +1,10 @@
 package ddc.core.sql;
 
+import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -11,6 +14,13 @@ public class LiteSchema {
 	private String schema;
 	private String table;
 	private List<LiteColumn> columns = new ArrayList<LiteColumn>();
+
+	public static LiteSchema getSchema(Connection sqlConnection, String schema, String sql) throws SQLException  {
+		try (Statement sqlStatement = sqlConnection.createStatement();) {
+			ResultSet rs = sqlStatement.executeQuery(sql);
+			return build(schema, rs.getMetaData());
+		}
+	}
 	
 	public static LiteSchema build(String schema, ResultSetMetaData meta) throws SQLException {
 		LiteSchema s = new LiteSchema();
@@ -25,7 +35,7 @@ public class LiteSchema {
 			s.getColumns().add(c);
 		}
 		return s;
-	}
+	}	
 	
 	public String getSchema() {
 		return schema;

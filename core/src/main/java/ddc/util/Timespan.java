@@ -168,7 +168,7 @@ public class Timespan {
 			sb.append("ms");
 		}
 
-		return (sb.toString());
+		return (sb.toString().trim());
 	}
 
 	public static Timespan createTimespan(long duration, TimeUnit unit) {

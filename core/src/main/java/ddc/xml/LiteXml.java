@@ -13,6 +13,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -32,6 +34,7 @@ import org.w3c.dom.Attr;
 import org.w3c.dom.CDATASection;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
@@ -203,6 +206,9 @@ public class LiteXml implements LiteXmlDocument {
 		}
 	}
 	
+	/**
+	 * Returns the first (index==0) elmenent of a NodeList of all the Elements in document order with a given tag name and are contained in the document.
+	 */
 	@Override
 	public Element getElement(String name) {
 		NodeList list = doc.getElementsByTagName(name);
@@ -215,6 +221,9 @@ public class LiteXml implements LiteXmlDocument {
 		return null;
 	}
 
+	/**
+	 * Returns a NodeList of all the Elements in document order with a given tag name and are contained in the document.
+	 */
 	@Override
 	public List<Element> getElements(String name) {
 		NodeList list = doc.getElementsByTagName(name);
@@ -361,5 +370,26 @@ public class LiteXml implements LiteXmlDocument {
 			}
 		} catch (XPathExpressionException e) { }
 		return null;	
+	}
+
+	@Override
+	public Map<String, String> getAttributes(Element elem) {
+		Map<String, String> map = new TreeMap<>();
+		NamedNodeMap nodeMap = elem.getAttributes();
+		for (int i=0; i<nodeMap.getLength(); i++) {
+			Node node = nodeMap.item(i);
+			map.put(node.getNodeName(), node.getNodeValue());			
+		}
+		return map;
+	}
+	
+	@Override
+	public String getAttribute(Element elem, String attrName) {
+		NamedNodeMap nodeMap = elem.getAttributes();
+		for (int i=0; i<nodeMap.getLength(); i++) {
+			Node node = nodeMap.item(i);
+			if (node.getNodeName().equals(attrName)) return node.getNodeValue();
+		}
+		return null;
 	}
 }

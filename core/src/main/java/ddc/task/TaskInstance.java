@@ -22,17 +22,11 @@ public class TaskInstance {
 	}
 	
 	public void start() {
-		taskInfo.setExitCode(TaskExitCode.Unknown);
-		taskInfo.setStatus(TaskStatus.Running);
-		taskInfo.setException(null);
-		taskInfo.getChron().start();
+		taskInfo.setAsStart();
 	}
 	
 	public void terminatedAsFailed(Throwable e) {
-		taskInfo.setExitCode(TaskExitCode.Failed);
-		taskInfo.setStatus(TaskStatus.Terminated);
-		taskInfo.setException(e);
-		taskInfo.getChron().stop();
+		taskInfo.terminatedAsFailed(e);
 	}
 	
 	public boolean isTerminated() {
@@ -40,9 +34,7 @@ public class TaskInstance {
 	}
 	
 	public boolean isTerminatedAsSucceeded() {
-		return 
-		taskInfo.getExitCode().equals(TaskExitCode.Succeeded) &&
-		taskInfo.getStatus().equals(TaskStatus.Terminated);
+		return taskInfo.isTerminatedAsSucceeded();
 	}
 	
 	public boolean isNotTerminatedAsSucceeded() {
@@ -50,10 +42,7 @@ public class TaskInstance {
 	}
 	
 	public void terminateAsSucceeded() {
-		taskInfo.setExitCode(TaskExitCode.Succeeded);
-		taskInfo.setStatus(TaskStatus.Terminated);
-		taskInfo.setException(null);
-		taskInfo.getChron().stop();
+		taskInfo.terminateAsSucceeded();
 	}
 	
 	

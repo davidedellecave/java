@@ -16,25 +16,36 @@ public abstract class Task implements Runnable {
 		return context.getParam(name);
 	}
 	
+	public Object getOptional(String name) {
+		return context.getOptionaParam(name);
+	}
+	
+	public Object getOptional(Class<? extends Task> clazz) {
+		return context.getOptional(clazz);
+	}
+	
 	public void set(String name, Object value) {
 		context.setParam(name, value);
 	}
-	
-	/**
-	 * Shortcut for getContext().set(Object value);
-	 * @param clazz
-	 * @return
-	 */
+		
 	public void set(Object value) {
 		context.set(value);
 	}
 	
-	public TaskContext getContext() {
-		return context;
+	public Object make(Class<?> clazz) throws InstantiationException, IllegalAccessException {
+		return context.make(clazz);
 	}
 
 	public void setContext(TaskContext context) {
 		this.context = context;
+	}
+	
+	public Throwable getException() {
+		return context.getException();
+	}
+
+	public void setException(Throwable exception) {
+		this.context.setException(exception);
 	}
 	
 }

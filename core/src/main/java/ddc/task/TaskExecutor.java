@@ -5,6 +5,8 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 
+import ddc.util.Chronometer;
+
 public class TaskExecutor implements Runnable {
 	private final static Logger logger = Logger.getLogger(TaskExecutor.class);
 	private TaskContext ctx = new TaskContext();
@@ -45,13 +47,16 @@ public class TaskExecutor implements Runnable {
 	
 	@Override
 	public void run() {
+		Chronometer chron = new Chronometer();
 		logger.info(INFO + "\n" + schema.toSchemaString());
 		doRun(schema);
 		logger.info(INFO + "\n" + toExecutedTaskString());
-		if (hasFailedTask()) {
-			logger.error(INFO + "Task failed - " + getFailedTask().toString());
+		if (!hasFailedTask()) {
+			logger.info(INFO + "All tasks are completed successfully in " + chron.toString());
 		} else {
-			logger.info(INFO + "All tasks are completed successfully");
+			List<TaskInstance> list = getFailedTask();
+			for (TaskInstance ti : list)
+				logger.error(INFO + "Task failed - " + ti.toString());
 		}
 	}
 	
@@ -94,16 +99,17 @@ public class TaskExecutor implements Runnable {
 
 	public boolean hasFailedTask() {
 		for (TaskInstance t : executedTask) {
-			if (t.isNotTerminatedAsSucceeded()) return true;
+			if (t.isFailed()) return true;
 		}
 		return false;
 	}
 	
-	public TaskInstance getFailedTask() {
+	public List<TaskInstance> getFailedTask() {
+		List<TaskInstance> list = new ArrayList<>();
 		for (TaskInstance t : executedTask) {
-			if (t.isFailed()) return t;
+			if (t.isFailed()) list.add(t);
 		}
-		return null;
+		return list;
 	}
 
 }

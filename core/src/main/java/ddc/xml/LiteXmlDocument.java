@@ -4,13 +4,14 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import javax.xml.xpath.XPathExpression;
 
+import org.w3c.dom.Attr;
 import org.w3c.dom.CDATASection;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.Attr;
 
 /**
  * @author davidedc, 01/Agosto/2013
@@ -33,6 +34,8 @@ public interface LiteXmlDocument {
 	public Element getElementByXPath(String xpath);
 	public List<Element> getElements(String name);
 	public List<Element> getElements(XPathExpression expr);	
+	public Map<String, String> getAttributes(Element elem);
+	public String getAttribute(Element elem, String attrName);
 	public String getValue(String name);
 	public String getValue(XPathExpression expr);
 	public String getValueByXPath(String xpath);
