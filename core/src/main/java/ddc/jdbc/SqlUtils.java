@@ -22,6 +22,10 @@ public class SqlUtils {
 	// select(connection, sql);
 	// return true;
 	// }
+//	
+//	<property name="queryLimitTemplate" value="SELECT $COLUMNS FROM $TABLE LIMIT $MAXROWS"/>
+//	<property name="queryLimitTemplate" value="SELECT $COLUMNS FROM $TABLE WHERE WHERE RowNum <= $MAXROWS"/>
+//	<property name="queryLimitTemplate" value="SELECT TOP $MAXROWS $COLUMNS FROM $TABLE"/>
 
 	private final static int RS_TYPE = ResultSet.TYPE_FORWARD_ONLY;// .TYPE_SCROLL_INSENSITIVE;
 	private final static int RS_CONCURRENCY = ResultSet.CONCUR_READ_ONLY;

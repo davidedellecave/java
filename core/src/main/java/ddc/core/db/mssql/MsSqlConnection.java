@@ -24,6 +24,12 @@ public class MsSqlConnection extends JdbcConnectionFactory {
 		return 1433;
 	}
 
+	@Override
+	public String getSqlLimitTemplate() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 //	@Override
 //	public void testConnection(Connection connection) throws SQLException {
 //		String sql = "SELECT 1";

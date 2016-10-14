@@ -23,4 +23,9 @@ public class PostgreSqlFactory extends JdbcConnectionFactory {
 	public int getDefaultPort() {
 		return 5432;
 	}
+
+	@Override
+	public String getSqlLimitTemplate() {
+		return "SELECT $COLUMNS FROM $TABLE LIMIT $MAXROWS";
+	}
 }

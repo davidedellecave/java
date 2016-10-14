@@ -24,4 +24,10 @@ public class VerticaDbFactory extends JdbcConnectionFactory {
 		return 5433;
 	}
 
+	@Override
+	public String getSqlLimitTemplate() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

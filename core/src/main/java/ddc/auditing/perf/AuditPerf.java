@@ -1,11 +1,10 @@
 package ddc.auditing.perf;
 
-import org.apache.log4j.Logger;
+import java.io.IOException;
+import java.io.OutputStream;
 
 import ddc.util.Chronometer;
-
 public class AuditPerf {
-	private static final Logger logger = Logger.getLogger(AuditPerf.class);
 	public static String AUDIT_TAG_START="<audit metric='PerfTime'>";
 	public static String AUDIT_TAG_END="</audit>";
 	public static char SEP_FIELD=';';
@@ -14,10 +13,12 @@ public class AuditPerf {
 	private Chronometer chron=new Chronometer();	
 	private Class<? extends Object> clazz=null;
 	private String method=null;
+	private OutputStream outStream=null;
 	
-	public AuditPerf(Object obj, String method) {
+	public AuditPerf(Object obj, String method, OutputStream outStream) {
 		this.method = method;
 		this.clazz = obj==null ? this.getClass() : obj.getClass();
+		this.outStream=outStream;
 		start();
 	}
 	
@@ -49,8 +50,9 @@ public class AuditPerf {
 	/**
 	 * stop chron and log success audit
 	 * @return
+	 * @throws IOException 
 	 */
-	public AuditPerf logSuccess() {
+	public AuditPerf logSuccess() throws IOException {
 		stop();
 		doLog(chron.getElapsed(), true);
 		return this;
@@ -59,14 +61,15 @@ public class AuditPerf {
 	/**
 	 * stop chron and log fail audit
 	 * @return
+	 * @throws IOException 
 	 */
-	public AuditPerf logFail() {
+	public AuditPerf logFail() throws IOException {
 		stop();
 		doLog(chron.getElapsed(), false);
 		return this;
 	}
 
-	private void doLog(long elapsedMillis, boolean success) {		
+	private void doLog(long elapsedMillis, boolean success) throws IOException {		
 
 		StringBuilder b = new StringBuilder();
 		b.append(AUDIT_TAG_START)
@@ -90,7 +93,7 @@ public class AuditPerf {
 		.append(success ? "success" : "fail")		
 		
 		.append(AUDIT_TAG_END);
-		logger.info(b.toString());
+		outStream.write(b.toString().getBytes());
 	}
 	
 	@Override

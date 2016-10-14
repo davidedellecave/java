@@ -5,16 +5,17 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.apache.commons.math3.stat.descriptive.SummaryStatistics;
-import org.apache.log4j.Logger;
 
 import ddc.util.Chronometer;
 import ddc.util.FilePair;
 import ddc.util.FileUtils;
 
 public class ParallelFtpClient {
-	private Logger logger = Logger.getLogger(ParallelFtpClient.class);
+	private Logger logger = Logger.getLogger(ParallelFtpClient.class.getName());
 	
 	private int maxConnection = 1;
 	private FtpLiteClientPool pool = null;
@@ -87,7 +88,7 @@ public class ParallelFtpClient {
 						FtpLiteFile file = client.download(p.source, p.target);
 						addBytes(file.getSize());
 					} catch (FtpLiteException e) {
-						logger.error(e.getMessage());
+						logger.severe(e.getMessage());
 					} finally {
 						try {
 							pool.release(client);

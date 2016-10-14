@@ -12,10 +12,7 @@ import org.apache.log4j.Logger;
 
 public class SqlConnectionUtils {
 	private static Logger logger = Logger.getLogger(SqlConnectionUtils.class);
-	
-	
-	
-	
+
 	public static boolean testConnection(Connection connection) throws SQLException {
 		String sql = "SELECT 1";
 		select(connection, sql);

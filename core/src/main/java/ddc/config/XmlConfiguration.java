@@ -3,13 +3,9 @@ package ddc.config;
 import java.io.File;
 import java.io.IOException;
 
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
-
 import ddc.util.XmlUtils;
 
 public class XmlConfiguration {
-	private static final Logger logger = LogManager.getLogger(XmlConfiguration.class);	
 	
 //	public static XmlConfiguration write(File file, XmlConfiguration configuration) throws ConfigurationException {
 //		try {			
@@ -37,8 +33,8 @@ public class XmlConfiguration {
 	try {			
 		XmlUtils.XStreamWrite(file, instance);
 	} catch (IOException e) {
-		logger.error("Configuration Writing - file:[" + file.toString() + "] exception:[" + e.getMessage() + "]");
-		throw new ConfigurationException(e);
+		String info ="Configuration Writing - file:[" + file.toString() + "] exception:[" + e.getMessage() + "]"; 
+		throw new ConfigurationException(info);
 	}		
 }
 	
@@ -48,8 +44,9 @@ public class XmlConfiguration {
 			write(file, o);
 			return o;
 		} catch (InstantiationException | IllegalAccessException e) {
-			logger.error("Configuration Writing - file:[" + file.toString() + "] exception:[" + e.getMessage() + "]");
-			throw new ConfigurationException(e);
+			String info ="Configuration Writing - file:[" + file.toString() + "] exception:[" + e.getMessage() + "]"; 
+			throw new ConfigurationException(info);
+
 		}
 	}
 	
@@ -63,8 +60,9 @@ public class XmlConfiguration {
 		try {
 			return XmlUtils.XStreamRead(file);
 		} catch (IOException | RuntimeException e) {
-			logger.error("Configuration Reading - file:[" + file.toString() + "] exception:[" + e.getMessage() + "]");
-			throw new ConfigurationException(e);
+			String info ="Configuration Reading - file:[" + file.toString() + "] exception:[" + e.getMessage() + "]"; 
+			throw new ConfigurationException(info);
+
 		}
 	}
 	
@@ -72,8 +70,9 @@ public class XmlConfiguration {
 		try {		
 			file.delete();
 		} catch (SecurityException e) {
-			logger.error("Configuration Deleting - file:[" + file.toString() + "] exception:[" + e.getMessage() + "]");
-			throw new ConfigurationException(e);
+			String info ="Configuration Deleting - file:[" + file.toString() + "] exception:[" + e.getMessage() + "]"; 
+			throw new ConfigurationException(info);
+
 		}
 	}
 }

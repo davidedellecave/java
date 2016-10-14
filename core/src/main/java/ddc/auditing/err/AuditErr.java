@@ -1,11 +1,9 @@
 package ddc.auditing.err;
 
-import org.apache.log4j.Logger;
-
-import ddc.auditing.perf.AuditPerf;
+import java.io.IOException;
+import java.io.OutputStream;
 
 public class AuditErr {
-	private static final Logger logger = Logger.getLogger(AuditPerf.class);
 	public static String AUDIT_TAG_START="<audit metric='Error'>";
 	public static String AUDIT_TAG_END="</audit>";
 	
@@ -13,15 +11,15 @@ public class AuditErr {
 	public static char SEP_VALUE='=';
 	public static char REPLACING_CHAR='_';
 	
-	public static void log(@SuppressWarnings("rawtypes") Class clazz, String method, Throwable exception) {		
-		doLog(clazz, method, getString(exception));
+	public static void log(OutputStream outStream, @SuppressWarnings("rawtypes") Class clazz, String method, Throwable exception) throws IOException {		
+		doLog(outStream, clazz, method, getString(exception));
 	}
 
-	public static void log(@SuppressWarnings("rawtypes") Class clazz, String method, String message) {
-		doLog(clazz, method, getString(message));
+	public static void log(OutputStream outStream, @SuppressWarnings("rawtypes") Class clazz, String method, String message) throws IOException {
+		doLog(outStream, clazz, method, getString(message));
 	}
 	
-	private static void doLog(@SuppressWarnings("rawtypes") Class clazz, String method, String message) {		
+	private static void doLog(OutputStream outStream, @SuppressWarnings("rawtypes") Class clazz, String method, String message) throws IOException {		
 		StringBuilder b = new StringBuilder();
 		b.append(AUDIT_TAG_START)
 		.append("timestamp")		
@@ -36,7 +34,7 @@ public class AuditErr {
 		.append(SEP_VALUE)
 		.append(replaceReservedChars(message))		
 		.append(AUDIT_TAG_END);
-		logger.info(b.toString());
+		outStream.write(b.toString().getBytes());
 	}
 	
 	private static String replaceReservedChars(String source) {

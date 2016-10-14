@@ -22,6 +22,8 @@ public abstract class JdbcConnectionFactory {
 	public abstract String getDriver();
 
 	public abstract int getDefaultPort();
+	
+	public abstract String getSqlLimitTemplate();
 
 	public String getHost() {
 		return conf.getHost();
@@ -41,6 +43,14 @@ public abstract class JdbcConnectionFactory {
 	
 	public String getPassword() {
 		return conf.getPassword();
+	}
+	
+	public String getSqlLimit(String table, String columns, int limit) {
+		String s = getSqlLimitTemplate();
+		s = s.replace("$TABLE",table);
+		s = s.replace("$COLUMNS", columns);
+		s = s.replace("$MAXROWS", String.valueOf(limit));
+		return s;
 	}
 	
 	

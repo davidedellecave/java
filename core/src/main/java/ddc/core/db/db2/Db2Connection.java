@@ -38,6 +38,12 @@ public class Db2Connection extends JdbcConnectionFactory {
 	public int getDefaultPort() {
 		return 3003;
 	}
+
+	@Override
+	public String getSqlLimitTemplate() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 
 //	@Override

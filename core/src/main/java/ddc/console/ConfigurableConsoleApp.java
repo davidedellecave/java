@@ -3,13 +3,10 @@ package ddc.console;
 import java.io.File;
 import java.io.IOException;
 
-import org.apache.log4j.Logger;
-
 import ddc.util.Validator;
 
 
 public abstract class ConfigurableConsoleApp extends AbstractConsoleApp {
-	private final static Logger logger = Logger.getLogger(ConfigurableConsoleApp.class);
 	private Configuration configuration;
 	private File configurationFile;
 	
@@ -22,9 +19,8 @@ public abstract class ConfigurableConsoleApp extends AbstractConsoleApp {
 		Configuration configuration=null;
 		File file = new File(args[0]);
 		if (Validator.isNotFile(file)) {
-			System.err.println("Configuration file not found:[" + file.getAbsolutePath() + "]");
+			System.err.println("Configuration file not found - writing default file:[" + file.getAbsolutePath() + "]");
 			configuration = createConfiguration();
-			System.out.println("Writing default configuration file:[" +  file.getAbsolutePath() + "]");
 			writeConfiguration(file, configuration);
 		}
 		System.out.println("Loading configuration file:[" + file.getAbsolutePath() + "]");
@@ -43,7 +39,7 @@ public abstract class ConfigurableConsoleApp extends AbstractConsoleApp {
 		try {
 			Configuration.writeConfiguration(file, conf);
 		} catch (IOException e) {
-			logger.error("writeConfiguration() exception " + e.getMessage()); 
+			System.err.println("writeConfiguration() exception " + e.getMessage()); 
 		}
 	}
 	
@@ -51,7 +47,7 @@ public abstract class ConfigurableConsoleApp extends AbstractConsoleApp {
 		try {
 			return Configuration.readConfiguration(file);
 		} catch (IOException e) {
-			logger.error("readConfiguration() exception " + e.getMessage()); 
+			System.err.println("readConfiguration() exception " + e.getMessage()); 
 			return null;
 		}
 	}

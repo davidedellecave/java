@@ -23,9 +23,12 @@ public class OracleConnection extends JdbcConnectionFactory {
 	public int getDefaultPort() {
 		return 1521;
 	}
-	
-	
 
+	@Override
+	public String getSqlLimitTemplate() {
+		return null;
+	}
+	
 //	@Override
 //	//jdbc:oracle:thin:<database_name>@<server>[:<1521>]:SID
 //	//jdbc:oracle:thin:@vm-test:1521:XE

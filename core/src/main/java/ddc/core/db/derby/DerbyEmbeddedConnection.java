@@ -28,6 +28,12 @@ public class DerbyEmbeddedConnection extends JdbcConnectionFactory {
 		return 0;
 	}
 
+	@Override
+	public String getSqlLimitTemplate() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 //	@Override
 //	public void checkConnection(Connection connection) throws SQLException {
 //		SqlConnectionUtils.select(connection, "SELECT 1");
