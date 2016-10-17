@@ -1,4 +1,4 @@
-package ddc.core.sql;
+package ddc.core.schema;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -63,21 +63,35 @@ public class LiteSchema {
 		}
 	}
 	
-	public String generateCreateTable() {
+	public String generateCreateTable() throws SQLException {
 		return generateCreateTable(defaultTypeMap);
 	}
-	public String generateCreateTable(Map<JDBCType, String> typeMap) {
+	
+	public String generateCreateTable(Map<JDBCType, String> typeMap) throws SQLException {
 		StringBuilder sql = new StringBuilder();
-		sql.append("CREATE TABLE " + table + " (");
+		sql.append("CREATE TABLE " + table + " (\n");
 		for (LiteColumn c : getColumns()) {
-			sql.append(c.getName());
+			sql.append("\t\"" + c.getName() + "\"");
 			String typeName = typeMap.get(c.getType());
-			sql.append(" " + typeName);
-			if (!c.isNullable()) {
-				sql.append(" IS NOT NULL");	
+			if (typeName==null) {
+				throw new SQLException("Sql type is not mapped - type:[" + c.getType() + "]");
 			}
-			sql.append(",");
+			sql.append(" " + typeName );
+			if (c.getSize()<Integer.MAX_VALUE && "CHAR".equals(typeName.toUpperCase())) {
+				sql.append(" (" +  c.getSize() +")");	
+			}
+			if (c.getSize()<Integer.MAX_VALUE && "VARCHAR".equals(typeName.toUpperCase())) {
+				sql.append(" (" +  c.getSize() +")");	
+			}
+			
+			if (!c.isNullable()) {
+				sql.append(" NOT NULL");	
+			}
+			sql.append(",\n");
 		}
+		//remove \n
+		sql = sql.deleteCharAt(sql.length()-1);
+		//remove last comma
 		sql = sql.deleteCharAt(sql.length()-1);
 		sql.append(")");
 		return sql.toString();

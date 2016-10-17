@@ -1,4 +1,4 @@
-package ddc.core.sql;
+package ddc.core.schema;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

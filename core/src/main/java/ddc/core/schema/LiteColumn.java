@@ -1,4 +1,4 @@
-package ddc.core.sql;
+package ddc.core.schema;
 
 
 

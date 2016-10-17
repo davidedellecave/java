@@ -1,9 +1,8 @@
 package ddc.core.db.postgresql;
 
+import java.sql.JDBCType;
 import java.util.Map;
 import java.util.TreeMap;
-
-import ddc.core.sql.JDBCType;
 
 
 public class PostreSqlTypeMap {

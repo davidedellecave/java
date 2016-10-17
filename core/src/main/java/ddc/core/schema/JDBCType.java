@@ -1,4 +1,4 @@
-package ddc.core.sql;
+package ddc.core.schema;
 
 import java.sql.Types;
 
@@ -154,24 +154,24 @@ public enum JDBCType implements SQLType {
     /**
      * Identifies the generic SQL type {@code SQLXML}.
      */
-    SQLXML(Types.SQLXML);
+    SQLXML(Types.SQLXML),
 
     /* JDBC 4.2 Types */
 
     /**
      * Identifies the generic SQL type {@code REF_CURSOR}.
      */
-//    REF_CURSOR(Types.REF_CURSOR),
+    REF_CURSOR(Types.REF_CURSOR),
 
     /**
      * Identifies the generic SQL type {@code TIME_WITH_TIMEZONE}.
      */
-//    TIME_WITH_TIMEZONE(Types.TIME_WITH_TIMEZONE),
+    TIME_WITH_TIMEZONE(Types.TIME_WITH_TIMEZONE),
 
     /**
      * Identifies the generic SQL type {@code TIMESTAMP_WITH_TIMEZONE}.
      */
-//    TIMESTAMP_WITH_TIMEZONE(Types.TIMESTAMP_WITH_TIMEZONE);
+    TIMESTAMP_WITH_TIMEZONE(Types.TIMESTAMP_WITH_TIMEZONE);
 
     /**
      * The Integer value for the JDBCType.  It maps to a value in
