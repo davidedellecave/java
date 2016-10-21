@@ -7,10 +7,10 @@ import org.apache.commons.codec.DecoderException;
 import org.apache.commons.codec.EncoderException;
 import org.apache.commons.lang3.StringUtils;
 
-import ddc.bm.conf.UserConfiguration;
+import ddc.bm.conf.UserConfReader;
 import ddc.bm.conf.Feature;
-import ddc.bm.conf.User;
-import ddc.bm.conf.Users;
+import ddc.bm.conf.UserConf;
+import ddc.bm.conf.UsersConf;
 import ddc.core.crypto.AESCryptoConfig;
 import ddc.core.crypto.Crypto;
 import ddc.core.crypto.Token;
@@ -20,7 +20,7 @@ import ddc.core.crypto.TokenException;
 public class Auth {
 	
 	// private static final String LOG_INFO = "Auth - ";
-	private static UserConfiguration conf = new UserConfiguration();
+	private static UserConfReader conf = new UserConfReader();
 
 	public static Auth instance() {
 		return new Auth();
@@ -33,7 +33,7 @@ public class Auth {
 	public boolean isUserAuthenticated(String tenant, String username, String password) throws NoSuchAlgorithmException, UnsupportedEncodingException, EncoderException {
 		if (StringUtils.isBlank(tenant) || StringUtils.isBlank(username) || StringUtils.isBlank(password))
 			return false;
-		User u = getUser(tenant, username);
+		UserConf u = getUser(tenant, username);
 		if (u == null)
 			return false;
 
@@ -71,7 +71,7 @@ public class Auth {
 	}
 	
 	public boolean isFeatureEnabled(String tenant, String username, String feature) {
-		User u = getUser(tenant, username);
+		UserConf u = getUser(tenant, username);
 		if (u == null)
 			return false;
 		Feature f = u.features.get(feature);
@@ -85,8 +85,8 @@ public class Auth {
 		return new Crypto(new AESCryptoConfig("KeTQvRIFBlDuJUhslStQAw==", 128, "bRK+VCKvZ+D0qSzSJ9pbEg=="));
 	}
 
-	private User getUser(String tenant, String username) {
-		Users u = conf.getUsers(tenant);
+	private UserConf getUser(String tenant, String username) {
+		UsersConf u = conf.getUsers(tenant);
 		if (u != null)
 			return u.get(username);
 		return null;

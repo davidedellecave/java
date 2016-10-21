@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<settings>
+	<tenants>
+		<tenant name="dev">
+			<prop name="nameV" driver="drV" database="dbV" username="usV" password="pwV" />
+		</tenant>
+
+
+
+
+	</tenants>
+</settings>

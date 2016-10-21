@@ -22,13 +22,14 @@ import ddc.xml.LiteXml;
 import ddc.xml.LiteXmlDocument;
 import ddc.xml.LiteXmlException;
 
-public class UserConfiguration {
-	private static final String LOG_INFO = "Configuration parser - ";
+public class UserConfReader {
+	private static final String RESOURCE="user.conf.xml";
+	private static final String LOG_INFO = "User configuration parser - ";
 	private static Tenants tenants = null;
 	
 	public void reload() {
 		try {
-			InputStream is =  this.getClass().getResourceAsStream("conf.xml");
+			InputStream is =  this.getClass().getResourceAsStream(RESOURCE);
 			LiteXmlDocument xml = getXml(is);
 			Features features = parseFeatures(xml);
 			Profiles profiles = parseProfiles(xml, features);
@@ -38,7 +39,7 @@ public class UserConfiguration {
 		}		
 	}
 
-	public Users getUsers(String tenant) {
+	public UsersConf getUsers(String tenant) {
 		if (tenants==null) reload();
 		return tenants.get(tenant);
 	}
@@ -46,10 +47,10 @@ public class UserConfiguration {
 	public void print(PrintStream w) {
 		if (tenants==null) reload();
 		String space ="";
-		for ( Map.Entry<String, Users> t: tenants.entrySet()) {
+		for ( Map.Entry<String, UsersConf> t: tenants.entrySet()) {
 			w.println(t.getKey());
 			space += '\t';
-			for (Map.Entry<String, User> u : t.getValue().entrySet()) {
+			for (Map.Entry<String, UserConf> u : t.getValue().entrySet()) {
 				w.println(space + u.getKey());
 				space += '\t';
 				for (Map.Entry<String, Feature> f : u.getValue().features.entrySet()) {
@@ -65,7 +66,7 @@ public class UserConfiguration {
 		private static final long serialVersionUID = 4439886502218904233L;
 	}
 
-	private class Tenants extends TreeMap<String, Users> {
+	private class Tenants extends TreeMap<String, UsersConf> {
 		private static final long serialVersionUID = 4439886502218904233L;
 	}
 
@@ -74,7 +75,7 @@ public class UserConfiguration {
 		List<Element> elems = xml.getElements("tenant");
 		for (Element e : elems) {
 			String tenant = getAttribute(e, "name");
-			Users users = new Users();
+			UsersConf users = new UsersConf();
 			NodeList list = e.getChildNodes();
 			for (int i = 0; i < list.getLength(); i++) {
 				Node node = list.item(i);
@@ -83,7 +84,7 @@ public class UserConfiguration {
 					String password = getAttribute((Element) node, "password");
 					String profileList = getAttribute((Element) node, "profiles");
 					Features features = getFeaturesFromProfiles(tenant, username, profiles, profileList);
-					User user = new User();
+					UserConf user = new UserConf();
 					user.password = password;
 					user.features = features;
 					if (users.containsKey(username)) {
