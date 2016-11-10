@@ -22,7 +22,7 @@ public class MailTask extends Task{
 	public void run() {
 		try {
 			doRun();
-		} catch (Exception e) {
+		} catch (Throwable e) {
 			throw new TaskException(e);
 		}
 	}

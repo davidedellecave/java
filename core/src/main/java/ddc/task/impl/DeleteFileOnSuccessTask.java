@@ -29,7 +29,7 @@ public class DeleteFileOnSuccessTask extends Task {
 	public void run() {
 		try {
 			doRun();
-		} catch (Exception e) {
+		} catch (Throwable e) {
 			throw new TaskException(e);
 		}
 	}

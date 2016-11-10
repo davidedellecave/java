@@ -34,7 +34,7 @@ public class CsvJsonFilter extends BaseTFileFilter {
 		
 		if (header.length!=toks.length) {		
 			if (toks.length>header.length && ignoreExcedingFields) {
-				logger.debug("Fields are greater than header - ignored");
+				logger.debug("The number of fields is greater than fields declared on header - ignored");
 			} else {
 				String info = "Error on number of fields - headerFields#:[" + header.length + "] lineFields#:[" + toks.length + "]";
 				if (repeatErrorDebug) {

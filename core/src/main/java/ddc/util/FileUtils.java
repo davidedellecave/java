@@ -71,6 +71,7 @@ public class FileUtils extends org.apache.commons.io.FileUtils {
 	}
 	
 	public static boolean isReadbleFolder(String folder) {
+		if (folder==null) return false;
 		return isReadbleFolder(new File(folder));
 	}
 	
