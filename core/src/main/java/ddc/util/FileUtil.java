@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.attribute.FileTime;
 
 public class FileUtil {
 	public static String loadContent(String path) throws IOException {
@@ -36,6 +37,15 @@ public class FileUtil {
 		return replaceFilename(path, newFilename);
 	}
     
+	public static boolean areEqualSizeAndModifiedTime(Path f1, Path f2) throws IOException {
+		long size1 = Files.size(f1);
+		long size2 = Files.size(f2);
+		FileTime time1 = Files.getLastModifiedTime(f1);
+		FileTime time2 = Files.getLastModifiedTime(f2);
+		return (size1==size2 && time1.toMillis()==time2.toMillis());
+	
+	}
+	
 	/**
 	 * Rename file on filesystem
 	 * @param path

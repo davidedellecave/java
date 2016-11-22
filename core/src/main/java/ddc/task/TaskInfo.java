@@ -22,7 +22,9 @@ public class TaskInfo {
 		this.name=name;
 	}
 	public TaskInfo incItemProcessed() {
-		return incItemProcessed(1);
+		stats.itemsProcessed ++;
+		return this;
+
 	}
 
 	public TaskInfo incItemProcessed(int items) {
@@ -36,7 +38,19 @@ public class TaskInfo {
 	}
 
 	public TaskInfo incItemFailed() {
-		return incItemFailed(1);
+		stats.itemsFailed ++;
+		return this;
+
+	}
+	
+	public TaskInfo incItemAffected() {
+		stats.itemsAffected ++;
+		return this;
+	}
+	
+	public TaskInfo incItemAffected(int items) {
+		stats.itemsAffected += items;
+		return this;
 	}
 
 	public TaskInfo setAsStart() {

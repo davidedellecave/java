@@ -11,14 +11,14 @@ import ddc.files.scan.ScanFolder.ScanResult;
 
 public class ScanUtil {
 
-	public static List<Path> getFiles(Path folder, final String[] includeExtension, final String[] excludeExtension)
+	public static List<Path> getFiles(Path folder, boolean recursive, final String[] includeExtension, final String[] excludeExtension)
 			throws Exception {
 		if (!folder.toFile().isDirectory()) {
 			return Collections.emptyList();
 		}
 		ScanFolder s = new ScanFolder();
 		final List<Path> list = new ArrayList<>();
-		s.deepFirstScan(folder.toFile(), true, new BaseFolderHandler() {
+		s.deepFirstScan(folder.toFile(), recursive, new BaseFolderHandler() {
 			@Override
 			public ScanResult handleFile(File file, ContextScan ctx) {
 				boolean toAdd = false;
