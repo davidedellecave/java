@@ -37,7 +37,7 @@ public class ApiFilter implements Filter {
 	
 	
 	private void processBefore(Map<String, Object> ctx, ServletRequest request, ServletResponse response) {
-		Environment.setDomain(request.getServerName());
+//		Environment.setDomain(request.getServerName());
 		
 //		ctx.put("chron", cron);
 	}

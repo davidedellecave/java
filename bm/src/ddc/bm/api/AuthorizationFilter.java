@@ -39,13 +39,13 @@ public class AuthorizationFilter implements ContainerRequestFilter {
 
 		// // Get the resource class which matches with the requested URL
 		// // Extract the roles declared by it
-		Class<?> resourceClass = resourceInfo.getResourceClass();
-		List<FeatureName> list = extractFeatures(resourceClass);
-		for (FeatureName f : list) {
-			if (!Auth.instance().isFeatureEnabled("tenant", securityContext.getUserPrincipal().getName(), f.toString())) {
-				requestContext.abortWith(Response.status(Response.Status.FORBIDDEN).build());
-			}
-		}
+//		Class<?> resourceClass = resourceInfo.getResourceClass();
+//		List<FeatureName> list = extractFeatures(resourceClass);
+//		for (FeatureName f : list) {
+//			if (!Auth.instance().isFeatureEnabled("tenant", securityContext.getUserPrincipal().getName(), f.toString())) {
+//				requestContext.abortWith(Response.status(Response.Status.FORBIDDEN).build());
+//			}
+//		}
 		//
 		// // Get the resource method which matches with the requested URL
 		// // Extract the roles declared by it

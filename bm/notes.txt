@@ -18,3 +18,13 @@ The following list summarizes all the types that can be injected using the @Cont
     javax.servlet.HttpServletResponse
     javax.servlet.ServletConfig
     javax.servlet.ServletContext
+    
+    
+==== Abstraction Type
+
+String < Enum
+Boolean
+Date (one day)
+Time (hour of day)
+Timestamp
+long 

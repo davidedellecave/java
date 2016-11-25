@@ -1,50 +1,59 @@
 package ddc.bm.servlet;
 
+import java.util.Map;
+import java.util.TreeMap;
+
 public class Environment {
-	public enum EnvType {
-		dev, test, gottardo, spartaco, unknown
-	}
 
-	private static final ThreadLocal<info> threadLocal = new ThreadLocal<info>() {
-		@Override
-		protected info initialValue() {
-			return (new Environment()).new info();
-		}
-	};
 
-	public class info {
-		private String domain;
 
-		public String getDomain() {
-			return domain;
-		}
+	
+//	public static void setDomain(String domain) {
+//	threadLocal.get().setDomain(domain);
+//}
 
-		public void setDomain(String domain) {
-			this.domain = domain;
-		}
 
-	}
+	
+//	private static final ThreadLocal<info> threadLocal = new ThreadLocal<info>() {
+//		@Override
+//		protected info initialValue() {
+//			return (new Environment()).new info();
+//		}
+//	};
 
-	public static void setDomain(String domain) {
-		threadLocal.get().setDomain(domain);
-	}
+//	public class info {
+//		private String domain;
+//
+//		public String getDomain() {
+//			return domain;
+//		}
+//
+//		public void setDomain(String domain) {
+//			this.domain = domain;
+//		}
+//
+//	}
 
-	public static EnvType getTenantId() {
-		String domain = threadLocal.get().getDomain();
-		if ("localhost".equals(domain)) {
-			return EnvType.dev;
-		}
-		if ("app.delle-cave.it".equals(domain)) {
-			return EnvType.test;
-		}
-		if ("admin.medisportgottardo.it".equals(domain)) {
-			return EnvType.gottardo;
-		}
-		if ("admin.spartacoms.it".equals(domain)) {
-			return EnvType.spartaco;
-		}
-		return EnvType.unknown;
-	}
+//	public static void setDomain(String domain) {
+//		threadLocal.get().setDomain(domain);
+//	}
+
+//	public static EnvType getTenantId() {
+//		String domain = threadLocal.get().getDomain();
+//		if ("localhost".equals(domain)) {
+//			return EnvType.dev;
+//		}
+//		if ("app.delle-cave.it".equals(domain)) {
+//			return EnvType.test;
+//		}
+//		if ("admin.medisportgottardo.it".equals(domain)) {
+//			return EnvType.gottardo;
+//		}
+//		if ("admin.spartacoms.it".equals(domain)) {
+//			return EnvType.spartaco;
+//		}
+//		return EnvType.unknown;
+//	}
 
 	//
 	// This class provides thread-local variables.

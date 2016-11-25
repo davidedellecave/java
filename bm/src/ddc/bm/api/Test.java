@@ -92,8 +92,7 @@ public class Test {
 		AppTask<String, String> a = new AppTask<String, String>() {
 			@Override
 			protected String run(String domain) throws Throwable {
-				Environment.setDomain(domain);
-				return Environment.getTenantId().toString();
+				return "t5";
 			}
 		};
 		a.execute(request.getServerName());
@@ -111,9 +110,10 @@ public class Test {
 		AppTask<String, Boolean> a = new AppTask<String, Boolean>() {
 			@Override
 			protected Boolean run(String domain) throws Throwable {
-				Environment.setDomain(domain);
-				String tenant = Environment.getTenantId().toString();
-				return Auth.instance().isUserAuthenticated(tenant, username, password);
+//				Environment.setDomain(domain);
+//				String tenant = Environment.getTenantId().toString();
+//				return Auth.instance().isUserAuthenticated(tenant, username, password);
+				return false;
 			}
 		};
 		a.execute(request.getServerName());
@@ -128,9 +128,10 @@ public class Test {
 		AppTask<String, Boolean> a = new AppTask<String, Boolean>() {
 			@Override
 			protected Boolean run(String domain) throws Throwable {
-				Environment.setDomain(domain);
-				String tenant = Environment.getTenantId().toString();
-				return Auth.instance().isUserAuthenticated(tenant, token);
+//				Environment.setDomain(domain);
+//				String tenant = Environment.getTenantId().toString();
+//				return Auth.instance().isUserAuthenticated(tenant, token);
+				return false;
 			}
 		};
 		a.execute(request.getServerName());

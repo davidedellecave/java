@@ -22,7 +22,9 @@ import javax.ws.rs.core.Response;
 
 import ddc.bm.app.AppTask;
 import ddc.bm.app.Auth;
+import ddc.bm.model.User;
 import ddc.bm.servlet.Environment;
+import ddc.bm.servlet.Tenant.TenantName;
 
 /**
  * @author dellecave
@@ -45,12 +47,7 @@ public class Login {
 		AppTask<String, String> a = new AppTask<String, String>() {
 			@Override
 			protected String run(String domain) throws Throwable {
-				Environment.setDomain(domain);
-				String tenant = Environment.getTenantId().toString();
-				Auth auth = new Auth();
-				if (!auth.isUserAuthenticated(tenant, username, password)) 
-					throw new SecurityException("User is not authenticated");
-				return auth.encodeToken(tenant, username, password); 
+				return Auth.getToken(domain, username, password);
 			}
 		};		
 		a.execute(request.getServerName());
