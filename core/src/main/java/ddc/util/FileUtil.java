@@ -1,5 +1,6 @@
 package ddc.util;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -42,8 +43,13 @@ public class FileUtil {
 		long size2 = Files.size(f2);
 		FileTime time1 = Files.getLastModifiedTime(f1);
 		FileTime time2 = Files.getLastModifiedTime(f2);
-		return (size1==size2 && time1.toMillis()==time2.toMillis());
-	
+		return (size1==size2 && time1.toMillis()==time2.toMillis());	
+	}
+
+	public static boolean areEqualModifiedTime(Path f1, Path f2) throws IOException {
+		FileTime time1 = Files.getLastModifiedTime(f1);
+		FileTime time2 = Files.getLastModifiedTime(f2);
+		return (time1.toMillis()==time2.toMillis());	
 	}
 	
 	/**
@@ -54,5 +60,15 @@ public class FileUtil {
 	 */
 	public static void rename(Path path, String newName) throws IOException {
 		Files.move(path, path.resolveSibling(newName));
+	}
+
+	public static boolean isOlderThan(File file, long duration) {
+		long date = System.currentTimeMillis()-duration;
+		return (file.lastModified()<date);
+	}
+	
+	public static boolean isNewerThan(File file, long duration) {
+		long date = System.currentTimeMillis()-duration;
+		return (file.lastModified()>=date);
 	}
 }

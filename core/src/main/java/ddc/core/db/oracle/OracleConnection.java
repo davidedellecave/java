@@ -26,7 +26,7 @@ public class OracleConnection extends JdbcConnectionFactory {
 
 	@Override
 	public String getSqlLimitTemplate() {
-		return null;
+		return "SELECT $COLUMNS FROM $TABLE WHERE ROWNUM<=$MAXROWS";
 	}
 	
 //	@Override

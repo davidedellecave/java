@@ -2,7 +2,7 @@ package ddc.task;
 
 public abstract class Task implements Runnable {
 	private TaskContext context = null;	
-
+	
 	/**
 	 * Shortcut for getContext().get(Class<?> clazz);
 	 * @param clazz

@@ -31,8 +31,7 @@ public class Token {
 		long millis = Long.valueOf(toks[toks.length-1]);		  
 		DateTime dt = new DateTime(millis);
 		if (dt.plus(validity.getMillis()).isBeforeNow())		
-			throw new TokenException("Token - token expired");
-		
+			throw new TokenException("Token - token expired");		
 		return toks;
 	}
 }

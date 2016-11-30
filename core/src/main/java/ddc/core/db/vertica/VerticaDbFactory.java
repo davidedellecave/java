@@ -26,8 +26,7 @@ public class VerticaDbFactory extends JdbcConnectionFactory {
 
 	@Override
 	public String getSqlLimitTemplate() {
-		// TODO Auto-generated method stub
-		return null;
+		return "SELECT $COLUMNS FROM $TABLE LIMIT $MAXROWS";
 	}
 
 }

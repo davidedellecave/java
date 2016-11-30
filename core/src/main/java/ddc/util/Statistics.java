@@ -13,13 +13,22 @@ public class Statistics {
 	
 	public String getBytesOverSecs() {
 		if (chron.getElapsed()==0) return "";
+		if (bytesProcessed==0) return "";
 		long ratio = (long)bytesProcessed / chron.getElapsed()*1000;
+		if (ratio==0) return "";
 		return ratio + " bytes/sec (" +  FileUtils.byteCountToDisplaySize(ratio) + "/sec)";
 	}
 
 	public String getItemsOverSecs() {
 		if (chron.getElapsed()==0) return "";
-		return String.valueOf(itemsProcessed / chron.getElapsed()*1000)  + " items/sec";
+		if (itemsProcessed==0) return "";
+		long ratio = itemsProcessed / chron.getElapsed()*1000;
+		if (ratio==0) return "";
+		return String.valueOf(ratio)  + " items/sec";
+	}
+	
+	public String getProcessedHumanReadable() {
+		return FileUtils.byteCountToDisplaySize(bytesProcessed);
 	}
 	
 	@Override
@@ -30,10 +39,10 @@ public class Statistics {
 		info += itemsSucceeded != 0 ? " itemsSucceeded:[" + itemsSucceeded + "]" : "";
 		info += itemsAffected != 0 ? " itemsAffected:[" + itemsAffected + "]" : "";
 		info += itemsFailed != 0 ? " itemsFailed:[" + itemsFailed + "]" : "";
-		info += bytesProcessed != 0 ? " bytesProcessed:[" + bytesProcessed + " (" + FileUtils.byteCountToDisplaySize(bytesProcessed) + ")]" : "";
-		info += chron != null ? " elapsed:[" + chron.getElapsed() + " (" + chron.toString() + ")]": "";
-		info += getBytesOverSecs()!="" ? " bytes/sec:[" + getBytesOverSecs() + "]": "";
-		info += getItemsOverSecs()!="" ? " items/sec:[" + getItemsOverSecs() + "]": "";
+		info += bytesProcessed != 0 ? " bytesProcessed:[" + bytesProcessed + " (" + getProcessedHumanReadable() + ")]" : "";
+		info += chron != null ? " elapsed:[" + chron.toString() + "]": "";
+		info += getBytesOverSecs()!="" ? " [" + getBytesOverSecs() + "]": "";
+		info += getItemsOverSecs()!="" ? " :[" + getItemsOverSecs() + "]": "";
 		return info.trim();
 	}
 }

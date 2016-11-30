@@ -1,5 +1,7 @@
 package ddc.util;
 
+import java.util.concurrent.TimeUnit;
+
 import org.apache.log4j.Logger;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -9,6 +11,23 @@ import ddc.dao._LiteFields;
 public class ParseUtil {
 	private static Logger logger = Logger.getLogger(ParseUtil.class);
 
+	/**
+	 * Parse string formatted as "Quantity TimeUnit"
+	 * TimeUnit range in {MILLISECONDS,MICROSECONDS, MILLISECONDS, SECONDS, MINUTES, HOURS, DAYS}
+	 * @param duration
+	 * @return millis of duration, if input string is not well formatted return 0
+	 */
+	public static long parseTimeAndUnit(String duration) {
+			long b = 0;
+			String[] t = duration.split(" ");
+			if (t.length==2) { 
+				long d1 = Long.parseLong(t[0].trim());
+				TimeUnit u1 = TimeUnit.valueOf(t[1].trim());
+				b = TimeUnit.MILLISECONDS.convert(d1, u1);
+			}
+			return b;
+	}
+	
 	public static Double parseDouble(Object value) {
 		try {
 			return Double.parseDouble(String.valueOf(value));

@@ -77,8 +77,7 @@ public class TaskExecutor implements Runnable {
 			doRun(node.getOnSuccess());
 		} catch (Throwable e) {			
 			info = INFO + " - task:["+ node.getName() + "] error:[" + e.getMessage() + "]"; 
-//			e.printStackTrace();
-			logger.error(info);
+			logger.error(info, e);
 			getContext().setException(e);
 			if (t!=null) t.terminatedAsFailed(e);
 			doRun(node.getOnFail());

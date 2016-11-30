@@ -167,7 +167,8 @@ public class TaskInfo {
 		StringBuffer b = new StringBuffer();
 		b.append("status:[" + status.toString() + "] ");
 		b.append("exitCode:[" + exitCode.toString() + "] ");
-		b.append(stats != null ? "stats:[" + stats.toString() + "] " : "");
+		b.append((stats != null && stats.chron!=null) ? "elapsed:[" + stats.chron.toString() + "] " : "");
+		b.append((stats != null && stats.bytesProcessed!=0) ? "bytesProcessed:[" + stats.getProcessedHumanReadable() + "] " : "");
 		b.append(exception != null ? "exception:[" + exception.getMessage() + "] " : "");
 		return b.toString();
 	}

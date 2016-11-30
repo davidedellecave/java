@@ -9,8 +9,8 @@ import java.sql.Statement;
 import org.apache.log4j.Logger;
 
 public abstract class JdbcConnectionFactory {
-	private static boolean IsDriverLoaded=false;
 	private static Logger logger = Logger.getLogger(JdbcConnectionFactory.class);
+	private boolean driverLoaded=false;
 	private JdbcConfig conf;
 
 	public JdbcConnectionFactory(JdbcConfig conf) {
@@ -57,15 +57,15 @@ public abstract class JdbcConnectionFactory {
 	public Connection createConnection() throws SQLException, ClassNotFoundException {
 		loadDriver();
 		Connection c = DriverManager.getConnection(getUrl(), conf.getUser(), conf.getPassword());
-		logger.debug("Sql connection created:[" + getUrl() + "]");
+		logger.debug("Sql connection created:[" + getUrl() + "] user:[" + conf.getUser() + "]");
 		return c;
 	}
 
 	public void loadDriver() throws ClassNotFoundException {
-		if (IsDriverLoaded) return;
+		if (driverLoaded) return;
 		Class.forName(getDriver());
 		logger.debug("Sql driver loaded:[" + getDriver() + "]");
-		IsDriverLoaded = true;
+		driverLoaded = true;
 	}
 
 	public static void close(PreparedStatement statement) {
@@ -103,5 +103,12 @@ public abstract class JdbcConnectionFactory {
 				e.printStackTrace();
 			}
 		}
+	}
+	
+	@Override
+	public String toString() {
+		if (conf!=null)
+			return conf.toString();
+		return super.toString();
 	}
 }

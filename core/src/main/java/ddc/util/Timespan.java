@@ -92,24 +92,24 @@ public class Timespan {
 
 		if (hours > 0 || (days > 0 && (minutes > 0 || seconds > 0))) {
 			sb.append(" " + hours);
-			sb.append("h");
+			sb.append(" h");
 		}
 
 		if (minutes > 0 || ((days > 0 || hours > 0) && seconds > 0)) {
 			sb.append(" " + minutes);
-			sb.append("'");
+			sb.append(" mins");
 		}
 
 		if (seconds > 0) {
-			sb.append(" " + seconds);
-			sb.append("''");
+			sb.append(" " + seconds);			
 			if (millis > 0) {
 				sb.append(".");
 				sb.append(millis);
 			}
+			sb.append(" secs");
 		} else if (millis > 0) {
 			sb.append(millis);
-			sb.append("ms");
+			sb.append(" ms");
 		}
 
 		return (sb.toString().trim());
