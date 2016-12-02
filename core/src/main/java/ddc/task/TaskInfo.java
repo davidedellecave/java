@@ -172,4 +172,16 @@ public class TaskInfo {
 		b.append(exception != null ? "exception:[" + exception.getMessage() + "] " : "");
 		return b.toString();
 	}
+	
+	public String toPrettyString() {
+		StringBuffer b = new StringBuffer();
+		b.append(name != null ? "\n name:[" + name + "] " : "");
+		b.append("\n\t status:[" + status.toString() + "] ");
+		b.append("\n\t exitCode:[" + exitCode.toString() + "] ");
+		b.append(stats != null ? "\n\t stats:[" + stats.toString() + "] " : "");
+		b.append(exception != null ? "\n\t exception:[" + exception.getMessage() + "] " : "");
+		b.append(uuid != null ? "\n\t uuid:[" + uuid.toString() + "] " : "");
+		b.append(parentUuid != null ? "\n\t parentUuid:[" + parentUuid.toString() + "] " : "");
+		return b.toString();
+	}
 }

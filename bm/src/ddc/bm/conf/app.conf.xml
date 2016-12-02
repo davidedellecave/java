@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<settings>
+	<tenants>
+		<tenant name="dev">
+			<prop name="admin.maintenance.mode" value="false" />
+			<prop name="admin.db" driver="" database="devDb" username="" password="" />
+		</tenant>
+
+		<tenant name="test">
+			<prop name="admin.maintenance.mode" value="false" />
+			<prop name="admin.db" driver="" database="testDb" username="" password="" />
+		</tenant>
+
+		<tenant name="gottardo">
+			<prop name="admin.maintenance.mode" value="false" />
+			<prop name="admin.db" driver="" database="gottardoDb" username="" password="" />
+		</tenant>
+
+		<tenant name="spartaco">
+			<prop name="admin.maintenance.mode" value="false" />
+			<prop name="admin.db" driver="" database="spartacoDb" username="" password="" />
+		</tenant>
+
+		<tenant name="wrong">
+			<prop name="pippo" value="false" />
+			<prop name="pippo" driver="" database="spartacoDb" username="" password="" />
+		</tenant>
+
+	</tenants>
+</settings>

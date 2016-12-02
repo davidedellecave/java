@@ -153,7 +153,7 @@ public class SqlUtils {
 			b.append("Sql row\n");
 		}
 		for (int i = 1; i <= meta.getColumnCount(); i++) {
-			b.append("#:[" + i + "] name:[" + meta.getColumnName(i) + "] type:[" + JDBCType.valueOf(meta.getColumnType(i)).getName() + "]");
+			b.append("\t#:[" + i + "] name:[" + meta.getColumnName(i) + "] type:[" + JDBCType.valueOf(meta.getColumnType(i)).getName() + "]");
 			b.append(" value:[" + String.valueOf(rs.getObject(i)) + "]");
 			b.append('\n');
 		}
