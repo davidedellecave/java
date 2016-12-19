@@ -2,6 +2,8 @@ package ddc.util;
 
 public class Statistics {
 	public Chronometer chron = new Chronometer();
+	public String itemsSource = null;
+	public String itemsTarget = null;
 	public long itemsProcessed=0;
 	public long itemsAffected=0;
 	public long itemsFailed=0;
@@ -35,6 +37,8 @@ public class Statistics {
 	public String toString() {
 		String info = "";
 		long itemsSucceeded = itemsProcessed-itemsFailed;
+		info += itemsSource != null ? " itemsSource:[" + itemsSource + "]": "";
+		info += itemsTarget != null ? " itemsTarget:[" + itemsTarget + "]": "";		
 		info += " itemsProcessed:[" + itemsProcessed + "]";
 		info += itemsSucceeded != 0 ? " itemsSucceeded:[" + itemsSucceeded + "]" : "";
 		info += itemsAffected != 0 ? " itemsAffected:[" + itemsAffected + "]" : "";

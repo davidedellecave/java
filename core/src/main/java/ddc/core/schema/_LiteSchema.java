@@ -10,20 +10,20 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-public class LiteSchema {
+public class _LiteSchema {
 	private String schema;
 	private String table;
 	private List<LiteColumn> columns = new ArrayList<LiteColumn>();
 
-	public static LiteSchema getSchema(Connection sqlConnection, String schema, String sql) throws SQLException  {
+	public static _LiteSchema getSchema(Connection sqlConnection, String schema, String sql) throws SQLException  {
 		try (Statement sqlStatement = sqlConnection.createStatement();) {
 			ResultSet rs = sqlStatement.executeQuery(sql);
 			return build(schema, rs.getMetaData());
 		}
 	}
 	
-	public static LiteSchema build(String schema, ResultSetMetaData meta) throws SQLException {
-		LiteSchema s = new LiteSchema();
+	public static _LiteSchema build(String schema, ResultSetMetaData meta) throws SQLException {
+		_LiteSchema s = new _LiteSchema();
 		s.setSchema(schema);
 		s.setTable(meta.getTableName(1));
 		for (int i = 1; i <= meta.getColumnCount(); i++) {

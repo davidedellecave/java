@@ -1,7 +1,9 @@
 package ddc.task;
 
+import java.util.List;
 import java.util.UUID;
 
+import ddc.util.Chronometer;
 import ddc.util.Statistics;
 
 /**
@@ -15,14 +17,17 @@ public class TaskInfo {
 	private TaskStatus status = TaskStatus.Ready;
 	private Throwable exception = null;
 	private Statistics stats = new Statistics();
+	private List<TaskInfo> subTasks = null;
 
-	
-	public TaskInfo() {}
-	public TaskInfo(String name) {
-		this.name=name;
+	public TaskInfo() {
 	}
+
+	public TaskInfo(String name) {
+		this.name = name;
+	}
+
 	public TaskInfo incItemProcessed() {
-		stats.itemsProcessed ++;
+		stats.itemsProcessed++;
 		return this;
 
 	}
@@ -38,16 +43,16 @@ public class TaskInfo {
 	}
 
 	public TaskInfo incItemFailed() {
-		stats.itemsFailed ++;
+		stats.itemsFailed++;
 		return this;
 
 	}
-	
+
 	public TaskInfo incItemAffected() {
-		stats.itemsAffected ++;
+		stats.itemsAffected++;
 		return this;
 	}
-	
+
 	public TaskInfo incItemAffected(int items) {
 		stats.itemsAffected += items;
 		return this;
@@ -72,7 +77,7 @@ public class TaskInfo {
 	public TaskInfo terminatedAsFailed() {
 		return terminatedAsFailed(null);
 	}
-	
+
 	public TaskInfo terminateAsSucceeded() {
 		this.setExitCode(TaskExitCode.Succeeded);
 		this.setStatus(TaskStatus.Terminated);
@@ -150,6 +155,14 @@ public class TaskInfo {
 		this.name = name;
 	}
 
+	public List<TaskInfo> getSubTasks() {
+		return subTasks;
+	}
+
+	public void setSubTasks(List<TaskInfo> subTasks) {
+		this.subTasks = subTasks;
+	}
+
 	@Override
 	public String toString() {
 		StringBuffer b = new StringBuffer();
@@ -167,12 +180,12 @@ public class TaskInfo {
 		StringBuffer b = new StringBuffer();
 		b.append("status:[" + status.toString() + "] ");
 		b.append("exitCode:[" + exitCode.toString() + "] ");
-		b.append((stats != null && stats.chron!=null) ? "elapsed:[" + stats.chron.toString() + "] " : "");
-		b.append((stats != null && stats.bytesProcessed!=0) ? "bytesProcessed:[" + stats.getProcessedHumanReadable() + "] " : "");
+		b.append((stats != null && stats.chron != null) ? "elapsed:[" + stats.chron.toString() + "] " : "");
+		b.append((stats != null && stats.bytesProcessed != 0) ? "bytesProcessed:[" + stats.getProcessedHumanReadable() + "] " : "");
 		b.append(exception != null ? "exception:[" + exception.getMessage() + "] " : "");
 		return b.toString();
 	}
-	
+
 	public String toPrettyString() {
 		StringBuffer b = new StringBuffer();
 		b.append(name != null ? "\n name:[" + name + "] " : "");
@@ -183,5 +196,30 @@ public class TaskInfo {
 		b.append(uuid != null ? "\n\t uuid:[" + uuid.toString() + "] " : "");
 		b.append(parentUuid != null ? "\n\t parentUuid:[" + parentUuid.toString() + "] " : "");
 		return b.toString();
+	}
+
+	public static TaskInfo aggregate(String name, List<TaskInfo> taskList) {
+		long minStartTime = Chronometer.getNowMillis();
+		long maxEndTime = Chronometer.get1January1970Millis();
+		
+		TaskInfo res = new TaskInfo(name + " #" + taskList.size());
+		res.setExitCode(TaskExitCode.Succeeded);
+		for (TaskInfo ti : taskList) {
+			//Set only first exception
+			if (!res.isFailed() && ti.isFailed()) {
+				res.setExitCode(TaskExitCode.Failed);
+				res.setException(ti.getException());
+			}
+			minStartTime = ti.getStats().chron.getStartTime()<minStartTime ? minStartTime=ti.getStats().chron.getStartTime() : minStartTime;
+			maxEndTime = ti.getStats().chron.getEndTime()>maxEndTime ? maxEndTime=ti.getStats().chron.getEndTime() : maxEndTime;
+			res.getStats().bytesProcessed += ti.getStats().bytesProcessed;
+			res.getStats().itemsProcessed += ti.getStats().itemsProcessed;
+			res.getStats().itemsFailed += ti.getStats().itemsFailed;
+			res.getStats().itemsAffected += ti.getStats().itemsAffected;
+		}
+		Chronometer c = new Chronometer(minStartTime, maxEndTime);
+		res.stats.chron=c;
+		res.setStatus(TaskStatus.Terminated);		
+		return res;
 	}
 }

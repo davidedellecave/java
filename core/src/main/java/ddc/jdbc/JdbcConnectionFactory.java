@@ -57,6 +57,11 @@ public abstract class JdbcConnectionFactory {
 		return s;
 	}
 
+	public String getSqlSubqueryLimitTemplate(String table, String subquery, int limit) {		
+		return getSqlLimit("(" + subquery + ") T", "*", limit);
+	}
+	
+	
 	public Connection createConnection() throws SQLException, ClassNotFoundException {
 		loadDriver();
 		Connection c = DriverManager.getConnection(getUrl(), conf.getUser(), conf.getPassword());
@@ -64,6 +69,10 @@ public abstract class JdbcConnectionFactory {
 		return c;
 	}
 
+	public Connection createConnection(int retry) throws SQLException, ClassNotFoundException {
+		return createConnection(retry, DEFAULT_CONNECTION_WAIT);
+	}
+	
 	public Connection createConnection(int retry, long waitMillis) throws SQLException, ClassNotFoundException {
 		retry = retry > 0 ? retry : DEFAULT_CONNECTION_RETRY;
 		waitMillis = waitMillis > 0 ? waitMillis : DEFAULT_CONNECTION_WAIT;
