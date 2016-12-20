@@ -8,6 +8,7 @@ import ddc.util.Clone;
 
 public class LiteMailConfig {
 	private String smtpHost="smtp.host.com";
+	private String popHost="pop3.host.com";
 	private int port = -1;//25, 587
 	private String username="username";
 	private String password="password";
@@ -114,5 +115,16 @@ public class LiteMailConfig {
 	}
 	public void setSubjectTemplate(String subjectTemplate) {
 		this.subjectTemplate = subjectTemplate;
-	}	
+	}
+
+
+	public String getPopHost() {
+		return popHost;
+	}
+
+
+	public void setPopHost(String popHost) {
+		this.popHost = popHost;
+	}
+
 }
