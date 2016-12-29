@@ -54,9 +54,10 @@ public class TaskExecutor implements Runnable {
 		if (!hasFailedTask()) {
 			logger.info(INFO + "All tasks are completed successfully in " + chron.toString());
 		} else {
+			logger.error(INFO + "All tasks are completed with ERROR in " + chron.toString());
 			List<TaskInstance> list = getFailedTask();
 			for (TaskInstance ti : list)
-				logger.error(INFO + "Task failed - " + ti.toString());
+				logger.error(INFO + "\t task failed - " + ti.toString() + "\n");
 		}
 	}
 	

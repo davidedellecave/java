@@ -64,8 +64,10 @@ public abstract class JdbcConnectionFactory {
 	
 	public Connection createConnection() throws SQLException, ClassNotFoundException {
 		loadDriver();
+		Chronometer chron = new Chronometer();
+		logger.debug("Getting sql connection:[" + getUrl() + "] user:[" + conf.getUser() + "] ...");
 		Connection c = DriverManager.getConnection(getUrl(), conf.getUser(), conf.getPassword());
-		logger.debug("Sql connection created:[" + getUrl() + "] user:[" + conf.getUser() + "]");
+		logger.info("Sql connection created:[" + getUrl() + "] user:[" + conf.getUser() + "] elapsed:" + chron.toString());
 		return c;
 	}
 
@@ -74,6 +76,7 @@ public abstract class JdbcConnectionFactory {
 	}
 	
 	public Connection createConnection(int retry, long waitMillis) throws SQLException, ClassNotFoundException {
+		Chronometer chron = new Chronometer();
 		retry = retry > 0 ? retry : DEFAULT_CONNECTION_RETRY;
 		waitMillis = waitMillis > 0 ? waitMillis : DEFAULT_CONNECTION_WAIT;
 		int counter = 0;
@@ -82,11 +85,12 @@ public abstract class JdbcConnectionFactory {
 			try {
 				if (counter > 0)
 					Chronometer.sleep(waitMillis);
+				chron.start();
 				Connection conn = createConnection();				
 				return conn;
 			} catch (Throwable e) {
 				counter++;
-				logger.warn("Connection failed - connection:[" + this.toString() + "] \n\t exception:[" + e.getMessage() + "] \n\t retry... " + counter + "/" + retry);
+				logger.warn("Connection failed - connection:[" + this.toString() + "] \n\t elapsed:["+ chron.toString() +"] \n\t exception:[" + e.getMessage() + "] \n\t retry... " + counter + "/" + retry);
 				exception = e;
 			}
 		}
