@@ -67,7 +67,7 @@ public abstract class JdbcConnectionFactory {
 		Chronometer chron = new Chronometer();
 		logger.debug("Getting sql connection:[" + getUrl() + "] user:[" + conf.getUser() + "] ...");
 		Connection c = DriverManager.getConnection(getUrl(), conf.getUser(), conf.getPassword());
-		logger.info("Sql connection created:[" + getUrl() + "] user:[" + conf.getUser() + "] elapsed:" + chron.toString());
+		logger.info("Sql connection created:[" + getUrl() + "] user:[" + conf.getUser() + "] elapsed:[" + chron.toString() + "]");
 		return c;
 	}
 

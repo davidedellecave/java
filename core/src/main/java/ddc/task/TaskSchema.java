@@ -63,9 +63,8 @@ public class TaskSchema extends BTree<Class<? extends Task>> {
 	}
 	
 	public TaskSchema nextSuccess(Class<? extends Task> clazz, Class<? extends Task> onFailClass) {
-		TaskSchema t = new TaskSchema(clazz);
-		this.setLeft(t);
-		this.setRight(new TaskSchema(onFailClass));
+		TaskSchema t = nextSuccess(clazz);
+		getChild(clazz).setOnFail(onFailClass);
 		return t;
 	}
 	

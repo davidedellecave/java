@@ -45,8 +45,8 @@ public class Statistics {
 		info += itemsFailed != 0 ? " itemsFailed:[" + itemsFailed + "]" : "";
 		info += bytesProcessed != 0 ? " bytesProcessed:[" + bytesProcessed + " (" + getProcessedHumanReadable() + ")]" : "";
 		info += chron != null ? " elapsed:[" + chron.toString() + "]": "";
-		info += getBytesOverSecs()!="" ? " [" + getBytesOverSecs() + "]": "";
-		info += getItemsOverSecs()!="" ? " :[" + getItemsOverSecs() + "]": "";
+		info += getBytesOverSecs()!="" ? " sizeRatio:[" + getBytesOverSecs() + "]": "";
+		info += getItemsOverSecs()!="" ? " itemRatio:[" + getItemsOverSecs() + "]": "";
 		return info.trim();
 	}
 }
