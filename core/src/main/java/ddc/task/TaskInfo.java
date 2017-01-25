@@ -155,6 +155,15 @@ public class TaskInfo {
 		this.name = name;
 	}
 
+
+	public long getSubTasksSucceeded() {
+		return subTasks.stream().filter(x -> x.isTerminatedAsSucceeded()).count();
+	}
+
+	public long getSubTasksFailed() {
+		return subTasks.stream().filter(x -> x.isFailed()).count();
+	}
+
 	public List<TaskInfo> getSubTasks() {
 		return subTasks;
 	}

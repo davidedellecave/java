@@ -18,8 +18,16 @@ public class TextFile {
 		Files.write(path, text.getBytes(), CREATE);
 	}
 	
+	public static void create(String path, String text) throws UnsupportedEncodingException, IOException {
+		Files.write(Paths.get(path), text.getBytes(), CREATE);
+	}
+	
 	public static void append(Path path, String text) throws UnsupportedEncodingException, IOException {
 		Files.write(path, text.getBytes(), APPEND);
+	}
+	
+	public static void append(String path, String text) throws UnsupportedEncodingException, IOException {
+		append(Paths.get(path), text); 
 	}
 
 	public static String load(String path) throws UnsupportedEncodingException, IOException {
@@ -30,20 +38,20 @@ public class TextFile {
 		return new String(Files.readAllBytes(path), "UTF-8");
 	}
 	
-	public static TextFile instanceLoad(Path path) throws UnsupportedEncodingException, IOException {
+	public static TextFile newLoadInstance(Path path) throws UnsupportedEncodingException, IOException {
 		TextFile tf = new TextFile(path);
 		tf.load();
 		return tf;
 	}
 	
-	public static TextFile instanceCreate(Path path, String text) throws UnsupportedEncodingException, IOException {
+	public static TextFile newCreateInstance(Path path, String text) throws UnsupportedEncodingException, IOException {
 		TextFile tf = new TextFile(path);
 		tf.setText(text);
 		tf.create();
 		return tf;
 	}
 	
-	public static TextFile instanceAppend(Path path, String text) throws UnsupportedEncodingException, IOException {
+	public static TextFile newAppendInstance(Path path, String text) throws UnsupportedEncodingException, IOException {
 		TextFile tf = new TextFile(path);
 		tf.setText(text);
 		tf.append();
@@ -52,6 +60,10 @@ public class TextFile {
 	
 	public TextFile(Path path) {
 		this.path=path;
+	}
+	
+	public TextFile(String path) {
+		this.path=Paths.get(path);
 	}
 	
 	public TextFile(Path path, String charset) {
