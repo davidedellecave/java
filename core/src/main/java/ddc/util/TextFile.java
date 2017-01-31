@@ -22,8 +22,17 @@ public class TextFile {
 		Files.write(Paths.get(path), text.getBytes(), CREATE);
 	}
 	
+	
+	/**
+	 * Append text to file, if file does not exist will be created
+	 */
 	public static void append(Path path, String text) throws UnsupportedEncodingException, IOException {
-		Files.write(path, text.getBytes(), APPEND);
+		if (!Files.exists(path)) {
+			Files.write(path, text.getBytes(), CREATE);
+		} else {
+			Files.write(path, text.getBytes(), APPEND);	
+		}
+		
 	}
 	
 	public static void append(String path, String text) throws UnsupportedEncodingException, IOException {

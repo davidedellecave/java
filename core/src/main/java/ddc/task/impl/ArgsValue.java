@@ -9,7 +9,11 @@ public class ArgsValue {
 	public ArgsValue(String[] args) {
 		this.args=args;
 	}
-		
+	
+	public String[] getArgs() {
+		return args;
+	}
+
 	public String getArgs(int index) throws ConfigurationException {
 		if (args.length<=index) 
 			throw new ConfigurationException("Input arg is expected index:[" + index + "]");
