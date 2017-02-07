@@ -1,5 +1,8 @@
 package ddc.csv;
 
+import java.io.BufferedWriter;
+import java.io.Closeable;
+
 /*
  * Java CSV is a stream based library for reading and writing
  * CSV and other delimited data.
@@ -23,13 +26,9 @@ package ddc.csv;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.io.OutputStreamWriter;
-import java.io.BufferedWriter;
 import java.io.Writer;
 import java.nio.charset.Charset;
-
-import com.sun.xml.internal.ws.Closeable;
 
 /**
  * A stream based writer for writing delimited text data to a file or a stream.

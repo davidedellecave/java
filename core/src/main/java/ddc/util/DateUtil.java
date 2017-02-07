@@ -2,6 +2,9 @@ package ddc.util;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -166,6 +169,32 @@ public class DateUtil extends org.apache.commons.lang3.time.DateUtils {
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(d);
 		return (cal.get(Calendar.HOUR_OF_DAY)*60*60+cal.get(Calendar.MINUTE)*60+cal.get(Calendar.SECOND))*1000;
+	}
+	
+	public static Instant toInstant(Date date) {
+		return date.toInstant();
+	}
+	
+	public static Date toDate(Instant instant) {
+		return Date.from(instant);
+	}
+	
+	public static long toMillis(Instant instant) {
+		return instant.toEpochMilli();
+	}
+	
+	public static Instant toInstant(long millis) {
+		return Instant.ofEpochMilli(millis);
+	}
+
+	public static LocalDateTime toLocalDateTime(long millis) {
+		Instant i = Instant.ofEpochMilli(millis);
+		return LocalDateTime.ofInstant(i, ZoneOffset.UTC);
+	}
+	
+	public static long toMillis(LocalDateTime ldt) {
+		Instant instant = ldt.toInstant(ZoneOffset.UTC);
+		return instant.toEpochMilli();
 	}
 	
 
