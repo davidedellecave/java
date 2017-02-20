@@ -22,9 +22,6 @@ import javax.ws.rs.core.Response;
 
 import ddc.bm.app.AppTask;
 import ddc.bm.app.Auth;
-import ddc.bm.model.User;
-import ddc.bm.servlet.Environment;
-import ddc.bm.servlet.Tenant.TenantName;
 
 /**
  * @author dellecave
