@@ -2,9 +2,11 @@ package ddc.jdbc;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.JDBCType;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
 
@@ -28,6 +30,8 @@ public abstract class JdbcConnectionFactory {
 	public abstract int getDefaultPort();
 
 	public abstract String getSqlLimitTemplate();
+	
+	public abstract Map<JDBCType, String> getSqlTypeMap();
 
 	public String getHost() {
 		return conf.getHost();

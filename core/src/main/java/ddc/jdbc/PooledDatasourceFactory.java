@@ -77,7 +77,8 @@ import org.apache.commons.pool2.impl.GenericObjectPool;
 //
 public class PooledDatasourceFactory {
 
-	public DataSource createDataSource(JdbcConnectionFactory conn) {
+	public DataSource createDataSource(JdbcConnectionFactory conn) throws ClassNotFoundException {
+		conn.loadDriver();
 		//
 		// First, we'll create a ConnectionFactory that the
 		// pool will use to create Connections.

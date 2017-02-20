@@ -1,5 +1,8 @@
 package ddc.core.db.derby;
 
+import java.sql.JDBCType;
+import java.util.Map;
+
 import ddc.jdbc.JdbcConfig;
 import ddc.jdbc.JdbcConnectionFactory;
 
@@ -30,6 +33,12 @@ public class DerbyEmbeddedConnection extends JdbcConnectionFactory {
 
 	@Override
 	public String getSqlLimitTemplate() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Map<JDBCType, String> getSqlTypeMap() {
 		// TODO Auto-generated method stub
 		return null;
 	}

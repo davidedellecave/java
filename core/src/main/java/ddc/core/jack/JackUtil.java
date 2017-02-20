@@ -14,6 +14,11 @@ public class JackUtil {
 		return (mapper.writerWithDefaultPrettyPrinter()).writeValueAsString(node);
 	}
 	
+	public static String prettify(Object node) throws JsonGenerationException, JsonMappingException, IOException {
+		ObjectMapper mapper = new ObjectMapper();
+		return (mapper.writerWithDefaultPrettyPrinter()).writeValueAsString(node);
+	}
+	
 	public static JsonNode parse(String json) {
 		ObjectMapper mapper = new ObjectMapper();
 		return mapper.valueToTree(json);

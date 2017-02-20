@@ -2,7 +2,9 @@ package ddc.util;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.lang.ProcessBuilder.Redirect;
@@ -10,37 +12,58 @@ import java.lang.ProcessBuilder.Redirect;
 public class ShellExecute {
 
 	private Process proc = null;
-	private String shellCommand = null;
-	private PrintWriter out = null;
-	private BufferedReader in = null;
+	private StringBuffer output = new StringBuffer();
+	private Throwable exception = null;
 
-	// private ErrorReader errorReader = null;
-
-	public ShellExecute(String shellCommand) {
-		this.shellCommand = shellCommand;
+	public void executeAsyncAndClose(final String shellCommand) {
+		Runnable r = new Runnable() {
+			@Override
+			public void run() {
+				try {
+					executeAndClose(shellCommand);
+				} catch (Throwable e) {
+					exception = e;
+				}
+			}
+		};
+		Thread t = new Thread(r);
+		t.start();
 	}
 
-	public void createProcess() throws IOException {
+	public String executeAndClose(final String shellCommand) throws IOException, InterruptedException {
+		output.delete(0, output.length());
+		try {
+			if (proc == null)
+				createProcess(shellCommand);
+			proc.waitFor();
+			BufferedReader reader = new BufferedReader(new InputStreamReader(proc.getInputStream()));
+			String line = null;
+			while ((line = reader.readLine()) != null) {
+				output.append(line + "\n");
+			}
+		} finally {
+			close();
+		}
+		return output.toString();
+	}
+
+	private void createProcess(final String shellCommand) throws IOException {
 		ProcessBuilder pb = new ProcessBuilder(shellCommand);
 		pb.redirectOutput(Redirect.PIPE);
 		proc = pb.start();
-		in = new BufferedReader(new InputStreamReader(proc.getInputStream()));
-		out = new PrintWriter(new OutputStreamWriter(proc.getOutputStream()));
 	}
 
-	public void execute(String command) throws IOException, InterruptedException {
-		if (proc == null)
-			createProcess();
-		out.println(command);		
-		out.flush();
-		proc.waitFor();
-//		close();
-//		proc=null;
-		//String line;
-		//while ((line=in.readLine())!=null) System.out.println(line);
+	public StringBuffer getOutput() {
+		return output;
 	}
 
-	public void close() {
+	public Throwable getException() {
+		return exception;
+	}
+
+	private void close() {
+		InputStream in = proc.getInputStream();
+		OutputStream out = proc.getOutputStream();
 		if (in != null)
 			try {
 				in.close();
@@ -52,4 +75,26 @@ public class ShellExecute {
 				e.printStackTrace();
 			}
 	}
+
+	// private String executeCommand(String command) throws IOException,
+	// InterruptedException {
+	// StringBuffer output = new StringBuffer();
+	//
+	// Process p = null;
+	// try {
+	// p = Runtime.getRuntime().exec(command);
+	// p.waitFor();
+	// BufferedReader reader = new BufferedReader(new
+	// InputStreamReader(p.getInputStream()));
+	// String line = "";
+	// while ((line = reader.readLine()) != null) {
+	// output.append(line + "\n");
+	// }
+	// String out = output.toString();
+	// return out;
+	// } finally {
+	// if (p != null)
+	// p.destroy();
+	// }
+	// }
 }

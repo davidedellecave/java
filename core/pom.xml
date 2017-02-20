@@ -8,7 +8,6 @@
 	<packaging>jar</packaging>
 
 	<name>core</name>
-	<url>http://maven.apache.org</url>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -97,6 +96,13 @@
 			<version>2.4.2</version>
 			<scope>provided</scope>
 		</dependency>
+		
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-dbcp2</artifactId>
+			<version>2.1.1</version>
+			<scope>provided</scope>
+		</dependency>		
 
 		<dependency>
 			<groupId>org.apache.commons</groupId>
@@ -112,12 +118,7 @@
 			<scope>provided</scope>
 		</dependency>
 
-		<dependency>
-			<groupId>org.apache.commons</groupId>
-			<artifactId>commons-dbcp2</artifactId>
-			<version>2.1.1</version>
-			<scope>provided</scope>
-		</dependency>
+
 
 		<!-- Commons Compress -->
 		<dependency>
@@ -226,6 +227,9 @@
 			<scope>provided</scope>
 		</dependency>
 
+		<!-- ======================== -->
+		<!-- Mongo DB -->
+		<!-- ======================== -->
 		<dependency>
 			<groupId>org.mongodb</groupId>
 			<artifactId>mongodb-driver-async</artifactId>
@@ -237,6 +241,16 @@
 			<groupId>org.mongodb</groupId>
 			<artifactId>mongodb-driver</artifactId>
 			<version>3.1.0</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<!-- ======================== -->
+		<!-- Vertica DB -->
+		<!-- ======================== -->
+		<dependency>
+			<groupId>vertica</groupId>
+			<artifactId>vertica-jdbc</artifactId>
+			<version>7.2.3</version>
 			<scope>provided</scope>
 		</dependency>
 

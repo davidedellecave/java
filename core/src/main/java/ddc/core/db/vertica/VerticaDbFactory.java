@@ -1,5 +1,8 @@
 package ddc.core.db.vertica;
 
+import java.sql.JDBCType;
+import java.util.Map;
+
 import ddc.jdbc.JdbcConfig;
 import ddc.jdbc.JdbcConnectionFactory;
 
@@ -49,5 +52,10 @@ public class VerticaDbFactory extends JdbcConnectionFactory {
 //			  "password": "mypassword",
 //			  "enabled": true
 //			}
+	}
+
+	@Override
+	public Map<JDBCType, String> getSqlTypeMap() {
+		return VerticaSqlTypeMap.map;
 	}
 }

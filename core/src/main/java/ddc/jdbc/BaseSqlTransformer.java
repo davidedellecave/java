@@ -44,7 +44,7 @@ public abstract class BaseSqlTransformer  {
 	private static DataSource datasource = null;
 	private static ColInfo[] metadata = null;
 
-	private void openDataSource() {
+	private void openDataSource() throws ClassNotFoundException {
 		if (datasource == null) {
 			PooledDatasourceFactory factory = new PooledDatasourceFactory();
 			datasource = factory.createDataSource(getJdbcConnection());

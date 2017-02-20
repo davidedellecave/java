@@ -17,7 +17,7 @@ public abstract class DatasourceTask extends Task {
 		return dsFactory;
 	}
 
-	public Connection getConnection(JdbcConnectionFactory connFactory) throws SQLException {
+	public Connection getConnection(JdbcConnectionFactory connFactory) throws SQLException, ClassNotFoundException {
 		return getDatasourceFactory().createDataSource(connFactory).getConnection();
 	}
 

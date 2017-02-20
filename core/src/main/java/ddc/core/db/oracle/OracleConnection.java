@@ -1,5 +1,8 @@
 package ddc.core.db.oracle;
 
+import java.sql.JDBCType;
+import java.util.Map;
+
 import ddc.jdbc.JdbcConfig;
 import ddc.jdbc.JdbcConnectionFactory;
 
@@ -27,6 +30,12 @@ public class OracleConnection extends JdbcConnectionFactory {
 	@Override
 	public String getSqlLimitTemplate() {
 		return "SELECT $COLUMNS FROM $TABLE WHERE ROWNUM<=$MAXROWS";
+	}
+
+	@Override
+	public Map<JDBCType, String> getSqlTypeMap() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 //	@Override

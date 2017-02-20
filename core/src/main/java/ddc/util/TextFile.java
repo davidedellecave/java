@@ -1,10 +1,13 @@
 package ddc.util;
 
-import static java.nio.file.StandardOpenOption.CREATE;
 import static java.nio.file.StandardOpenOption.APPEND;
+import static java.nio.file.StandardOpenOption.CREATE;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -20,6 +23,11 @@ public class TextFile {
 	
 	public static void create(String path, String text) throws UnsupportedEncodingException, IOException {
 		Files.write(Paths.get(path), text.getBytes(), CREATE);
+	}
+	
+	public static String load(Class clazz, String resourceName) throws URISyntaxException, UnsupportedEncodingException, IOException {
+		Path path = Paths.get(clazz.getResource(resourceName).toURI());
+		return load(path);
 	}
 	
 	

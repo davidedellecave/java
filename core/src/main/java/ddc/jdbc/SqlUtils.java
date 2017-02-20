@@ -16,7 +16,7 @@ import ddc.util.Chronometer;
 
 public class SqlUtils {
 	private static Logger logger = Logger.getLogger(SqlUtils.class);
-
+	
 	// public static boolean testConnection(Connection connection) throws
 	// SQLException {
 	// String sql = "SELECT 1";
@@ -90,7 +90,6 @@ public class SqlUtils {
 	}
 
 	public static void execute(Connection connection, String sql) throws SQLException {
-
 		logger.debug("Executing... catalog:[" + connection.getCatalog() + "] sql:[" + sql + "]");
 		Statement statement = null;
 		try {

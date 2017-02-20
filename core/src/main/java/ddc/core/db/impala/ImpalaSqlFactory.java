@@ -1,5 +1,8 @@
 package ddc.core.db.impala;
 
+import java.sql.JDBCType;
+import java.util.Map;
+
 import ddc.jdbc.JdbcConfig;
 import ddc.jdbc.JdbcConnectionFactory;
 
@@ -27,6 +30,12 @@ public class ImpalaSqlFactory extends JdbcConnectionFactory {
 	@Override
 	public String getSqlLimitTemplate() {
 		return "SELECT $COLUMNS FROM $TABLE LIMIT $MAXROWS";
+	}
+
+	@Override
+	public Map<JDBCType, String> getSqlTypeMap() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
