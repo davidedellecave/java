@@ -14,7 +14,7 @@ public class FtpLitePoolTest {
 		FtpServer s = new FtpServer();
 		s.setHost("5.134.124.246");
 		s.setUsername("gottardo");
-		s.setPassword("quasar-2");
+		s.setPassword("");
 		return s;
 	}
 

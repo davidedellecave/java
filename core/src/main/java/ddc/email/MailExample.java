@@ -15,13 +15,13 @@ import org.apache.commons.net.pop3.POP3MessageInfo;
 import org.apache.commons.net.pop3.POP3SClient;
 
 
-public class Example {
+public class MailExample {
 	public static void main(String[] args) throws EmailException {
 //		exSend();
 		LiteMailConfig c = new LiteMailConfig();
 		c.setPopHost("mail.delle-cave.it");
 		c.setUsername("davide@delle-cave.it");
-		c.setPassword("Quasar-2");
+		c.setPassword(args[0]);
 		exRead(c);
 		
 	}
