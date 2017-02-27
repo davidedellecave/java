@@ -1,5 +1,6 @@
 package ddc.core.ftp.matcher;
 
+import java.text.ParseException;
 import java.util.Date;
 
 import ddc.core.ftp.FtpFileMatcher;
@@ -15,11 +16,11 @@ public class DateMatcher implements FtpFileMatcher {
 		this.matcher = matcher;
 	}
 	
-	public DateMatcher(String absoluteRange) {
+	public DateMatcher(String absoluteRange) throws ParseException {
 		String[] t = absoluteRange.split(",");
 		if (t.length==2) {
-			Date d1 = DateUtil.parseDate(t[0].trim(), "yyyy/MM/dd HH:mm:ss");
-			Date d2 = DateUtil.parseDate(t[1].trim(), "yyyy/MM/dd HH:mm:ss");
+			Date d1 = DateUtil.parseToDate(t[0].trim(), "yyyy/MM/dd HH:mm:ss");
+			Date d2 = DateUtil.parseToDate(t[1].trim(), "yyyy/MM/dd HH:mm:ss");
 			matcher = new DateRange(d1, d2);		
 		}
 	}

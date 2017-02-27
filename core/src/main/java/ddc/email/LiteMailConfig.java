@@ -23,6 +23,8 @@ public class LiteMailConfig {
 	private String bodyTemplate="template-body";
 	private String subjectTemplate="template-subject";
 	//
+	private boolean mailboxSimulation = true;
+	private int mailboxLimit = 1;
 	
 	public LiteMailConfig clone() throws CloneNotSupportedException {
 		return (LiteMailConfig) Clone.clone(this);
@@ -116,15 +118,22 @@ public class LiteMailConfig {
 	public void setSubjectTemplate(String subjectTemplate) {
 		this.subjectTemplate = subjectTemplate;
 	}
-
-
 	public String getPopHost() {
 		return popHost;
 	}
-
-
 	public void setPopHost(String popHost) {
 		this.popHost = popHost;
 	}
-
+	public boolean isMailboxSimulation() {
+		return mailboxSimulation;
+	}
+	public void setMailboxSimulation(boolean mailboxSimulation) {
+		this.mailboxSimulation = mailboxSimulation;
+	}
+	public int getMailboxLimit() {
+		return mailboxLimit;
+	}
+	public void setMailboxLimit(int mailboxLimit) {
+		this.mailboxLimit = mailboxLimit;
+	}
 }

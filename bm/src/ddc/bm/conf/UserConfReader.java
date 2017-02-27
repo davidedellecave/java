@@ -3,6 +3,7 @@ package ddc.bm.conf;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintStream;
+import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -180,7 +181,7 @@ public class UserConfReader {
 		return newFeatures;
 	}
 
-	private Features parseFeatures(LiteXmlDocument xml) {
+	private Features parseFeatures(LiteXmlDocument xml) throws ParseException {
 		Features features = new Features();
 		List<Element> elems = xml.getElements("feature");
 		for (Element e : elems) {
@@ -195,7 +196,7 @@ public class UserConfReader {
 		return features;
 	}
 
-	private LRange parseRange(String p) {
+	private LRange parseRange(String p) throws ParseException {
 		long lower = 0;
 		long upper = 0;
 		p = p.trim();
@@ -212,7 +213,7 @@ public class UserConfReader {
 			} else if (sLower.equals("*")) {
 				lower = 0;
 			} else {
-				Date d = DateUtil.parseDate(sLower, DateUtil.DATE_PATTERN_ISO);
+				Date d = DateUtil.parseToDate(sLower, DateUtil.DATE_PATTERN_ISO);
 				lower = d.getTime();
 			}
 
@@ -222,7 +223,7 @@ public class UserConfReader {
 			} else if (sUpper.equals("*")) {
 				upper = Long.MAX_VALUE;
 			} else {
-				Date d = DateUtil.parseDate(sUpper, DateUtil.DATE_PATTERN_ISO);
+				Date d = DateUtil.parseToDate(sUpper, DateUtil.DATE_PATTERN_ISO);
 				upper = d.getTime();
 			}
 		}
