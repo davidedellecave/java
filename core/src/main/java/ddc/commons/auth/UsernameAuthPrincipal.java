@@ -1,4 +1,4 @@
-package ddc.auth;
+package ddc.commons.auth;
 
 public class UsernameAuthPrincipal extends AuthPrincipal {
 	private static final long serialVersionUID = 1L;

@@ -1,4 +1,4 @@
-package ddc.auth;
+package ddc.commons.auth;
 
 import java.util.Properties;
 
