@@ -1,4 +1,4 @@
-package ddc.core.jack;
+package ddc.commons.jack;
 
 import java.io.IOException;
 
