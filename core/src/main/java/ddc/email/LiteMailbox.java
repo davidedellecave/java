@@ -18,10 +18,11 @@ public class LiteMailbox {
 		return stats;
 	}
 
-	public void scan(LiteMailConfig config, MailHeaderParser parser, MailHeaderFilter filter, MailEval action) throws Throwable {
+	public void scan(LiteMailConfig config, MailHeaderParser parser, MailHeaderFilter filter, MailEval action)
+			throws Throwable {
 		doScan(config, parser, filter, action);
 	}
-	
+
 	public void scan(LiteMailConfig config, MailHeaderFilter filter, MailEval action) throws Throwable {
 		MailHeaderParser parser = new DefaultMailHeaderParser();
 		doScan(config, parser, filter, action);
@@ -38,8 +39,7 @@ public class LiteMailbox {
 		DummyMailEval eval = new DummyMailEval();
 		doScan(config, parser, filter, eval);
 	}
-	
-	
+
 	private void loadMessage(POP3Client pop3, MailInfo mailInfo) throws IOException {
 		BufferedReader reader = (BufferedReader) pop3.retrieveMessage(mailInfo.id);
 		String line = null;
@@ -48,62 +48,66 @@ public class LiteMailbox {
 		}
 
 	}
-	
+
 	private void doScan(LiteMailConfig config, MailHeaderParser parser, MailHeaderFilter filter, MailEval action) throws Throwable {
 		POP3Client client = login(config);
-		if (client != null) {
-			try {
-				POP3MessageInfo[] messages = client.listMessages();
-				log("Messages size:[" + messages.length + "]");
-				int simulationCounter = 0;
-				if (messages.length == 0) {
+		if (client == null)
+			return;
+
+		POP3MessageInfo[] messages = client.listMessages();
+		log("Messages size:[" + messages.length + "]");
+		int simulationCounter = 0;
+		if (messages.length == 0) {
+			return;
+		}
+
+		try {
+			MailHeader header = null;
+			for (POP3MessageInfo msginfo : messages) {
+				BufferedReader reader = (BufferedReader) client.retrieveMessageTop(msginfo.number, 0);
+				if (reader == null) {
+					log("Could not retrieve message header.");
 					return;
 				}
-				MailHeader header = null;
-				for (POP3MessageInfo msginfo : messages) {
-					BufferedReader reader = (BufferedReader) client.retrieveMessageTop(msginfo.number, 0);
-					if (reader == null) {
-						log("Could not retrieve message header.");
-						return;
-					}
-					try {
-						header = parseHeaderProxy(config, reader, msginfo.number, parser);
-					} finally {
-						if (reader != null)
-							reader.close();
-					}
-					stats.itemsProcessed++;
-					if (header==null) {
-						log("header is", "null", "id", String.valueOf(msginfo.number));
-						break;
-					}
-					if (config.getMailboxLimit() > 0 && stats.itemsProcessed >= config.getMailboxLimit()) {
-						log("Reached the limt of messages to read - limit", config.getMailboxLimit());
-						break;
-					}
-					boolean isSelected = filter.filter(config, header);
-					if (config.isMailboxSimulation()) {
-						if (isSelected) {
-							simulationCounter++;
-							log("Simulation is on - selected", header);
-						} else {
-							log("Simulation is on - NOT selected", header);
-						}
-					} else if (isSelected) {
-						stats.itemsAffected += action.execute(config, client, header);
-					}
+				try {
+					header = parseHeaderProxy(config, reader, msginfo.number, parser);
+				} finally {
+					if (reader != null)
+						reader.close();
 				}
+				stats.itemsProcessed++;
+				if (header == null) {
+					log("header is", "null", "id", String.valueOf(msginfo.number));
+					break;
+				}
+				if (config.getMailboxLimit() > 0 && stats.itemsProcessed >= config.getMailboxLimit()) {
+					log("Reached the limt of messages to read - limit", config.getMailboxLimit());
+					break;
+				}
+				boolean isSelected = filter.filter(config, header);
 				if (config.isMailboxSimulation()) {
-					log("Simulation is on - counter", simulationCounter);
+					if (isSelected) {
+						simulationCounter++;
+						log("Simulation ON - selected", header);
+					} else {
+						log("Simulation ON - NOT selected", header);
+					}
+				} else if (isSelected) {
+					log("Selected and Execute on message", header);
+					stats.itemsAffected += action.execute(config, client, header);
 				}
-			} finally {
-				client.logout();
-				client.disconnect();
 			}
+			if (config.isMailboxSimulation()) {
+				log("Simulation is on - selected#", simulationCounter);
+			}
+		} finally {
+			client.logout();
+			client.disconnect();
 		}
 	}
 
-	private final MailHeader parseHeaderProxy(LiteMailConfig config, BufferedReader reader, int messageId, MailHeaderParser parser) throws Throwable {
+	private final MailHeader parseHeaderProxy(LiteMailConfig config, BufferedReader reader, int messageId,
+			MailHeaderParser parser) throws Throwable {
 		String line;
 		MailHeader header = new MailHeader(messageId);
 		while ((line = reader.readLine()) != null) {
@@ -154,13 +158,14 @@ public class LiteMailbox {
 		}
 	}
 
-	private void log(String title, Object message) {
+	public void log(String title, Object message) {
 		System.out.println(title + ":[" + message + "]");
 	}
 
-//	private void logElapsed(String title, int message) {
-//		System.out.println(title + ":[" + message + "] - elapsed:[" + stats.chron.toString() + "]");
-//	}
+	// private void logElapsed(String title, int message) {
+	// System.out.println(title + ":[" + message + "] - elapsed:[" +
+	// stats.chron.toString() + "]");
+	// }
 
 	public void log(String... args) {
 		StringBuilder b = new StringBuilder();

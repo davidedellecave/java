@@ -23,7 +23,7 @@ public class LiteXmlTest {
 	public void testGetAttrsAsMap() throws Exception {
 		LiteXml xml = (LiteXml) getXml();
 		
-		Element elem = xml.getElement("prop");
+		Element elem = xml.getElementByTagName("prop");
 		Map<String, String> map = xml.getAttributes(elem);
 		System.out.println(map.toString());
 	}
