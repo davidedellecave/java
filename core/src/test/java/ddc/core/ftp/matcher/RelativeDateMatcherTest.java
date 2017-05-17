@@ -1,8 +1,8 @@
 package ddc.core.ftp.matcher;
 
-import static org.junit.Assert.*;
-
 import org.junit.Test;
+
+import ddc.commons.ftp.matcher.RelativeDateMatcher;
 
 public class RelativeDateMatcherTest {
 

@@ -8,6 +8,10 @@ import org.apache.commons.io.IOUtils;
 import org.junit.Test;
 import org.w3c.dom.Element;
 
+import ddc.commons.xml.LiteXml;
+import ddc.commons.xml.LiteXmlDocument;
+import ddc.commons.xml.LiteXmlException;
+import ddc.commons.xml.LiteXmlUtil;
 import ddc.util.StringOutputStream;
 
 public class LiteXmlTest {
@@ -34,8 +38,7 @@ public class LiteXmlTest {
 		InputStream is =  this.getClass().getResourceAsStream(RESOURCE);
 		StringOutputStream os = new StringOutputStream();
 		IOUtils.copy(is, os);
-		LiteXml xml = new LiteXml();
-		xml.createDocument(os.toString(), "UTF-8");
+		LiteXmlDocument xml = LiteXmlUtil.createDocument(os.toString(), "UTF-8");		
 		return xml;
 	}
 }

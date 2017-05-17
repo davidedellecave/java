@@ -1,8 +1,10 @@
 package ddc.core.http;
 
-import static org.junit.Assert.*;
-
 import org.junit.Test;
+
+import ddc.commons.http.HttpLiteClient;
+import ddc.commons.http.HttpLiteClientException;
+import ddc.commons.http.HttpLiteClientResponse;
 
 public class HttpLiteClientTest {
 

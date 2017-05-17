@@ -5,9 +5,9 @@ import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 
-import ddc.core.http.HttpLiteClient;
-import ddc.core.http.HttpLiteClientException;
-import ddc.core.http.HttpLiteClientResponse;
+import ddc.commons.http.HttpLiteClient;
+import ddc.commons.http.HttpLiteClientException;
+import ddc.commons.http.HttpLiteClientResponse;
 import ddc.core.tfile.TFileException;
 
 public class HttpBulkClientFilter {

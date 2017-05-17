@@ -8,10 +8,17 @@ import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
 
-import ddc.core.ftp.matcher.AndMatcher;
-import ddc.core.ftp.matcher.OrMatcher;
-import ddc.core.ftp.matcher.PathMatcher;
-import ddc.core.ftp.matcher.RelativeDateMatcher;
+import ddc.commons.ftp.FtpFileMatcher;
+import ddc.commons.ftp.FtpLiteClient;
+import ddc.commons.ftp.FtpLiteConfig;
+import ddc.commons.ftp.FtpLiteException;
+import ddc.commons.ftp.FtpLiteFile;
+import ddc.commons.ftp.FtpServer;
+import ddc.commons.ftp.ParallelFtpClient;
+import ddc.commons.ftp.matcher.AndMatcher;
+import ddc.commons.ftp.matcher.OrMatcher;
+import ddc.commons.ftp.matcher.PathMatcher;
+import ddc.commons.ftp.matcher.RelativeDateMatcher;
 import ddc.util.FilePair;
 import ddc.util.FileUtils;
 

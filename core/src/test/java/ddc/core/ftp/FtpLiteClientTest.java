@@ -6,6 +6,12 @@ import java.util.List;
 
 import org.junit.Test;
 
+import ddc.commons.ftp.FtpLiteClient;
+import ddc.commons.ftp.FtpLiteConfig;
+import ddc.commons.ftp.FtpLiteException;
+import ddc.commons.ftp.FtpLiteFile;
+import ddc.commons.ftp.FtpServer;
+
 public class FtpLiteClientTest {
 	private final Path WORKINGPATH=Paths.get("/");
 	private FtpServer getServer() {

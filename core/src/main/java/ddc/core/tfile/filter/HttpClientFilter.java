@@ -5,7 +5,7 @@ import org.apache.log4j.Logger;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import ddc.core.http.HttpLiteClient;
+import ddc.commons.http.HttpLiteClient;
 import ddc.core.tfile.TFileContext;
 import ddc.core.tfile.TFileException;
 import ddc.util.Chronometer;

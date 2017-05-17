@@ -4,9 +4,12 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.NoSuchElementException;
 
-import org.apache.commons.pool2.ObjectPool;
-import org.apache.commons.pool2.impl.GenericObjectPool;
 import org.junit.Test;
+
+import ddc.commons.ftp.FtpLiteClient;
+import ddc.commons.ftp.FtpLiteClientPool;
+import ddc.commons.ftp.FtpLiteConfig;
+import ddc.commons.ftp.FtpServer;
 
 public class FtpLitePoolTest {
 	private final Path WORKINGPATH=Paths.get("/");
