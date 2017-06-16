@@ -1,10 +1,10 @@
-package ddc.core.ftp.matcher;
+package ddc.commons.ftp.matcher;
 
 import java.text.ParseException;
 import java.util.Date;
 
-import ddc.core.ftp.FtpFileMatcher;
-import ddc.core.ftp.FtpLiteFile;
+import ddc.commons.ftp.FtpFileMatcher;
+import ddc.commons.ftp.FtpLiteFile;
 import ddc.util.DateRange;
 import ddc.util.DateUtil;
 

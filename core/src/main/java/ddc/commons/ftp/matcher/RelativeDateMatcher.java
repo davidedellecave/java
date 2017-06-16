@@ -1,12 +1,12 @@
-package ddc.core.ftp.matcher;
+package ddc.commons.ftp.matcher;
 
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.log4j.Logger;
 
-import ddc.core.ftp.FtpFileMatcher;
-import ddc.core.ftp.FtpLiteFile;
+import ddc.commons.ftp.FtpFileMatcher;
+import ddc.commons.ftp.FtpLiteFile;
 import ddc.util.DateRange;
 import ddc.util.LRange;
 import ddc.util.Timespan;

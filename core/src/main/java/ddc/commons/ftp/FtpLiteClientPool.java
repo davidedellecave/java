@@ -1,4 +1,4 @@
-package ddc.core.ftp;
+package ddc.commons.ftp;
 
 import org.apache.commons.pool2.ObjectPool;
 import org.apache.commons.pool2.impl.GenericObjectPool;

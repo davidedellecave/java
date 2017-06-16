@@ -56,7 +56,7 @@ public class JavaUtilZipper implements ILiteZipper {
 		}
 	}
 
-	private void zip(List<File> sourceList, File zipFile) throws FileNotFoundException, IOException {
+	public void zip(List<File> sourceList, File zipFile) throws FileNotFoundException, IOException {
 		FileInputStream inputStream = null;
 		ZipOutputStream outZip = null;
 		try {
@@ -77,6 +77,8 @@ public class JavaUtilZipper implements ILiteZipper {
 				outZip.close();
 		}
 	}
+	
+
 
 	@SuppressWarnings("unchecked")
 	private List<ZipEntry> listFile(File zipFile) throws ZipException, IOException {

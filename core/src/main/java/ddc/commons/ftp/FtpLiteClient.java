@@ -1,4 +1,4 @@
-package ddc.core.ftp;
+package ddc.commons.ftp;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -20,7 +20,7 @@ import org.apache.commons.net.ftp.FTPFile;
 import org.apache.commons.net.ftp.FTPReply;
 import org.apache.commons.net.io.CopyStreamAdapter;
 
-import ddc.core.ftp.matcher.TrueMatcher;
+import ddc.commons.ftp.matcher.TrueMatcher;
 import ddc.util.Chronometer;
 import ddc.util.FileUtils;
 

@@ -1,4 +1,4 @@
-package ddc.core.ftp;
+package ddc.commons.ftp;
 
 public class FtpLiteException extends Exception {
 	private static final long serialVersionUID = 1L;

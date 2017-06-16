@@ -1,4 +1,4 @@
-package ddc.core.http;
+package ddc.commons.http;
 
 public class ProxyConfig {
 	private String host="";

@@ -1,4 +1,4 @@
-package ddc.core.crypto;
+package ddc.commons.crypto;
 
 public class TokenException extends Exception {
 	private static final long serialVersionUID = -2224368451053234333L;

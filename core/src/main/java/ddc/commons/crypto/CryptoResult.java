@@ -1,4 +1,5 @@
-package ddc.core.crypto;
+package ddc.commons.crypto;
+
 /**
  * @author davidedc 2014
  *

@@ -1,4 +1,4 @@
-package ddc.core.ftp;
+package ddc.commons.ftp;
 
 public class FtpLiteConfig {
 	// Remote conf

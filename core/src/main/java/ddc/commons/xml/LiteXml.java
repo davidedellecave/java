@@ -1,11 +1,9 @@
 package ddc.commons.xml;
 
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.text.DateFormat;
@@ -16,19 +14,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
-import javax.xml.xpath.XPath;
-import javax.xml.xpath.XPathConstants;
-import javax.xml.xpath.XPathExpression;
-import javax.xml.xpath.XPathExpressionException;
-import javax.xml.xpath.XPathFactory;
 
 import org.w3c.dom.Attr;
 import org.w3c.dom.CDATASection;
@@ -37,7 +27,6 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
 
 /**
  * @author davidedc, 01/Agosto/2013
@@ -45,71 +34,10 @@ import org.xml.sax.SAXException;
 public class LiteXml implements LiteXmlDocument {
 	private Document doc = null;
 
-	// public LiteXml() {
-	// }
+	 public LiteXml( Document doc) {
+		 this.doc=doc;
+	 }
 
-	@Override
-	public void createDocument() throws LiteXmlException {
-		try {
-			DocumentBuilderFactory f = DocumentBuilderFactory.newInstance();
-			f.setNamespaceAware(true); // never forget this!
-			DocumentBuilder b = f.newDocumentBuilder();
-			doc = b.newDocument();
-		} catch (ParserConfigurationException e) {
-			throw new LiteXmlException("createDocument: " + e.getMessage());
-		}
-	}
-
-	@Override
-	public void createDocument(File file) throws LiteXmlException {
-		try {
-			DocumentBuilderFactory f = DocumentBuilderFactory.newInstance();
-			f.setNamespaceAware(true); // never forget this!
-			DocumentBuilder b;
-			b = f.newDocumentBuilder();
-			doc = b.parse(file);
-		} catch (ParserConfigurationException e) {
-			throw new LiteXmlException("createDocument", e);
-		} catch (SAXException e) {
-			throw new LiteXmlException("createDocument", e);
-		} catch (IOException e) {
-			throw new LiteXmlException("createDocument", e);
-		}
-	}
-
-	@Override
-	public void createDocument(String xml, String charset) throws LiteXmlException {
-		try {
-			DocumentBuilderFactory f = DocumentBuilderFactory.newInstance();
-			f.setNamespaceAware(true); // never forget this!
-			DocumentBuilder b = f.newDocumentBuilder();
-			ByteArrayInputStream is = new ByteArrayInputStream(xml.getBytes(charset));
-			doc = b.parse(is);
-		} catch (ParserConfigurationException e) {
-			throw new LiteXmlException("createDocument", e);
-		} catch (SAXException e) {
-			throw new LiteXmlException("createDocument", e);
-		} catch (IOException e) {
-			throw new LiteXmlException("createDocument", e);
-		}
-	}
-
-	@Override
-	public void createDocument(byte[] bytes) throws LiteXmlException {
-		try {
-			DocumentBuilderFactory f = DocumentBuilderFactory.newInstance();
-			f.setNamespaceAware(true); // never forget this!
-			DocumentBuilder b = f.newDocumentBuilder();
-			ByteArrayInputStream is = new ByteArrayInputStream(bytes);
-			doc = b.parse(is);
-		} catch (ParserConfigurationException e) {
-			throw new LiteXmlException("createDocument", e);
-		} catch (SAXException e) {
-			throw new LiteXmlException("createDocument", e);
-		} catch (IOException e) {
-			throw new LiteXmlException("createDocument", e);
-		}
-	}
 
 	@Override
 	public Document getDocument() {
@@ -163,20 +91,20 @@ public class LiteXml implements LiteXmlDocument {
 		return addChild(element, name, String.valueOf(value));
 	}
 
-	@Override
-	public boolean hasElementByXPath(String xpath) {
-		return getElementByXPath(xpath) != null;
-	}
+//	@Override
+//	public boolean hasElementByXPath(String xpath) {
+//		return getElementByXPath(xpath) != null;
+//	}
 
-	@Override
-	public boolean removeByXPath(String xpath) {
-		Element e = getElementByXPath(xpath);
-		if (e != null && e.getParentNode() != null) {
-			e.getParentNode().removeChild(e);
-			return true;
-		}
-		return false;
-	}
+//	@Override
+//	public boolean removeByXPath(String xpath) {
+//		Element e = getElementByXPath(xpath);
+//		if (e != null && e.getParentNode() != null) {
+//			e.getParentNode().removeChild(e);
+//			return true;
+//		}
+//		return false;
+//	}
 
 	private static DateFormat ISODateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
@@ -193,16 +121,16 @@ public class LiteXml implements LiteXmlDocument {
 		return a;
 	}
 
-	@Override
-	public Element getElementByXPath(String xpath) {
-		XPathExpression xp;
-		try {
-			xp = compileXPath(xpath);
-			return getElement(xp);
-		} catch (LiteXmlException e) {
-			return null;
-		}
-	}
+//	@Override
+//	public Element getElementByXPath(String xpath) {
+//		XPathExpression xp;
+//		try {
+//			xp = compileXPath(xpath);
+//			return getElement(xp);
+//		} catch (LiteXmlException e) {
+//			return null;
+//		}
+//	}
 
 	/**
 	 * Returns the first (index==0) elmenent of a NodeList of all the Elements
@@ -222,20 +150,19 @@ public class LiteXml implements LiteXmlDocument {
 	}
 
 	/**
-	 * Returns a NodeList of all the Elements in document order with a given tag
-	 * name and are contained in the document.
+	 * Returns all the Elements in document with a given tag
 	 */
 	@Override
 	public List<Element> getElementsByTagName(String name) {
 		NodeList list = doc.getElementsByTagName(name);
-		return filterElement(list);
+		return LiteXmlUtil.toElements(list);
 	}
 
-	@Override
-	public String getValueByXPath(String xpath) {
-		Element e = getElementByXPath(xpath);
-		return e == null ? null : e.getTextContent();
-	}
+//	@Override
+//	public String getValueByXPath(String xpath) {
+//		Element e = getElementByXPath(xpath);
+//		return e == null ? null : e.getTextContent();
+//	}
 
 	@Override
 	public String getValueByTagName(String name) {
@@ -243,10 +170,10 @@ public class LiteXml implements LiteXmlDocument {
 		return e == null ? null : e.getTextContent();
 	}
 
-	public String getValue(XPathExpression expr) throws LiteXmlException {
-		Element e = getElement(expr);
-		return e == null ? null : e.getTextContent();
-	}
+//	public String getValue(XPathExpression expr) throws LiteXmlException {
+//		Element e = getElement(expr);
+//		return e == null ? null : e.getTextContent();
+//	}
 
 	@Override
 	public List<String> getValuesByTagName(String name) {
@@ -311,115 +238,115 @@ public class LiteXml implements LiteXmlDocument {
 			e.setTextContent(value);
 	}
 
-	@Override
-	public List<Element> filterElement(NodeList nodes) {
-		ArrayList<Element> a = new ArrayList<Element>();
-		for (int i = 0; i < nodes.getLength(); i++) {
-			Node n = nodes.item(i);
-			if (n instanceof Element) {
-				a.add((Element) n);
-			}
-		}
-		return a;
-	}
+//	@Override
+//	public List<Element> filterElement(NodeList nodes) {
+//		ArrayList<Element> a = new ArrayList<Element>();
+//		for (int i = 0; i < nodes.getLength(); i++) {
+//			Node n = nodes.item(i);
+//			if (n instanceof Element) {
+//				a.add((Element) n);
+//			}
+//		}
+//		return a;
+//	}
+//
+//	private List<Element> toListElement(Node node) {
+//		ArrayList<Element> a = new ArrayList<Element>();
+//		if (node instanceof Element) {
+//			a.add((Element) node);
+//		}
+//		return a;
+//	}
 
-	private List<Element> toListElement(Node node) {
-		ArrayList<Element> a = new ArrayList<Element>();
-		if (node instanceof Element) {
-			a.add((Element) node);
-		}
-		return a;
-	}
-
-	@Override
-	public void setValueByXPath(String xpath, String value) {
-		Element e = getElementByXPath(xpath);
-		if (e != null) {
-			e.setTextContent(value);
-		}
-	}
-
-	@Override
-	public void setValue(XPathExpression expr, String value) throws LiteXmlException {
-		Element e;
-		e = getElement(expr);
-		if (e != null)
-			setValue(e, value);
-	}
-
-	@Override
-	public XPathExpression compileXPath(String xpath) throws LiteXmlException {
-		try {
-			XPathFactory factory = XPathFactory.newInstance();
-			XPath xp = factory.newXPath();
-			return xp.compile(xpath);
-		} catch (XPathExpressionException e) {
-			throw new LiteXmlException("select", e);
-		}
-	}
-
-	@Override
-	public List<Element> getElementsByXPath(String xpath) throws LiteXmlException {
-		return getElements(compileXPath(xpath));
-	}
-
-
-	@Override
-	public List<Element> getElements(XPathExpression expr) {
-		try {
-			Object result = expr.evaluate(doc, XPathConstants.NODESET);
-			if (result instanceof NodeList) {
-				NodeList nodes = (NodeList) result;
-				return filterElement(nodes);
-			} else if (result instanceof Node) {
-				Node node = (Node) result;
-				return toListElement(node);
-			}
-		} catch (XPathExpressionException e) {
-		}
-		return new ArrayList<Element>();
-	}
-
-	@Override
-	public List<Node> getNodesByXPath(String xpath) throws LiteXmlException {
-		return getNodes(compileXPath(xpath));
-	}
-
-	@Override
-	public List<Node> getNodes(XPathExpression expr) throws LiteXmlException {
-		try {
-			ArrayList<Node> a = new ArrayList<>();
-			Object result = expr.evaluate(doc, XPathConstants.NODESET);
-			if (result instanceof NodeList) {
-				NodeList nodes = (NodeList) result;
-				for (int i = 0; i < nodes.getLength(); i++) {
-					a.add(nodes.item(i));
-				}
-			} else if (result instanceof Node) {
-				a.add((Node) result);
-			}
-			return a;
-		} catch (XPathExpressionException e) {
-			throw new LiteXmlException("getNodes()", e);
-		}
-		
-	}
-
-	@Override
-	public Element getElement(XPathExpression expr) throws LiteXmlException {
-		try {
-			Object result = expr.evaluate(doc, XPathConstants.NODESET);
-			if (result instanceof NodeList) {
-				NodeList nodes = (NodeList) result;
-				List<Element> list = filterElement(nodes);
-				if (list.size() > 0)
-					return list.get(0);
-			}
-		} catch (XPathExpressionException e) {
-			throw new LiteXmlException(e);
-		}
-		return null;
-	}
+//	@Override
+//	public void setValueByXPath(String xpath, String value) {
+//		Element e = getElementByXPath(xpath);
+//		if (e != null) {
+//			e.setTextContent(value);
+//		}
+//	}
+//
+//	@Override
+//	public void setValue(XPathExpression expr, String value) throws LiteXmlException {
+//		Element e;
+//		e = getElement(expr);
+//		if (e != null)
+//			setValue(e, value);
+//	}
+//
+//	@Override
+//	public XPathExpression compileXPath(String xpath) throws LiteXmlException {
+//		try {
+//			XPathFactory factory = XPathFactory.newInstance();
+//			XPath xp = factory.newXPath();
+//			return xp.compile(xpath);
+//		} catch (XPathExpressionException e) {
+//			throw new LiteXmlException("select", e);
+//		}
+//	}
+//
+//	@Override
+//	public List<Element> getElementsByXPath(String xpath) throws LiteXmlException {
+//		return getElements(compileXPath(xpath));
+//	}
+//
+//
+//	@Override
+//	public List<Element> getElements(XPathExpression expr) {
+//		try {
+//			Object result = expr.evaluate(doc, XPathConstants.NODESET);
+//			if (result instanceof NodeList) {
+//				NodeList nodes = (NodeList) result;
+//				return filterElement(nodes);
+//			} else if (result instanceof Node) {
+//				Node node = (Node) result;
+//				return LiteXmlUtil.toElements(node);
+//			}
+//		} catch (XPathExpressionException e) {
+//		}
+//		return new ArrayList<Element>();
+//	}
+//
+//	@Override
+//	public List<Node> getNodesByXPath(String xpath) throws LiteXmlException {
+//		return getNodes(compileXPath(xpath));
+//	}
+//
+//	@Override
+//	public List<Node> getNodes(XPathExpression expr) throws LiteXmlException {
+//		try {
+//			ArrayList<Node> a = new ArrayList<>();
+//			Object result = expr.evaluate(doc, XPathConstants.NODESET);
+//			if (result instanceof NodeList) {
+//				NodeList nodes = (NodeList) result;
+//				for (int i = 0; i < nodes.getLength(); i++) {
+//					a.add(nodes.item(i));
+//				}
+//			} else if (result instanceof Node) {
+//				a.add((Node) result);
+//			}
+//			return a;
+//		} catch (XPathExpressionException e) {
+//			throw new LiteXmlException("getNodes()", e);
+//		}
+//		
+//	}
+//
+//	@Override
+//	public Element getElement(XPathExpression expr) throws LiteXmlException {
+//		try {
+//			Object result = expr.evaluate(doc, XPathConstants.NODESET);
+//			if (result instanceof NodeList) {
+//				NodeList nodes = (NodeList) result;
+//				List<Element> list = filterElement(nodes);
+//				if (list.size() > 0)
+//					return list.get(0);
+//			}
+//		} catch (XPathExpressionException e) {
+//			throw new LiteXmlException(e);
+//		}
+//		return null;
+//	}
 
 	@Override
 	public Map<String, String> getAttributes(Element elem) {

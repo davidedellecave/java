@@ -1,4 +1,4 @@
-package ddc.core.ftp;
+package ddc.commons.ftp;
 
 public enum FtpListenerAction {
     CONTINUE,

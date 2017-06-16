@@ -1,4 +1,4 @@
-package ddc.core.http;
+package ddc.commons.http;
 
 import java.io.IOException;
 import java.util.HashMap;

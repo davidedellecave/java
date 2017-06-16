@@ -1,4 +1,4 @@
-package ddc.core.http;
+package ddc.commons.http;
 
 public class HttpLiteClientException extends Exception {
 	private static final long serialVersionUID = 1L;

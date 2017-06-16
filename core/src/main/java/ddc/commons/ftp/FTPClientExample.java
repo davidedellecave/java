@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package ddc.core.ftp;
+package ddc.commons.ftp;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;

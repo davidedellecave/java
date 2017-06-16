@@ -1,4 +1,4 @@
-package ddc.core.crypto;
+package ddc.commons.crypto;
 
 
 /**

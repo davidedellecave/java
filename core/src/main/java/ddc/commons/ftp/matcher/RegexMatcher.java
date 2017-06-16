@@ -1,7 +1,7 @@
-package ddc.core.ftp.matcher;
+package ddc.commons.ftp.matcher;
 
-import ddc.core.ftp.FtpFileMatcher;
-import ddc.core.ftp.FtpLiteFile;
+import ddc.commons.ftp.FtpFileMatcher;
+import ddc.commons.ftp.FtpLiteFile;
 
 public class RegexMatcher implements FtpFileMatcher {
 	private String matcher;
