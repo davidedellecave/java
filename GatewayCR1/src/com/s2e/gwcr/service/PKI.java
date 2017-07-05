@@ -25,7 +25,7 @@ public class PKI {
 		
 	}
 
-	public static X509Certificate toPublicKey(PublicKey pubKey) throws IOException, CertificateException {
+	public static X509Certificate toCertificate(PublicKey pubKey) throws IOException, CertificateException {
 		CertificateFactory cf = CertificateFactory.getInstance("X.509");
 		return (X509Certificate) cf.generateCertificate(new ByteArrayInputStream(pubKey.getEncoded()));		
 	}

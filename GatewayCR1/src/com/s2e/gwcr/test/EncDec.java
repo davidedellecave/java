@@ -148,8 +148,8 @@ public class EncDec {
 
 	}
 
-	public static byte[] getSignedContent(final byte[] p7eBytes) throws IOException, CMSException {
-		CMSSignedData cms = new CMSSignedData(p7eBytes);
+	public static byte[] getSignedContent(final byte[] p7mBytes) throws IOException, CMSException {
+		CMSSignedData cms = new CMSSignedData(p7mBytes);
 		if (cms.getSignedContent() == null) {
 			// Error!!!
 			return null;
@@ -316,8 +316,8 @@ public class EncDec {
 	}
 
 	private static RecipientInformation getSingleRecipient(CMSEnvelopedDataParser parser) {
-		Collection recInfos = parser.getRecipientInfos().getRecipients();
-		Iterator recipientIterator = recInfos.iterator();
+		Collection<RecipientInformation> recInfos = parser.getRecipientInfos().getRecipients();
+		Iterator<RecipientInformation> recipientIterator = recInfos.iterator();
 		if (!recipientIterator.hasNext()) {
 			throw new RuntimeException("Could not find recipient");
 		}

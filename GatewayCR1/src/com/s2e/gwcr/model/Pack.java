@@ -12,6 +12,7 @@ public class Pack {
 	private PackType messageType;
 	private PackMetadata medadata;
 	private byte[] data;
+	
 	public String getName() {
 		return name;
 	}
