@@ -22,13 +22,13 @@ public class GZipper {
 //	BufferedReader buffered = new BufferedReader(decoder);
 	public void ungzip(Path source, Path dest) throws LiteZipperException {
 		try {
-			doUgnzip(source, dest);
+			doUngzip(source, dest);
 		} catch (ArchiveException | IOException e) {
 			throw new LiteZipperException(e);
 		}
 	}
 
-	private void doUgnzip(Path source, Path dest) throws ArchiveException, IOException, LiteZipperException {
+	private void doUngzip(Path source, Path dest) throws ArchiveException, IOException, LiteZipperException {
 		InputStream is = null;
 		OutputStream out = null;
 		GZIPInputStream in = null;
