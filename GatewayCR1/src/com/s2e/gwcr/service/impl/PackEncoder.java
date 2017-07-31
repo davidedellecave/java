@@ -49,23 +49,21 @@ public class PackEncoder {
 		} finally {
 			if (inputStream != null)
 				inputStream.close();
-			if (outZip != null)				
-				outZip.close();			
+			if (outZip != null)
+				outZip.close();
 			if (outStream != null)
 				outStream.close();
 		}
 	}
 
-	public static byte[] encrypt(X509Certificate remoteCert, byte[] data)
-			throws CertificateEncodingException, CMSException, IOException {
+	public static byte[] encrypt(X509Certificate remoteCert, byte[] data) throws CertificateEncodingException, CMSException, IOException {
 
 		ByteArrayOutputStream out = null;
 		OutputStream encryptingStream = null;
 		try {
 			CMSEnvelopedDataStreamGenerator generator = new CMSEnvelopedDataStreamGenerator();
 			generator.addRecipientInfoGenerator(new JceKeyTransRecipientInfoGenerator(remoteCert));
-			OutputEncryptor encryptor = new JceCMSContentEncryptorBuilder(CMSAlgorithm.AES256_CBC)
-					.setProvider(BouncyCastleProvider.PROVIDER_NAME).build();
+			OutputEncryptor encryptor = new JceCMSContentEncryptorBuilder(CMSAlgorithm.AES256_CBC).setProvider(BouncyCastleProvider.PROVIDER_NAME).build();
 			out = new ByteArrayOutputStream();
 			encryptingStream = generator.open(out, encryptor);
 			encryptingStream.write(data);
@@ -80,18 +78,16 @@ public class PackEncoder {
 		}
 	}
 
-	public static byte[] sign(X509Certificate cert, PrivateKey privateKey, byte[] p7eBytes) throws NoSuchAlgorithmException,
-			InvalidKeySpecException, IOException, CertificateException, OperatorCreationException, CMSException {
-
+	public static byte[] sign(X509Certificate cert, PrivateKey privateKey, byte[] p7eBytes) throws NoSuchAlgorithmException, InvalidKeySpecException, IOException, CertificateException, OperatorCreationException, CMSException {
 		@SuppressWarnings("rawtypes")
 		Store store = new JcaCertStore(Arrays.asList(new X509Certificate[] { cert }));
 		// set up the generator
 		CMSSignedDataGenerator gen = new CMSSignedDataGenerator();
-		gen.addSignerInfoGenerator(
-				new JcaSimpleSignerInfoGeneratorBuilder().setProvider("BC").build("SHA256withRSA", privateKey, cert));
+		gen.addSignerInfoGenerator(new JcaSimpleSignerInfoGeneratorBuilder().setProvider("BC").build("SHA256withRSA", privateKey, cert));
 		gen.addCertificates(store);
 		// create the signed-data object
 		CMSTypedData data = new CMSProcessableByteArray(p7eBytes);
+		//WARNING: encapsulate parameter must be true!
 		CMSSignedData signed = gen.generate(data, true);
 		// recreate
 		signed = new CMSSignedData(data, signed.getEncoded());

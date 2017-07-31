@@ -1,14 +1,15 @@
 package com.s2e.gwcr.service.impl;
 
-import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.security.NoSuchAlgorithmException;
+import java.security.Security;
 import java.security.cert.CertificateException;
 import java.security.spec.InvalidKeySpecException;
-import java.util.Map;
 
+import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.junit.Test;
 
 import com.s2e.gwcr.model.ABI;
@@ -16,23 +17,27 @@ import com.s2e.gwcr.model.GwCrException;
 import com.s2e.gwcr.model.Pack;
 import com.s2e.gwcr.model.PackMetadata;
 import com.s2e.gwcr.model.PackType;
+import com.s2e.gwcr.repos.TestRepository;
 import com.s2e.gwcr.test.TUtil;
-import com.s2e.gwcr.test.TUtils;
 
-public class PackTransformerImplTest {
+public class PackServiceImplTest {
+	static {
+		Security.addProvider(new BouncyCastleProvider());
+	}
+	
 
 	private static final String PRJ_DIR = "/Users/davide/git/java/GatewayCR1/";
 	private static final String WORK_DIR = PRJ_DIR + "src-test/com/s2e/gwcr/test";
 
-	private static final File SOURCE_JFILE = new File(WORK_DIR, "jmessage.txt");
+//	private static final File SOURCE_JFILE = new File(WORK_DIR, "jmessage.txt");
+//
+//	private static final File BDI_CERT = new File(WORK_DIR, "bdi.crt");
+//	private static final File BDI_KEY = new File(WORK_DIR, "bdi.key");
+//
+//	private static final File S2E_CERT = new File(WORK_DIR, "s2e.crt");
+//	private static final File S2E_KEY = new File(WORK_DIR, "s2e.key");
 
-	private static final File BDI_CERT = new File(WORK_DIR, "bdi.crt");
-	private static final File BDI_KEY = new File(WORK_DIR, "bdi.key");
 
-	private static final File S2E_CERT = new File(WORK_DIR, "s2e.crt");
-	private static final File S2E_KEY = new File(WORK_DIR, "s2e.key");
-
-	@Test
 	public void testEncodeX509CertificatePrivateKeyPathPath() {
 		// Crypto c = new Crypto();
 		// c.encode(cert, privateKey, data)
@@ -40,12 +45,15 @@ public class PackTransformerImplTest {
 
 	private static Pack getPackToSend()
 			throws IOException, CertificateException, NoSuchAlgorithmException, InvalidKeySpecException {
+		
 		Pack pack = new Pack();
 		pack.setAbi(new ABI());
-
-		pack.setRemoteCert(TUtils.getCert("bdi.crt"));
-		pack.setLocalCert(TUtils.getCert("s2e.crt"));
-		pack.setLocalPrivateKey(TUtils.getPrivateKey("s2e.key"));
+		pack.setRemoteCert(TestRepository.getCert("bdi.crt"));
+		pack.setLocalCert(TestRepository.getCert("s2e.crt"));
+		pack.setLocalPrivateKey(TestRepository.getPrivateKey("s2e.key"));
+		
+		String url = "https://tomcat-apache/GatewayCR-BdI/List";
+		pack.setEndpoint(url);
 
 		pack.setMedadata(new PackMetadata());
 		pack.setMessageType(PackType.Message);
@@ -57,11 +65,10 @@ public class PackTransformerImplTest {
 	private static Pack getPackAsBDI()
 			throws IOException, CertificateException, NoSuchAlgorithmException, InvalidKeySpecException {
 		Pack pack = new Pack();
-		pack.setAbi(new ABI());
 
-		pack.setRemoteCert(TUtils.getCert("s2e.crt"));
-		pack.setLocalCert(TUtils.getCert("bdi.crt"));
-		pack.setLocalPrivateKey(TUtils.getPrivateKey("bdi.key"));
+		pack.setRemoteCert(TestRepository.getCert("s2e.crt"));
+		pack.setLocalCert(TestRepository.getCert("bdi.crt"));
+		pack.setLocalPrivateKey(TestRepository.getPrivateKey("bdi.key"));
 
 		pack.setMedadata(new PackMetadata());
 		pack.setMessageType(PackType.Message);
@@ -75,9 +82,9 @@ public class PackTransformerImplTest {
 		Pack pack = new Pack();
 		pack.setAbi(new ABI());
 
-		pack.setRemoteCert(TUtils.getCert("bdi.crt"));
-		pack.setLocalCert(TUtils.getCert("s2e.crt"));
-		pack.setLocalPrivateKey(TUtils.getPrivateKey("s2e.key"));
+		pack.setRemoteCert(TestRepository.getCert("bdi.crt"));
+		pack.setLocalCert(TestRepository.getCert("s2e.crt"));
+		pack.setLocalPrivateKey(TestRepository.getPrivateKey("s2e.key"));
 
 		pack.setMedadata(new PackMetadata());
 		pack.setMessageType(PackType.Message);
@@ -86,15 +93,15 @@ public class PackTransformerImplTest {
 		return pack;
 	}
 
-	// @Test
+	@Test
 	public void encodeToSend()
 			throws GwCrException, CertificateException, NoSuchAlgorithmException, InvalidKeySpecException, IOException {
-		PackTransformerImpl t = new PackTransformerImpl();
+		PackServiceImpl t = new PackServiceImpl();
 		EncodeDiagnostic diagnostic = new EncodeDiagnostic();
 		t.setDiagnostic(diagnostic);
 
 		Pack pack = getPackToSend();
-		pack.setData(TUtils.getData("jmessage.txt"));
+		pack.setData(TestRepository.getData("jmessage.txt"));
 		Files.write(Paths.get(WORK_DIR + "/t-s2e"), pack.getData());
 		t.encode(pack);
 		Files.write(Paths.get(WORK_DIR + "/t-s2e.zip"), diagnostic.getZipBytes());
@@ -106,12 +113,12 @@ public class PackTransformerImplTest {
 	public void encodeAsBDI()
 			throws GwCrException, CertificateException, NoSuchAlgorithmException, InvalidKeySpecException, IOException {
 		// ENCODE
-		PackTransformerImpl transfAsBdi = new PackTransformerImpl();
+		PackServiceImpl transfAsBdi = new PackServiceImpl();
 		EncodeDiagnostic diagnosticBdi = new EncodeDiagnostic();
 		transfAsBdi.setDiagnostic(diagnosticBdi);
 
 		Pack packAsBdi = getPackAsBDI();
-		packAsBdi.setData(TUtils.getData("jmessage.txt"));
+		packAsBdi.setData(TestRepository.getData("jmessage.txt"));
 		Files.write(Paths.get(WORK_DIR + "/t-bdi"), packAsBdi.getData());
 		transfAsBdi.encode(packAsBdi);
 		Files.write(Paths.get(WORK_DIR + "/t-bdi.zip"), diagnosticBdi.getZipBytes());
@@ -119,12 +126,12 @@ public class PackTransformerImplTest {
 		Files.write(Paths.get(WORK_DIR + "/t-bdi.zip.p7e.p7m"), diagnosticBdi.getP7mBytes());
 
 		// DECODE
-		PackTransformerImpl transfDec = new PackTransformerImpl();
+		PackServiceImpl transfDec = new PackServiceImpl();
 		EncodeDiagnostic diagnosticDec = new EncodeDiagnostic();
 		transfDec.setDiagnostic(diagnosticDec);
 
 		Pack packDec = getPackForDecode();
-		packDec.setData(TUtils.getData("t-bdi.zip.p7e.p7m"));
+		packDec.setData(TestRepository.getData("t-bdi.zip.p7e.p7m"));
 		transfDec.decode(packDec);
 		Files.write(Paths.get(WORK_DIR + "/t-bdi-decoded.zip.p7e.p7m"), diagnosticDec.getP7mBytes());
 		Files.write(Paths.get(WORK_DIR + "/t-bdi-decoded.zip.p7e"), diagnosticDec.getP7eBytes());

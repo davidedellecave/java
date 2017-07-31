@@ -29,7 +29,7 @@ public class TUtil {
 		return Files.readAllBytes(file.toPath());
 	}
 
-	public static PrivateKey getPemPrivateKey(String filename, String algorithm)
+	private static PrivateKey getPemPrivateKey(String filename, String algorithm)
 			throws IOException, NoSuchAlgorithmException, InvalidKeySpecException {
 		File f = new File(filename);
 		FileInputStream fis = new FileInputStream(f);
@@ -52,7 +52,7 @@ public class TUtil {
 		return kf.generatePrivate(privateKeyPKCS8);
 	}
 
-	public static X509Certificate getX509Certificate(File certificate) throws IOException, CertificateException {
+	private static X509Certificate getX509Certificate(File certificate) throws IOException, CertificateException {
 		try (InputStream inStream = new FileInputStream(certificate)) {
 			CertificateFactory cf = CertificateFactory.getInstance("X.509");
 			return (X509Certificate) cf.generateCertificate(inStream);
@@ -67,7 +67,7 @@ public class TUtil {
 		if (!compare(o1.toByteArray(), o2.toByteArray())) throw new IOException("file comparison failed - f1:[" + f1 + " f2:[" + f2 + "]");
 	}
 
-	public static boolean compare(byte[] b1, byte[] b2) {
+	private static boolean compare(byte[] b1, byte[] b2) {
 		return Arrays.equals(b1, b2);
 	}
 }

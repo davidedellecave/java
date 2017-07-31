@@ -4,8 +4,10 @@ import java.security.PrivateKey;
 import java.security.cert.X509Certificate;
 
 public class Pack {
+	private String endpoint;
 	private String name;
 	private ABI abi;
+	private X509Certificate httpsCert;
 	private X509Certificate remoteCert;
 	private X509Certificate localCert;
 	private PrivateKey localPrivateKey;
@@ -13,6 +15,12 @@ public class Pack {
 	private PackMetadata medadata;
 	private byte[] data;
 	
+	public String getEndpoint() {
+		return endpoint;
+	}
+	public void setEndpoint(String endpoint) {
+		this.endpoint = endpoint;
+	}
 	public String getName() {
 		return name;
 	}
@@ -24,6 +32,12 @@ public class Pack {
 	}
 	public void setAbi(ABI abi) {
 		this.abi = abi;
+	}
+	public X509Certificate getHttpsCert() {
+		return httpsCert;
+	}
+	public void setHttpsCert(X509Certificate httpsCert) {
+		this.httpsCert = httpsCert;
 	}
 	public X509Certificate getRemoteCert() {
 		return remoteCert;
@@ -61,6 +75,4 @@ public class Pack {
 	public void setData(byte[] data) {
 		this.data = data;
 	}
-	
-	
 }

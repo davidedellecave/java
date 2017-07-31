@@ -1,4 +1,4 @@
-package com.s2e.gwcr.test;
+package com.s2e.gwcr.repos;
 
 import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
@@ -18,18 +18,18 @@ import java.security.spec.PKCS8EncodedKeySpec;
 import org.apache.commons.io.IOUtils;
 import org.bouncycastle.util.encoders.Base64;
 
-public class TUtils {
+public class TestRepository {
 	private static final String PRIVATE_KEY_ALGORITHM="RSA";
 	
 	public static X509Certificate getCert(String name) throws CertificateException {
-		InputStream inStream = TUtils.class.getResourceAsStream(name);
+		InputStream inStream = TestRepository.class.getResourceAsStream(name);
 		CertificateFactory cf = CertificateFactory.getInstance("X.509");
 		return (X509Certificate) cf.generateCertificate(inStream);
 
 	}
 	
 	public static byte[] getData(String name) throws IOException {
-		InputStream in = TUtils.class.getResourceAsStream(name);
+		InputStream in = TestRepository.class.getResourceAsStream(name);
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		IOUtils.copy(in, out);
 		return out.toByteArray();
@@ -39,8 +39,8 @@ public class TUtils {
 		byte[] keyBytes = getData(name);
 		
 		String temp = new String(keyBytes);
-		String privateKeyPEM_base64 = temp.replace("-----BEGIN RSA PRIVATE KEY-----\n", "");
-		privateKeyPEM_base64 = privateKeyPEM_base64.replace("-----END RSA PRIVATE KEY-----\n", "");
+		String privateKeyPEM_base64 = temp.replace("-----BEGIN RSA PRIVATE KEY-----", "");
+		privateKeyPEM_base64 = privateKeyPEM_base64.replace("-----END RSA PRIVATE KEY-----", "");
 		byte[] privateKeyPlain = Base64.decode(privateKeyPEM_base64);
 		PKCS8EncodedKeySpec privateKeyPKCS8 = new PKCS8EncodedKeySpec(privateKeyPlain);
 		KeyFactory kf = KeyFactory.getInstance(PRIVATE_KEY_ALGORITHM);

@@ -8,11 +8,11 @@ import org.bouncycastle.jce.provider.BouncyCastleProvider;
 
 import com.s2e.gwcr.model.GwCrException;
 import com.s2e.gwcr.model.Pack;
-import com.s2e.gwcr.service.PackTransformer;
+import com.s2e.gwcr.service.PackService;
 
-public class PackTransformerImpl implements PackTransformer {
-	private static String LOG_ENCODE_HEADER = PackTransformerImpl.class.getSimpleName() + ".encode.";
-	private static String LOG_DECODE_HEADER = PackTransformerImpl.class.getSimpleName() + ".decode.";
+public class PackServiceImpl implements PackService {
+	private static String LOG_ENCODE_HEADER = PackServiceImpl.class.getSimpleName() + ".encode.";
+	private static String LOG_DECODE_HEADER = PackServiceImpl.class.getSimpleName() + ".decode.";
 	private Pack pack = null;
 	private EncodeDiagnostic diagnostic = null;
 	
@@ -30,6 +30,18 @@ public class PackTransformerImpl implements PackTransformer {
 	public void decode(Pack pack) throws GwCrException {
 		byte[] data = decode(pack.getName(), pack.getRemoteCert(), pack.getLocalCert(), pack.getLocalPrivateKey(), pack.getData());
 		pack.setData(data);
+	}
+	
+	@Override
+	public void send(Pack pack) throws GwCrException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void receive(Pack pack) throws GwCrException {
+		// TODO Auto-generated method stub
+		
 	}
 	
 	public EncodeDiagnostic getDiagnostic() {
@@ -106,7 +118,4 @@ public class PackTransformerImpl implements PackTransformer {
 		}
 		return p7mBytes;
 	}
-
-	
-
 }

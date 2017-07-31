@@ -4,7 +4,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 import com.s2e.gwcr.impl.SimpleMessageBuilder;
-import com.s2e.gwcr.service.PackTransformer;
+import com.s2e.gwcr.service.PackService;
 
 public class Main {
 

@@ -7,7 +7,7 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.s2e.gwcr.service.PackTransformer;
+import com.s2e.gwcr.service.PackService;
 
 import ddc.util.FileUtil;
 import ddc.zip.impl.JavaUtilZipper;

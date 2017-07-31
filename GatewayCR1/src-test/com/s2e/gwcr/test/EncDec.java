@@ -1,5 +1,6 @@
 package com.s2e.gwcr.test;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.File;
@@ -15,6 +16,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
 import java.security.Security;
 import java.security.cert.CertStore;
+import java.security.cert.Certificate;
 import java.security.cert.CertificateEncodingException;
 import java.security.cert.CertificateException;
 import java.security.cert.CertificateFactory;
@@ -28,6 +30,7 @@ import java.util.Collection;
 import java.util.Enumeration;
 import java.util.Iterator;
 
+import org.apache.commons.io.FileUtils;
 import org.bouncycastle.asn1.x509.KeyUsage;
 import org.bouncycastle.cert.jcajce.JcaCertStore;
 import org.bouncycastle.cert.jcajce.JcaCertStoreBuilder;
@@ -95,7 +98,7 @@ public class EncDec {
 			System.out.println("Signing... ");
 			Files.deleteIfExists(P7M_JFILE.toPath());
 			X509Certificate S2ECertificate = getX509Certificate(S2E_CERT);
-			PrivateKey S2EPrivateKey = getPemPrivateKey(S2E_KEY.toString(), "RSA");
+			PrivateKey S2EPrivateKey = buildPrivateKeyFromPEM(S2E_KEY.toString(), "RSA");
 			sign(S2ECertificate, S2EPrivateKey, P7E_JFILE, P7M_JFILE);
 			// sign(S2ECertificate, S2EPrivateKey, SOURCE_JFILE, P7M_JFILE);
 		}
@@ -120,7 +123,7 @@ public class EncDec {
 			
 			
 //			Files.deleteIfExists(P7E_DECRYPTED_JFILE.toPath());
-			PrivateKey privateKey = getPemPrivateKey(BDI_KEY.toString(), "RSA");
+			PrivateKey privateKey = buildPrivateKeyFromPEM(BDI_KEY.toString(), "RSA");
 			decrypt(privateKey, p7eOut, P7E_DECRYPTED_JFILE);
 			
 		}
@@ -186,7 +189,7 @@ public class EncDec {
 		return false;
 	}
 
-	private static PrivateKey getPemPrivateKey(String filename, String algorithm)
+	private static PrivateKey buildPrivateKeyFromPEM(String filename, String algorithm)
 			throws IOException, NoSuchAlgorithmException, InvalidKeySpecException {
 		File f = new File(filename);
 		FileInputStream fis = new FileInputStream(f);
@@ -208,14 +211,16 @@ public class EncDec {
 		KeyFactory kf = KeyFactory.getInstance(algorithm);
 		return kf.generatePrivate(privateKeyPKCS8);
 	}
+	
 
-	private static void getPk() throws NoSuchAlgorithmException, InvalidKeySpecException, IOException {
-		byte[] encodedPrivateKey = Files.readAllBytes((new File(WORK_DIR, "s2e.key")).toPath());
-		KeyFactory keyFactory = KeyFactory.getInstance("RSA");
-		PKCS8EncodedKeySpec privateKeySpec = new PKCS8EncodedKeySpec(encodedPrivateKey);
-		PrivateKey pk = keyFactory.generatePrivate(privateKeySpec);
-
-	}
+//
+//	private static void getPk() throws NoSuchAlgorithmException, InvalidKeySpecException, IOException {
+//		byte[] encodedPrivateKey = Files.readAllBytes((new File(WORK_DIR, "s2e.key")).toPath());
+//		KeyFactory keyFactory = KeyFactory.getInstance("RSA");
+//		PKCS8EncodedKeySpec privateKeySpec = new PKCS8EncodedKeySpec(encodedPrivateKey);
+//		PrivateKey pk = keyFactory.generatePrivate(privateKeySpec);
+//
+//	}
 
 	private static void decrypt(PrivateKey privateKey, File encrypted, File decryptedDestination)
 			throws IOException, CMSException {
