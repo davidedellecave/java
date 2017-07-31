@@ -32,18 +32,6 @@ public class PackServiceImpl implements PackService {
 		pack.setData(data);
 	}
 	
-	@Override
-	public void send(Pack pack) throws GwCrException {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void receive(Pack pack) throws GwCrException {
-		// TODO Auto-generated method stub
-		
-	}
-	
 	public EncodeDiagnostic getDiagnostic() {
 		return diagnostic;
 	}
@@ -52,8 +40,6 @@ public class PackServiceImpl implements PackService {
 		this.diagnostic = diagnostic;
 	}
 
-
-	
 	private byte[] decode(String name, X509Certificate remoteCert, X509Certificate localCert, PrivateKey localPrivateKey, byte[] p7mBytes) throws GwCrException {
 		if (diagnostic!=null) {
 			diagnostic.setZipBytes(null);
