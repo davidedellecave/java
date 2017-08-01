@@ -5,6 +5,10 @@
 	<artifactId>GatewayCR1</artifactId>
 	<version>1.0.0</version>
 
+	<properties>
+		<jackson-core-ver>2.8.3</jackson-core-ver>
+	</properties>
+
 	<dependencies>
 		<dependency>
 			<groupId>junit</groupId>
@@ -88,14 +92,35 @@
 		</dependency>
 
 		<!-- ======================== -->
+		<!-- Jackson core -->
+		<!-- ======================== -->
+		<!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind -->
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>${jackson-core-ver}</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-core -->
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-core</artifactId>
+			<version>${jackson-core-ver}</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-annotations -->
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-annotations</artifactId>
+			<version>${jackson-core-ver}</version>
+		</dependency>
+
+		<!-- ======================== -->
 		<!-- resteasy -->
 		<!-- ======================== -->
 
-		<dependency>
-			<groupId>org.jboss.resteasy</groupId>
-			<artifactId>resteasy-crypto</artifactId>
-			<version>3.0.2.Final</version>
-		</dependency>
+		<!-- dependency> <groupId>org.jboss.resteasy</groupId> <artifactId>resteasy-crypto</artifactId> 
+			<version>3.0.2.Final</version> </dependency -->
 	</dependencies>
 
 	<build>

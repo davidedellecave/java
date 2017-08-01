@@ -13,7 +13,6 @@ import com.s2e.gwcr.service.PackService;
 public class PackServiceImpl implements PackService {
 	private static String LOG_ENCODE_HEADER = PackServiceImpl.class.getSimpleName() + ".encode.";
 	private static String LOG_DECODE_HEADER = PackServiceImpl.class.getSimpleName() + ".decode.";
-	private Pack pack = null;
 	private EncodeDiagnostic diagnostic = null;
 	
 	static {
@@ -28,7 +27,7 @@ public class PackServiceImpl implements PackService {
 
 	@Override
 	public void decode(Pack pack) throws GwCrException {
-		byte[] data = decode(pack.getName(), pack.getRemoteCert(), pack.getLocalCert(), pack.getLocalPrivateKey(), pack.getData());
+		byte[] data = decode(pack.getName(), pack.getLocalPrivateKey(), pack.getData());
 		pack.setData(data);
 	}
 	
@@ -40,7 +39,7 @@ public class PackServiceImpl implements PackService {
 		this.diagnostic = diagnostic;
 	}
 
-	private byte[] decode(String name, X509Certificate remoteCert, X509Certificate localCert, PrivateKey localPrivateKey, byte[] p7mBytes) throws GwCrException {
+	private byte[] decode(String name, PrivateKey localPrivateKey, byte[] p7mBytes) throws GwCrException {
 		if (diagnostic!=null) {
 			diagnostic.setZipBytes(null);
 			diagnostic.setP7eBytes(null);
@@ -56,7 +55,7 @@ public class PackServiceImpl implements PackService {
 			p7eBytes = PackDecoder.getSignedContent(p7mBytes);
 			if (diagnostic!=null) diagnostic.setP7eBytes(p7eBytes);
 		} catch (Throwable e) {
-			throw new GwCrException(LOG_DECODE_HEADER + "Unsigning", e);
+			throw new GwCrException(LOG_DECODE_HEADER + "SignVerifing", e);
 		}
 		
 		try {

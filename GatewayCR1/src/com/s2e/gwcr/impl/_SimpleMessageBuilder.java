@@ -12,7 +12,7 @@ import com.s2e.gwcr.service.PackService;
 import ddc.util.FileUtil;
 import ddc.zip.impl.JavaUtilZipper;
 
-public class SimpleMessageBuilder {
+public class _SimpleMessageBuilder {
 //	implements PackTransformer {
 //
 //	@Override

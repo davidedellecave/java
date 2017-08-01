@@ -52,8 +52,8 @@ public class PackServiceImplTest {
 		pack.setLocalCert(TestRepository.getCert("s2e.crt"));
 		pack.setLocalPrivateKey(TestRepository.getPrivateKey("s2e.key"));
 		
-		String url = "https://tomcat-apache/GatewayCR-BdI/List";
-		pack.setEndpoint(url);
+//		String url = "https://tomcat-apache/GatewayCR-BdI/List";
+//		pack.setEndpoint(url);
 
 		pack.setMedadata(new PackMetadata());
 		pack.setMessageType(PackType.Message);
@@ -62,7 +62,7 @@ public class PackServiceImplTest {
 		return pack;
 	}
 
-	private static Pack getPackAsBDI()
+	private static Pack getPackAsBdI()
 			throws IOException, CertificateException, NoSuchAlgorithmException, InvalidKeySpecException {
 		Pack pack = new Pack();
 
@@ -117,7 +117,7 @@ public class PackServiceImplTest {
 		EncodeDiagnostic diagnosticBdi = new EncodeDiagnostic();
 		transfAsBdi.setDiagnostic(diagnosticBdi);
 
-		Pack packAsBdi = getPackAsBDI();
+		Pack packAsBdi = getPackAsBdI();
 		packAsBdi.setData(TestRepository.getData("jmessage.txt"));
 		Files.write(Paths.get(WORK_DIR + "/t-bdi"), packAsBdi.getData());
 		transfAsBdi.encode(packAsBdi);
