@@ -3,21 +3,15 @@ package com.s2e.gwcr.test;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.InetAddress;
-import java.net.InetSocketAddress;
-import java.net.Socket;
-import java.net.URL;
 import java.security.KeyManagementException;
 import java.security.KeyStore;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
-import java.security.UnrecoverableKeyException;
 import java.security.cert.Certificate;
 import java.security.cert.CertificateException;
 
 import javax.net.ssl.SSLContext;
 
-import org.apache.http.HttpHost;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -27,28 +21,23 @@ import org.apache.http.config.RegistryBuilder;
 import org.apache.http.conn.socket.ConnectionSocketFactory;
 import org.apache.http.conn.socket.PlainConnectionSocketFactory;
 import org.apache.http.conn.ssl.DefaultHostnameVerifier;
-import org.apache.http.conn.ssl.NoopHostnameVerifier;
 import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
 import org.apache.http.conn.ssl.TrustSelfSignedStrategy;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
-import org.apache.http.impl.client.HttpClients;
 import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
 import org.apache.http.ssl.SSLContexts;
-import org.apache.http.ssl.TrustStrategy;
 
-import com.s2e.gwcr.repos.TestRepository;
-import com.s2e.gwcr.test.JcaUtils;
+import com.s2e.gwcr.repos.DbMock;
 
 import ddc.commons.http.HttpLiteClientResponse;
-import ddc.util.StringInputStream;
 
 public class HttpClient {
 
 	public static void main(String[] args) throws ClientProtocolException, IOException, KeyManagementException, NoSuchAlgorithmException, KeyStoreException, CertificateException {
 		
 		KeyStore keyStore =JcaUtils.createKeyStore("davidedc".toCharArray());
-		Certificate cert = TestRepository.getCert("apache-tomcat.pem");
+		Certificate cert = DbMock.getCert("apache-tomcat.pem");
 		JcaUtils.addX509CertificateToKeyStore(keyStore, "tomcat-apache", cert);
 		
 		CloseableHttpClient httpclient = buildHttpsClient(keyStore);
@@ -68,7 +57,7 @@ public class HttpClient {
 	public static void main_OLD_1(String[] args) throws ClientProtocolException, IOException, KeyManagementException, NoSuchAlgorithmException, KeyStoreException, CertificateException {
 		// String certFile =
 		// "/Users/davide/git/java/GatewayCR1/src-test/com/s2e/gwcr/test/bdi.crt";
-		InputStream stream = TestRepository.class.getResourceAsStream("gatewaycr.keystore");
+		InputStream stream = DbMock.class.getResourceAsStream("gatewaycr.keystore");
 		KeyStore keyStore = JcaUtils.loadKeyStore(stream, null);
 
 		CloseableHttpClient httpclient = buildHttpsClient(keyStore);

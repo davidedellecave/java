@@ -3,9 +3,12 @@ package com.s2e.gwcr.model;
 import java.security.PrivateKey;
 import java.security.cert.X509Certificate;
 
+import com.s2e.gwcr.model.entity.AbiContext;
+
 public class Pack {	
 	private String name;
-	private ABI abi;
+	private String path;
+	private AbiContext abi;
 	private X509Certificate remoteCert;
 	private X509Certificate localCert;
 	private PrivateKey localPrivateKey;
@@ -19,10 +22,16 @@ public class Pack {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public ABI getAbi() {
+	public String getPath() {
+		return path;
+	}
+	public void setPath(String path) {
+		this.path = path;
+	}
+	public AbiContext getAbi() {
 		return abi;
 	}
-	public void setAbi(ABI abi) {
+	public void setAbi(AbiContext abi) {
 		this.abi = abi;
 	}
 	public X509Certificate getRemoteCert() {
