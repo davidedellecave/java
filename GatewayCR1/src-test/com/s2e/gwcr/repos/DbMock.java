@@ -86,17 +86,13 @@ public class DbMock {
 		return a;
 	}
 
-	private static UserAccount createUserAccount(String username, String password, UserRoleEnum[] roles) throws IOException {
+	private static UserAccount createUserAccount(String username, String password, UserRoleEnum role) throws IOException {
 		UserAccount a = new UserAccount();
 		a.setUsername(username);
 		a.setPassword(password);
-		List<UserRole> roleList = new ArrayList<>();
-		for (UserRoleEnum role : roles) {
-			UserRole r = new UserRole();
-			r.setRoleEnum(role);
-			roleList.add(r);
-		}
-		a.setRoles(roleList);
+		UserRole r = new UserRole();
+		r.setRoleEnum(role);
+		a.setRole(r);
 		return a;
 	}
 
@@ -110,8 +106,8 @@ public class DbMock {
 		u.setAbis(abis);
 
 		List<UserAccount> accounts = new ArrayList<>();
-		accounts.add(createUserAccount("user1", "password1", new UserRoleEnum[] { UserRoleEnum.admin, UserRoleEnum.manager }));
-		accounts.add(createUserAccount("user2", "password2", new UserRoleEnum[] { UserRoleEnum.reader }));
+		accounts.add(createUserAccount("user1", "password1", UserRoleEnum.admin));
+		accounts.add(createUserAccount("user2", "password2", UserRoleEnum.manager));
 		u.setAccounts(accounts);
 
 		List<UserProfile> delegates = new ArrayList<>();

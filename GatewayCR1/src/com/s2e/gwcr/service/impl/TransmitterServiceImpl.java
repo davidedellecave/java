@@ -1,11 +1,5 @@
 package com.s2e.gwcr.service.impl;
 
-import java.io.IOException;
-import java.security.KeyManagementException;
-import java.security.KeyStoreException;
-import java.security.NoSuchAlgorithmException;
-import java.security.cert.CertificateException;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.s2e.gwcr.model.BdiEndpoint;
 import com.s2e.gwcr.model.BdiFile;
@@ -46,9 +40,9 @@ public class TransmitterServiceImpl implements TransmitterService {
 		}
 		String json = res.getBody();
 		System.out.println(json);
-		
-//		json = "['filename':'pippo', 'filename' : 'pluto']";
-		
+
+		// json = "['filename':'pippo', 'filename' : 'pluto']";
+
 		System.out.println(json);
 		ObjectMapper mapper = new ObjectMapper();
 		BdiFileList list = (BdiFileList) mapper.readValue(json, BdiFileList.class);

@@ -12,23 +12,22 @@ import java.util.UUID;
 import javax.net.ssl.SSLContext;
 
 import org.apache.commons.lang3.RandomStringUtils;
-import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.protocol.HttpClientContext;
 import org.apache.http.config.Registry;
 import org.apache.http.config.RegistryBuilder;
+import org.apache.http.conn.HttpClientConnectionManager;
 import org.apache.http.conn.socket.ConnectionSocketFactory;
+import org.apache.http.conn.socket.LayeredConnectionSocketFactory;
 import org.apache.http.conn.socket.PlainConnectionSocketFactory;
 import org.apache.http.conn.ssl.DefaultHostnameVerifier;
-import org.apache.http.conn.ssl.NoopHostnameVerifier;
 import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
 import org.apache.http.conn.ssl.TrustSelfSignedStrategy;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
-import org.apache.http.ssl.SSLContextBuilder;
 import org.apache.http.ssl.SSLContexts;
 
 import com.s2e.gwcr.model.BdiEndpoint;
@@ -39,31 +38,37 @@ import ddc.commons.http.HttpLiteClientResponse;
 
 public class BdiHttpClient {
 
-	public HttpLiteClientResponse httpGet(BdiEndpoint endpoint) throws Exception {
-		SSLContext sslContext = new SSLContextBuilder().loadTrustMaterial(null, (certificate, authType) -> true).build();
+	// public HttpLiteClientResponse httpGet(BdiEndpoint endpoint) throws Exception
+	// {
+	// SSLContext sslContext = new SSLContextBuilder().loadTrustMaterial(),
+	// (certificate, authType) -> true).build();
+	//
+	// CloseableHttpClient client =
+	// HttpClients.custom().setSSLContext(sslContext).setSSLHostnameVerifier(new
+	// NoopHostnameVerifier()).build();
+	//// HttpGet httpGet = new HttpGet(endpoint.getEndpoint());
+	////// httpGet.setHeader("Accept", "application/xml");
+	////
+	//// HttpResponse response = client.execute(httpGet);
+	//
+	// String url = endpoint.getEndpoint();
+	// HttpLiteClientResponse res = null;
+	// CloseableHttpResponse response = null;
+	// try {
+	// HttpGet httpget = new HttpGet(url);
+	// HttpClientContext context = HttpClientContext.create();
+	// response = client.execute(httpget, context);
+	// res = new HttpLiteClientResponse(context);
+	// } finally {
+	// response.close();
+	// }
+	// return res;
+	//
+	// }
 
-		CloseableHttpClient client = HttpClients.custom().setSSLContext(sslContext).setSSLHostnameVerifier(new NoopHostnameVerifier()).build();
-//		HttpGet httpGet = new HttpGet(endpoint.getEndpoint());
-////		httpGet.setHeader("Accept", "application/xml");
-//
-//		HttpResponse response = client.execute(httpGet);
-		
-		String url = endpoint.getEndpoint();
-		HttpLiteClientResponse res = null;
-		CloseableHttpResponse response = null;
-		try {
-			HttpGet httpget = new HttpGet(url);
-			HttpClientContext context = HttpClientContext.create();
-			response = client.execute(httpget, context);
-			res = new HttpLiteClientResponse(context);
-		} finally {
-			response.close();
-		}
-		return res;
-		
-	}
 
-	public HttpLiteClientResponse httpGet_OLD(BdiEndpoint endpoint) throws KeyStoreException, NoSuchAlgorithmException, CertificateException, IOException, KeyManagementException {
+
+	public HttpLiteClientResponse httpGet(BdiEndpoint endpoint) throws KeyStoreException, NoSuchAlgorithmException, CertificateException, IOException, KeyManagementException {
 		String tempPassword = RandomStringUtils.random(36, true, true);
 		KeyStore keyStore = JcaUtils.createKeyStore(tempPassword.toCharArray());
 		Certificate cert = endpoint.getHttpsCert();
