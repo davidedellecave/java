@@ -3,9 +3,6 @@ package com.s2e.gwcr;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import com.s2e.gwcr.impl._SimpleMessageBuilder;
-import com.s2e.gwcr.service.PackService;
-
 public class Main {
 
 	private static String sourceFile ="/Users/davide/tmp/gatewaycr/test1.pdf";

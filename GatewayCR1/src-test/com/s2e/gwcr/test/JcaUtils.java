@@ -10,6 +10,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigInteger;
+import java.nio.file.Path;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
 import java.security.KeyStore;
@@ -156,6 +157,24 @@ public class JcaUtils {
 	// private static
 	// ========================================================================================
 
+	private static X509Certificate getX509Certificate(Path certificate) throws IOException, CertificateException {
+		try (InputStream inStream = new FileInputStream(certificate.toFile())) {
+			CertificateFactory cf = CertificateFactory.getInstance("X.509");
+			return (X509Certificate) cf.generateCertificate(inStream);
+			
+		}
+	}
+	
+	private static PublicKey toPublicKey(X509Certificate cert) throws IOException, CertificateException {
+		return cert.getPublicKey();
+		
+	}
+
+	private static X509Certificate toCertificate(PublicKey pubKey) throws IOException, CertificateException {
+		CertificateFactory cf = CertificateFactory.getInstance("X.509");
+		return (X509Certificate) cf.generateCertificate(new ByteArrayInputStream(pubKey.getEncoded()));		
+	}
+	
 //	private static void buildKeyStore() throws KeyStoreException, CertificateException, IOException, NoSuchAlgorithmException {
 //
 //		String certfile = "yourcert.cer"; /* your cert path */
