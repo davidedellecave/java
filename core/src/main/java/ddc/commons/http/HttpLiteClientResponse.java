@@ -13,8 +13,8 @@ public class HttpLiteClientResponse {
 	private String url="";
 	private int statusCode=0;
 	private String statusPhrase="";
-	private String body=null;
-	private long bodyLength=0;
+	private byte[] data=null;
+	private long dataLength=0;
 	private Map<String, String> header;
 	
 	public HttpLiteClientResponse(HttpClientContext context) {
@@ -28,29 +28,37 @@ public class HttpLiteClientResponse {
 		for (Header h : headers) {
 			header.put(h.getName(), h.getValue());
 		}
-		try {
-			body = EntityUtils.toString(context.getResponse().getEntity());
-			bodyLength = context.getResponse().getEntity().getContentLength();
+		try {			
+			data = EntityUtils.toByteArray(context.getResponse().getEntity());
+			dataLength = context.getResponse().getEntity().getContentLength();
 		} catch (ParseException | IOException e) { 
-			body=null;
-			bodyLength=0;
+			data=null;
+			dataLength=0;
 		}
 	}
-
+	
 	public int getStatusCode() {
 		return statusCode;
+	}
+	
+	public boolean isStatusCodeOk() {
+		return statusCode==200;
 	}
 
 	public String getStatusPhrase() {
 		return statusPhrase;
 	}
 
-	public String getBody() {
-		return body;
+	public String getBody() {		
+		return new String(data);
+	}
+	
+	public byte[] getData() {		
+		return data;
 	}
 	
 	public long getBodyLength() {
-		return bodyLength;
+		return dataLength;
 	}
 
 	public String getUrl() {

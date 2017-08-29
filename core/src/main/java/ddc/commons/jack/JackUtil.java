@@ -17,9 +17,14 @@ public class JackUtil<T> {
 		return (mapper.writerWithDefaultPrettyPrinter()).writeValueAsString(node);
 	}
 	
-	public static String prettify(Object node) throws JsonGenerationException, JsonMappingException, IOException {
+	public static String convAsPrettifiedString(Object obj) throws JsonGenerationException, JsonMappingException, IOException {
 		ObjectMapper mapper = new ObjectMapper();
-		return (mapper.writerWithDefaultPrettyPrinter()).writeValueAsString(node);
+		return (mapper.writerWithDefaultPrettyPrinter()).writeValueAsString(obj);
+	}
+	
+	public static String convAsString(Object obj) throws JsonGenerationException, JsonMappingException, IOException {
+		ObjectMapper mapper = new ObjectMapper();
+		return mapper.writeValueAsString(obj);
 	}
 	
 	public static JsonNode parse(String json) {

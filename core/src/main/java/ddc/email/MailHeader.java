@@ -26,9 +26,11 @@ public class MailHeader {
 	public ZonedDateTime getDate() throws ParseException {
 		if (props.containsKey(MailProp.date.name())) {
 			String v = props.get(MailProp.date.name());
-			Instant i = DateUtil.parseToInstant(v, datePattern);
-			ZonedDateTime zdt = DateUtil.toZonedDateTime(i.toEpochMilli());
-			return zdt;
+			if (!v.endsWith("+0O01")) {
+				Instant i = DateUtil.parseToInstant(v, datePattern);
+				ZonedDateTime zdt = DateUtil.toZonedDateTime(i.toEpochMilli());
+				return zdt;
+			}
 		}
 		return null;
 	}

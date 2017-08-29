@@ -168,9 +168,9 @@ public class HttpLiteClient {
 		}
 	}
 
-	public HttpLiteClientResponse executeStream(String url, InputStream is) throws HttpLiteClientException {
+	public HttpLiteClientResponse executePutStream(String url, InputStream is) throws HttpLiteClientException {
 		try {
-			return doExecuteStream(url, is);
+			return doExecutePutStream(url, is);
 		} catch (URISyntaxException | IOException e) {
 			throw new HttpLiteClientException(e);
 		}
@@ -221,7 +221,7 @@ public class HttpLiteClient {
 		}
 	}	
 
-	private HttpLiteClientResponse doExecuteStream(String url, InputStream is) throws URISyntaxException, HttpLiteClientException, ClientProtocolException, IOException {
+	private HttpLiteClientResponse doExecutePutStream(String url, InputStream is) throws URISyntaxException, HttpLiteClientException, ClientProtocolException, IOException {
 
 		URI uri = doParseURI(url, null);
 		HttpPut request = new HttpPut(uri);
