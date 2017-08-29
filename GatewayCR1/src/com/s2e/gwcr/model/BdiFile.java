@@ -1,8 +1,13 @@
 package com.s2e.gwcr.model;
 
+import java.util.UUID;
+
 public class BdiFile {
-	private String fileName;
+	//fields to handle the entity
+	private String id = UUID.randomUUID().toString();
 	private String path;
+	//fields to map the json source
+	private String fileName;	
 	private long lastModifiedTime;
 	private long size;
 	private boolean directory;
@@ -10,7 +15,6 @@ public class BdiFile {
 	private boolean symbolicLink;
 	private boolean other;
 	private int permissions;
-	
 
 	public String getFileName() {
 		return fileName;
@@ -67,7 +71,18 @@ public class BdiFile {
 	public void setPath(String path) {
 		this.path = path;
 	}
-	
+	//unique id is generated when the instance is created
+	public String getId() {
+		return id;
+	}
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	@Override
+	public String toString() {
+		return "id:[" + id + "] path:[" + getPath() +"] name:[" + getFileName() + "] size:[" + getSize() + "]";
+	}
 }
 
 

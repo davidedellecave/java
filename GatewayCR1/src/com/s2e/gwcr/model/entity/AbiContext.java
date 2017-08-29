@@ -34,5 +34,9 @@ public class AbiContext {
 		this.bdiEndpoint = bdiEndpoint;
 	}
 	
+	@Override
+	public String toString() {
+		return "code:["+ code+ "] endpoint:[" + bdiEndpoint+ "] certificates#:[" + certificates.size()+"]";
+	}
 
 }

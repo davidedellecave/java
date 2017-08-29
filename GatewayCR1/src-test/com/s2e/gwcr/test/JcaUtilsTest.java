@@ -19,7 +19,7 @@ public class JcaUtilsTest {
 	public void testAddX509CertificateToKeyStore() throws KeyStoreException, CertificateException, IOException, NoSuchAlgorithmException, InvalidKeySpecException {
 //		String certPath = "/Users/davide/Downloads/cert.pem";
 		
-		X509Certificate cert =  DbMock.getCert("apache-tomcat.pem");
+		X509Certificate cert =  DbMock.readCert("apache-tomcat.pem");
 		
 		KeyStore keyStore = KeyStore.getInstance("JKS");
 		//initialize keystore

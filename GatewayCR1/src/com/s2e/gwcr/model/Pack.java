@@ -6,8 +6,8 @@ import java.security.cert.X509Certificate;
 import com.s2e.gwcr.model.entity.AbiContext;
 
 public class Pack {	
-	private String name;
-	private String path;
+	private String name = "";
+	private String path = "";
 	private AbiContext abi;
 	private X509Certificate remoteCert;
 	private X509Certificate localCert;
@@ -69,5 +69,10 @@ public class Pack {
 	}
 	public void setData(byte[] data) {
 		this.data = data;
+	}
+	
+	@Override
+	public String toString() {
+		return "path:["+ path+ "] name:[" + name+ "] abi:[" + abi+"] type:[" + messageType.toString()+ "]";
 	}
 }

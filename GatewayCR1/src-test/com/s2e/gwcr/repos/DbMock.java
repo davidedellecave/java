@@ -3,6 +3,8 @@ package com.s2e.gwcr.repos;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.security.KeyFactory;
 import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
@@ -27,6 +29,9 @@ import com.s2e.gwcr.model.entity.UserRoleEnum;
 import ddc.util.StringInputStream;
 
 public class DbMock {
+	
+	private static final String REMOTE_HOST = "http://localhost:8080";
+	// private static final String REMOTE_HOST="https://tomcat-apache";
 
 	public static List<UserProfile> getUserProfiles() throws IOException {
 		List<UserProfile> list = new ArrayList<>();
@@ -44,7 +49,7 @@ public class DbMock {
 		CertificateItem c = new CertificateItem();
 		c.setAlias(alias);
 		c.setType(CertificateTypeEnum.remoteCert);
-		c.setData(getData("bdi.crt"));
+		c.setData(readResourceAsByte("bdi.crt"));
 		return c;
 	}
 
@@ -52,7 +57,7 @@ public class DbMock {
 		CertificateItem c = new CertificateItem();
 		c.setAlias(alias);
 		c.setType(CertificateTypeEnum.localPrivateKey);
-		c.setData(getData("s2e.key"));
+		c.setData(readResourceAsByte("s2e.key"));
 		return c;
 	}
 
@@ -60,7 +65,7 @@ public class DbMock {
 		CertificateItem c = new CertificateItem();
 		c.setAlias(alias);
 		c.setType(CertificateTypeEnum.localCert);
-		c.setData(getData("s2e.crt"));
+		c.setData(readResourceAsByte("s2e.crt"));
 		return c;
 	}
 
@@ -68,7 +73,7 @@ public class DbMock {
 		CertificateItem c = new CertificateItem();
 		c.setAlias(alias);
 		c.setType(CertificateTypeEnum.remoteHttpCert);
-		c.setData(getData("apache-tomcat.pem"));
+		c.setData(readResourceAsByte("apache-tomcat.pem"));
 		return c;
 	}
 
@@ -82,7 +87,7 @@ public class DbMock {
 		a.setCertificates(certs);		
 		a.setCode(code);
 		a.setDescription("Bank " + code);
-		a.setBdiEndpoint("https://tomcat-apache/GatewayCR-BdI");
+		a.setBdiEndpoint(REMOTE_HOST + "/GatewayCR-BdI");
 		return a;
 	}
 
@@ -120,14 +125,26 @@ public class DbMock {
 		return u;
 	}
 
-	public static byte[] getData(String name) throws IOException {
+	public static void writeFile(Path path, byte[] data) throws IOException {		
+		Files.write(path, data);
+	}
+	
+	public static byte[] readFileAsByte(Path path) throws IOException {		
+		return Files.readAllBytes(path);
+	}
+	
+	public static byte[] readResourceAsByte(String name) throws IOException {
 		InputStream in = DbMock.class.getResourceAsStream(name);
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		IOUtils.copy(in, out);
 		return out.toByteArray();
 	}
+	
+	public static String readResourceAsString(String name) throws IOException {
+		return new String(readResourceAsByte(name));
+	}
 
-	public static X509Certificate getCert(String name) throws CertificateException {
+	public static X509Certificate readCert(String name) throws CertificateException {
 		InputStream inStream = DbMock.class.getResourceAsStream(name);
 		CertificateFactory cf = CertificateFactory.getInstance("X.509");
 		return (X509Certificate) cf.generateCertificate(inStream);
@@ -138,12 +155,14 @@ public class DbMock {
 		StringInputStream inStream = new StringInputStream(data);
 		CertificateFactory cf = CertificateFactory.getInstance("X.509");
 		return (X509Certificate) cf.generateCertificate(inStream);
-
 	}
 
 	public static PrivateKey getPrivateKey(String name) throws NoSuchAlgorithmException, IOException, InvalidKeySpecException {
-		byte[] keyBytes = getData(name);
-
+		byte[] keyBytes = readResourceAsByte(name);
+		return getPrivateKey(keyBytes);
+	}
+	
+	public static PrivateKey getPrivateKey(byte[] keyBytes) throws NoSuchAlgorithmException, IOException, InvalidKeySpecException {
 		String temp = new String(keyBytes);
 		String privateKeyPEM_base64 = temp.replace("-----BEGIN RSA PRIVATE KEY-----", "");
 		privateKeyPEM_base64 = privateKeyPEM_base64.replace("-----END RSA PRIVATE KEY-----", "");

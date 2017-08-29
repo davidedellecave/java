@@ -37,7 +37,7 @@ public class HttpClient {
 	public static void main(String[] args) throws ClientProtocolException, IOException, KeyManagementException, NoSuchAlgorithmException, KeyStoreException, CertificateException {
 		
 		KeyStore keyStore =JcaUtils.createKeyStore("davidedc".toCharArray());
-		Certificate cert = DbMock.getCert("apache-tomcat.pem");
+		Certificate cert = DbMock.readCert("apache-tomcat.pem");
 		JcaUtils.addX509CertificateToKeyStore(keyStore, "tomcat-apache", cert);
 		
 		CloseableHttpClient httpclient = buildHttpsClient(keyStore);
