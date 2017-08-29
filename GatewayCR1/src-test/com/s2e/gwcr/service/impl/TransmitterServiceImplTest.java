@@ -38,8 +38,6 @@ public class TransmitterServiceImplTest {
 	private static final String LOCAL_FILENAME_DATA = "CRCOM_FT_03205_045120_2017040413151600.output";
 	private static final String REMOTE_FILENAME_DATA = "bdi-CRCOM_FT_03205_045120_2017040413151600.output.zip.p7e.p7m";
 	
-
-	
 	private static Pack getPackToUpload(String filename) throws IOException, CertificateException, NoSuchAlgorithmException, InvalidKeySpecException {
 		UserProfile up = DbMock.getUserProfiles().get(0);
 		AbiContext abi = up.getAbis().get(0);
@@ -166,10 +164,4 @@ public class TransmitterServiceImplTest {
 		srv.upload(getEndpoint("upload"), pack);
 		System.out.println(pack.toString());
 	}
-	
-
-
-
-
-
 }
