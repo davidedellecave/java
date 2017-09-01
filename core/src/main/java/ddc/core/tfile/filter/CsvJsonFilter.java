@@ -3,7 +3,7 @@ package ddc.core.tfile.filter;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 
-import ddc.core.json.JSONUtil;
+import ddc.commons.json.JSONUtil;
 import ddc.core.tfile.TFileException;
 
 /**

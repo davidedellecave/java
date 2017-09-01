@@ -1,4 +1,4 @@
-package ddc.core.json;
+package ddc.commons.json;
 
 public class JSONValidationException extends Exception {
 	private static final long serialVersionUID = 1L;

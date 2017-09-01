@@ -1,4 +1,4 @@
-package ddc.core.json;
+package ddc.commons.json;
 
 import org.everit.json.schema.Schema;
 import org.everit.json.schema.loader.SchemaLoader;

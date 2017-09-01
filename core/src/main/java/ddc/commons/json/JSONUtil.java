@@ -1,4 +1,4 @@
-package ddc.core.json;
+package ddc.commons.json;
 
 import java.util.HashMap;
 import java.util.Map;

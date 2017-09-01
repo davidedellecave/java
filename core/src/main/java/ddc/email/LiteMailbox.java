@@ -88,9 +88,9 @@ public class LiteMailbox {
 				if (config.isMailboxSimulation()) {
 					if (isSelected) {
 						simulationCounter++;
-						log("Simulation ON - selected", header);
+						log("Simulation on - selected", header);
 					} else {
-						log("Simulation ON - NOT selected", header);
+						log("Simulation on - NOT selected", header);
 					}
 				} else if (isSelected) {
 					log("Selected and Execute on message", header);
@@ -159,7 +159,7 @@ public class LiteMailbox {
 	}
 
 	public void log(String title, Object message) {
-		System.out.println(title + ":[" + message + "]");
+		System.out.println(title + ":[" + message + "]\n");
 	}
 
 	// private void logElapsed(String title, int message) {
