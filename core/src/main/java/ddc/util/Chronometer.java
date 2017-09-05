@@ -170,4 +170,8 @@ public class Chronometer {
 	public static void sleep(Timespan duration) {
 		sleep(duration.getMillis());
 	}
+	
+	public static void sleepMinutes(int minutes) {
+		sleep(new Timespan(minutes, TimeUnit.MINUTES));
+	}
 }

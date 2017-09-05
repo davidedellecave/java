@@ -1,4 +1,4 @@
-package ddc.json;
+package ddc.commons.json;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
